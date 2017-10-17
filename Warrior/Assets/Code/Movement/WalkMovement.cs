@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class MovementController : MonoBehaviour
+public class WalkMovement : MonoBehaviour
 {
     public float desiredWalkDirection;
     public static int playerPoints = 0;
