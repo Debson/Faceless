@@ -40,7 +40,7 @@ public class FloorDetector : MonoBehaviour
     {
         Collider2D floorWeAreStandingOn = DetectTheFloorWeAreStandingOn();
         isTouchingFloor = floorWeAreStandingOn != null;
-
+        /*
         if(floorWeAreStandingOn != null)
         {
             distanceToFloor = 0;
@@ -58,9 +58,9 @@ public class FloorDetector : MonoBehaviour
             {
                 distanceToFloor = null;
             }
-        }
+        }*/
     }
-
+    /*
     RaycastHit2D? DetectFloorUnderUs()
     {
         if(Physics2D.Raycast(transform.position, Vector2.down, floorFilter, tempHitList) > 0)
@@ -69,7 +69,7 @@ public class FloorDetector : MonoBehaviour
         }
 
         return null;
-    }
+    }*/
 
     Collider2D DetectTheFloorWeAreStandingOn()
     {

@@ -6,14 +6,10 @@ using UnityEngine;
 public class CharacterAnimatorController : MonoBehaviour
 {
     Animator animator;
-
     Rigidbody2D myBody;
-
     FloorDetector floorDetector;
-
     AttackMovement attackMovement;
-
-    //CrouchMovement crouchMovement;
+    CrouchMovement crouchMovement;
 
     protected void Awake()
     {
@@ -21,7 +17,7 @@ public class CharacterAnimatorController : MonoBehaviour
         myBody = GetComponent<Rigidbody2D>();
         floorDetector = GetComponentInChildren<FloorDetector>();
         attackMovement = GetComponent<AttackMovement>();
-        //crouchMovement = GetComponent<CrouchMovement>();
+        crouchMovement = GetComponent<CrouchMovement>();
     }
 
     protected void LateUpdate()
@@ -29,6 +25,6 @@ public class CharacterAnimatorController : MonoBehaviour
         animator.SetFloat("Speed", myBody.velocity.magnitude);
         animator.SetBool("isTouchingFloor", floorDetector.isTouchingFloor);
         animator.SetBool("isAttacking", attackMovement.isAttacking);
-        //animator.SetBool("isCrouching", crouchMovement.isCrouching);
+        animator.SetBool("isCrouching", crouchMovement.isCrouching);
     }
 }

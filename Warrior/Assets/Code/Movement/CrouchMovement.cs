@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CrouchMovement : MonoBehaviour
 {
+    Collider2D crouchTrigger;
+
     public bool crouchRequest;
 
     private float crouchTimer = 0;
@@ -16,29 +18,30 @@ public class CrouchMovement : MonoBehaviour
 
     protected void Awake()
     {
-        
+        crouchTrigger = GetComponent<Collider2D>();
     }
 
     protected void Update()
     {
-        if(crouchRequest)
+        if (Input.GetKeyDown(KeyCode.S))
         {
             isCrouching = true;
             crouchTimer = crouchCooldown;
+            crouchTrigger.enabled = false;
         }
-        crouchRequest = false;
 
-        if(isCrouching)
+        if (isCrouching)
         {
             if (crouchTimer > 0)
             {
-
                 crouchTimer -= Time.deltaTime;
             }
             else
             {
                 isCrouching = false;
+                crouchTrigger.enabled = true;
             }
+
         }
     }
 }

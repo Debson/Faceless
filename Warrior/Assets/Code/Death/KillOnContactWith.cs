@@ -8,19 +8,22 @@ public class KillOnContactWith : MonoBehaviour
     [SerializeField]
     LayerMask layersToKill;
 
-    protected void Start()
+    [SerializeField]
+    GameObject bat;
+
+    protected void Awake()
     {
-        
+       // bat = GameObject.FindGameObjectWithTag("Bat");
     }
 
     protected void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        TryToKill(collision.gameObject);
     }
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        TryToKill(collision.gameObject);
     }
 
     void TryToKill(GameObject gameObjectWeHit)
@@ -32,7 +35,7 @@ public class KillOnContactWith : MonoBehaviour
         
         if(layersToKill.Includes(gameObjectWeHit.layer))
         {
-            
+           
         }
 
     }

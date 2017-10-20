@@ -5,10 +5,17 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class TurnAroundEnemy : MonoBehaviour {
 
-    [SerializeField]
-    GameObject gameObjectWhichEnemyFollows;
+    //[SerializeField]
+
+    PlayerController gameObjectWhichEnemyFollows;
+
 
     static readonly Quaternion flipRotation = Quaternion.Euler(0, 180, 0);
+
+    protected void Awake()
+    {
+        gameObjectWhichEnemyFollows = FindObjectOfType<PlayerController>();
+    }
 
     public bool isFacingRight
     {
