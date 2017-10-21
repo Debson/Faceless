@@ -15,7 +15,7 @@ public class PauseMenu : MonoBehaviour
 
     protected void Update()
     {
-        /*if(Input.GetButtonDown("Pause"))
+        if(Input.GetButtonDown("Pause"))
         {
             gamePaused = !gamePaused;
         }
@@ -29,7 +29,7 @@ public class PauseMenu : MonoBehaviour
         {
             PauseUI.SetActive(false);
             Time.timeScale = 1;
-        }*/
+        }
 
     }
 

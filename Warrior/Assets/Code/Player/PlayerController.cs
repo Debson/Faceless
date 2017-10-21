@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     protected void Update()
     {
 
-        if (Input.GetKey(KeyCode.LeftControl) && floorDetector.isTouchingFloor)
+        if (Input.GetKey(KeyCode.LeftControl) && floorDetector.isTouchingFloor || EnterTerritory.IsCharacterControlEnabled && floorDetector.isTouchingFloor)
         {
             walkMovement.desiredWalkDirection = 0;
         }
@@ -51,8 +51,8 @@ public class PlayerController : MonoBehaviour
             walkMovement.desiredWalkDirection = Input.GetAxis("Horizontal");
         }*/
 
-        if(Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.LeftControl) || 
-            Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.LeftControl))
+        if((Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.LeftControl) || 
+            Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.LeftControl)) && !EnterTerritory.IsCharacterControlEnabled)
         {
             walkMovement.desiredWalkDirection = -1;
         }
@@ -61,8 +61,8 @@ public class PlayerController : MonoBehaviour
             walkMovement.desiredWalkDirection = 0;
         }
 
-        if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftControl) || 
-            Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.LeftControl))
+        if ((Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftControl) || 
+            Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.LeftControl)) && !EnterTerritory.IsCharacterControlEnabled)
         {
             walkMovement.desiredWalkDirection = 1;
         }
@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        if (Input.GetButtonDown("Attack"))
+        if (Input.GetButtonDown("Attack") && !EnterTerritory.IsCharacterControlEnabled)
         {
             attackMovement.attackRequest = true;
         }

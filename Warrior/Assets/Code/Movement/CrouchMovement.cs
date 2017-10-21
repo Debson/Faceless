@@ -23,7 +23,7 @@ public class CrouchMovement : MonoBehaviour
 
     protected void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) && !EnterTerritory.IsCharacterControlEnabled)
         {
             isCrouching = true;
             crouchTimer = crouchCooldown;

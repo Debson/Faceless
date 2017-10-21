@@ -37,7 +37,7 @@ public class JumpMovement : MonoBehaviour
             isDoubleJump = false;
         }
 
-        if (Input.GetButtonDown("Jump") && floorDetector.isTouchingFloor && !crouchMovement.isCrouching)
+        if (Input.GetButtonDown("Jump") && floorDetector.isTouchingFloor && !crouchMovement.isCrouching && !EnterTerritory.IsCharacterControlEnabled)
         {
             Jump(jumpSpeed);
         }
