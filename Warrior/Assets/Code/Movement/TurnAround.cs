@@ -26,13 +26,13 @@ public class TurnAround : MonoBehaviour
 
     protected void Update()
     {
+        // ????
         if (Input.GetKey(KeyCode.LeftControl) && (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && 
             !Input.GetKey(KeyCode.LeftArrow) && isFacingLeft)
         {
             transform.rotation *= flipRotation;
             isFacingLeft = false;
             isFacingRight = true;
-            //Debug.Log("Pressed1");
         }
 
         if (Input.GetKey(KeyCode.LeftControl) && (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && 
@@ -41,15 +41,11 @@ public class TurnAround : MonoBehaviour
             transform.rotation *= flipRotation;
             isFacingRight = false;
             isFacingLeft = true;
-            //Debug.Log("Pressed2");
-
         }
     }
 
     protected void FixedUpdate()
     {
-        
-        
         float xVelocity = myBody.velocity.x;
 
         if (Mathf.Abs(xVelocity) > .05f)

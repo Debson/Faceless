@@ -51,27 +51,25 @@ public class PlayerController : MonoBehaviour
             walkMovement.desiredWalkDirection = Input.GetAxis("Horizontal");
         }*/
 
-        if((Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.LeftControl) || 
-            Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.LeftControl)) && !EnterTerritory.IsCharacterControlEnabled)
+        if((Input.GetButton("Left") && !Input.GetKey(KeyCode.LeftControl)) && 
+            !EnterTerritory.IsCharacterControlEnabled)
         {
-            walkMovement.desiredWalkDirection = -1;
+            walkMovement.desiredWalkDirection = Input.GetAxis("Left");
         }
-        else if(Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A))
-        {
-            walkMovement.desiredWalkDirection = 0;
-        }
-
-        if ((Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftControl) || 
-            Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.LeftControl)) && !EnterTerritory.IsCharacterControlEnabled)
-        {
-            walkMovement.desiredWalkDirection = 1;
-        }
-        else if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D))
+        else if(Input.GetButtonUp("Left"))
         {
             walkMovement.desiredWalkDirection = 0;
         }
 
-
+        if ((Input.GetButton("Right") && !Input.GetKey(KeyCode.LeftControl)) && 
+            !EnterTerritory.IsCharacterControlEnabled)
+        {
+            walkMovement.desiredWalkDirection = Input.GetAxis("Right");
+        }
+        else if (Input.GetButtonUp("Right"))
+        {
+            walkMovement.desiredWalkDirection = 0;
+        }
 
 
         if (Input.GetButtonDown("Attack") && !EnterTerritory.IsCharacterControlEnabled)

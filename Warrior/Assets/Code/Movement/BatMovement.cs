@@ -19,6 +19,7 @@ public class BatMovement : MonoBehaviour
     public LayerMask playerLayer;
 
     EnemyHealthManager enemyHealthManager;
+    Rigidbody2D myBody;
 
     public bool playerInRange;
 
@@ -42,7 +43,7 @@ public class BatMovement : MonoBehaviour
 
             float desiredYVelocity = fallSpeed * Time.deltaTime;
             transform.position = new Vector2(XPosition, transform.position.y - desiredYVelocity);
-            // Rotate gameObject while falling down
+            // Rotate bat while falling down
             transform.rotation *= flipRotation;
         }
 

@@ -26,6 +26,8 @@ GameObject:
   - component: {fileID: 114610515819616118}
   - component: {fileID: 114867380129749178}
   - component: {fileID: 114648670150468620}
+  - component: {fileID: 114587510962882102}
+  - component: {fileID: 50218061887590974}
   m_Layer: 10
   m_Name: Bat
   m_TagString: Enemy
@@ -46,6 +48,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50218061887590974
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1348995075533954}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 2
 --- !u!58 &58333665458599766
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -78,6 +100,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114587510962882102
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1348995075533954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c932fafef85afe04781d43d55b332819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageToGive: 1
+  knockBackLength: 0.25
 --- !u!114 &114610515819616118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d067e42a2d80bc41a9e146591b21814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageToGive: 0
+  damageToGive: 1
 --- !u!114 &114867380129749178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,13 +156,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1348995075533954}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c5e4a195468f344f9cb0bf6962f58d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1.5
-  playerRange: 8
+  playerRange: 12
   playerLayer:
     serializedVersion: 2
     m_Bits: 256

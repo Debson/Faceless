@@ -18,17 +18,24 @@ public class WalkMovement : MonoBehaviour
 
     Rigidbody2D myBody;
     CrouchMovement crouchMovement;
+    SpriteRenderer spriteRenderer;
+    Color startColor;
 
     protected void Awake()
     {
         myBody = GetComponent<Rigidbody2D>();
         crouchMovement = GetComponent<CrouchMovement>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    protected void Start()
+    {
+       startColor = spriteRenderer.color;
     }
 
     protected void FixedUpdate()
     {
         float desiredXVelocity;
-
         if (crouchMovement.isCrouching)
         {
             desiredXVelocity = desiredWalkDirection * walkSpeed * 0.4f * Time.deltaTime;
@@ -41,22 +48,25 @@ public class WalkMovement : MonoBehaviour
         if (knockbackTimeCount <= 0)
         {
             myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
+            spriteRenderer.color = startColor;
         }
         else
         {
+            
             if(knockFromRight)
             {
                 myBody.velocity = new Vector2(-knockback, knockback / 3);
+                spriteRenderer.color = new Color(255, 0, 0);
+                
             }
             if(!knockFromRight)
             {
                 myBody.velocity = new Vector2(knockback, knockback / 3);
+                spriteRenderer.color = new Color(255, 0, 0);
             }
-
             knockbackTimeCount -= Time.deltaTime;
         }
-
-        
+        //knockbackTimeCount -= Time.deltaTime;
     }
 
 }

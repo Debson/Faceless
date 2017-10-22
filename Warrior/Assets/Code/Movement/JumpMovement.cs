@@ -21,6 +21,7 @@ public class JumpMovement : MonoBehaviour
     Rigidbody2D myBody;
     FloorDetector floorDetector;
     CrouchMovement crouchMovement;
+    Physics2D gravity;
 
     protected void Awake()
     {

@@ -20,7 +20,8 @@ public class EnemyHealthManager : MonoBehaviour
         {
             ScoreManager.AddPoints(pointsToAdd);
             pointsAdded = true;
-            Destroy(gameObject, 1);
+            
+            Destroy(gameObject, t: 1.5f);
         }
         
     }

@@ -16,7 +16,6 @@ public class HealthManager : MonoBehaviour
     {
         text = GetComponent<Text>();
         lifeManager = GetComponent<LifeManager>();
-
     }
 
     protected void Start()
