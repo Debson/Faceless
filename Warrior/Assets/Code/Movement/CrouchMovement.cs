@@ -16,6 +16,7 @@ public class CrouchMovement : MonoBehaviour
         get; private set;
     }
 
+
     protected void Awake()
     {
         crouchTrigger = GetComponent<Collider2D>();
@@ -23,7 +24,7 @@ public class CrouchMovement : MonoBehaviour
 
     protected void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S) && !EnterTerritory.IsCharacterControlEnabled)
+        if (Input.GetButtonDown("Crouch") && !EnterTerritory.IsCharacterControlEnabled)
         {
             isCrouching = true;
             crouchTimer = crouchCooldown;
@@ -41,7 +42,6 @@ public class CrouchMovement : MonoBehaviour
                 isCrouching = false;
                 crouchTrigger.enabled = true;
             }
-
         }
     }
 }

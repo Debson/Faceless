@@ -8,7 +8,7 @@ public class WalkMovement : MonoBehaviour
     public float desiredWalkDirection;
     public static int playerPoints = 0;
 
-    public float knockback;
+    public float knockbackStrength;
     public float knockBackLength;
     public float knockbackTimeCount;
     public bool knockFromRight;
@@ -55,13 +55,13 @@ public class WalkMovement : MonoBehaviour
             
             if(knockFromRight)
             {
-                myBody.velocity = new Vector2(-knockback, knockback / 3);
+                myBody.velocity = new Vector2(-knockbackStrength, knockbackStrength / 3);
                 spriteRenderer.color = new Color(255, 0, 0);
                 
             }
             if(!knockFromRight)
             {
-                myBody.velocity = new Vector2(knockback, knockback / 3);
+                myBody.velocity = new Vector2(knockbackStrength, knockbackStrength / 3);
                 spriteRenderer.color = new Color(255, 0, 0);
             }
             knockbackTimeCount -= Time.deltaTime;

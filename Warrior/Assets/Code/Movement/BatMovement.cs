@@ -36,8 +36,7 @@ public class BatMovement : MonoBehaviour
     protected void Update()
     {
         float XPosition = transform.position.x;
-        
-        if (enemyHealthManager.enemyHealth <= 0)
+        if (EnemyHealthManager.GetHealth() <= 0)
         {
             playerInRange = false;
 

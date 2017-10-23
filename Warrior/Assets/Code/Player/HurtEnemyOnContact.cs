@@ -11,6 +11,7 @@ public class HurtEnemyOnContact : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Color startColor;
 
+    public float knockbackStrenght;
     public float knockBackLength;
     private float knockbackTimeCount = 0.2f;
     private bool knockFromRight;
@@ -30,8 +31,7 @@ public class HurtEnemyOnContact : MonoBehaviour
     {
         if (collision.tag == "AttackTrigger")
         {
-
-            enemyHealthManager.giveDamage(damageToGive);
+            EnemyHealthManager.GiveDamage(damageToGive);
             Debug.Log("working");
             knockbackTimeCount = knockBackLength;
             if (collision.transform.position.x > transform.position.x)
@@ -57,13 +57,13 @@ public class HurtEnemyOnContact : MonoBehaviour
 
             if (knockFromRight)
             {
-                gameObject.transform.position = new Vector2(gameObject.transform.position.x - (Time.deltaTime * 4) , gameObject.transform.position.y);
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x - (Time.deltaTime * knockbackStrenght) , gameObject.transform.position.y);
                 spriteRenderer.color = new Color(255, 0, 0);
                 //gameObject.transform.rotation = Quaternion.Euler(0, 0, -40);
             }
             if (!knockFromRight)
             {
-                gameObject.transform.position = new Vector2(gameObject.transform.position.x + (Time.deltaTime * 4), gameObject.transform.position.y);
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x + (Time.deltaTime * knockbackStrenght), gameObject.transform.position.y);
                 spriteRenderer.color = new Color(255, 0, 0);
                 //gameObject.transform.rotation = Quaternion.Euler(0, 0, -40);
             }

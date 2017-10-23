@@ -23,21 +23,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-  /*  protected void FixedUpdate()
-    {
-        if (!Input.GetKey(KeyCode.LeftControl))
-        {
-            walkMovement.desiredWalkDirection = Input.GetAxis("Horizontal");
-        }
-
-        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            TurnAround.IsFacingLeft2 = true;
-
-            //Debug.Log(TurnAround.IsFacingLeft2);
-        }
-    }*/
-
     protected void Update()
     {
 
@@ -45,11 +30,6 @@ public class PlayerController : MonoBehaviour
         {
             walkMovement.desiredWalkDirection = 0;
         }
-
-        /*if (!Input.GetKey(KeyCode.LeftControl) || !floorDetector.isTouchingFloor)
-        {
-            walkMovement.desiredWalkDirection = Input.GetAxis("Horizontal");
-        }*/
 
         if((Input.GetButton("Left") && !Input.GetKey(KeyCode.LeftControl)) && 
             !EnterTerritory.IsCharacterControlEnabled)
@@ -71,18 +51,9 @@ public class PlayerController : MonoBehaviour
             walkMovement.desiredWalkDirection = 0;
         }
 
-
         if (Input.GetButtonDown("Attack") && !EnterTerritory.IsCharacterControlEnabled)
         {
             attackMovement.attackRequest = true;
         }
-
-       /* if(Input.GetButton("Crouch"))
-        {
-            crouchMovement.crouchRequest = true;
-        }*/
-
     }
-
-
 }

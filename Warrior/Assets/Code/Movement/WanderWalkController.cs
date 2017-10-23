@@ -26,18 +26,32 @@ public class WanderWalkController : MonoBehaviour
     [SerializeField]
     public LayerMask playerLayer;
 
+    [SerializeField]
+    float attackRange = 1f;
+
     private float desiredWalkDirection;
+    float characterXBounds;
     private bool isFlippedRigid;
     private bool playerInRange;
     private bool usingRigid;
 
+    public bool isAttacking
+    {
+        get; set;
+    }
+
+    Animator animator;
     Rigidbody2D myBody;
     PlayerController playerController;
+    Collider2D myCollider;
 
     protected void Awake()
     {
         myBody = GetComponent<Rigidbody2D>();
         playerController = FindObjectOfType<PlayerController>();
+        myCollider = GetComponent<Collider2D>();
+        characterXBounds = playerController.GetComponent<Collider2D>().bounds.size.x + attackRange;
+        animator = GetComponentInChildren<Animator>();
     }
 
 
@@ -102,22 +116,24 @@ public class WanderWalkController : MonoBehaviour
             else
             {
                 myBody.transform.rotation = Quaternion.Euler(0, 0, 0);
+                isFlippedRigid = false;
             }
 
             if ((transform.position.x < playerController.transform.position.x) && !isFlippedRigid)
             {
                 myBody.transform.rotation = Quaternion.Euler(0, -180, 0);
+                isFlippedRigid = true;
             }
             else
             {
                 myBody.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
-
         }
-        
-        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
 
-        if (playerInRange && (transform.position.y + 2 >= playerController.transform.position.y))
+        //Debug.Log(isFlippedRigid);
+        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
+        //Debug.Log(myCollider.bounds.size.y);
+        if (playerInRange && (transform.position.y + myCollider.bounds.size.y >= playerController.transform.position.y))
         {
             transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
                                                      followSpeed * Time.deltaTime);
@@ -129,6 +145,19 @@ public class WanderWalkController : MonoBehaviour
             myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
             usingRigid = true;
         }
+
+
+
+        if(Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds)
+        {
+            isAttacking = true;
+        }
+        else
+        {
+            isAttacking = false;
+        }
+
+        animator.SetBool("isAttacking", isAttacking);
     }
 
     private void OnDrawGizmosSelected()

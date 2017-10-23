@@ -9,12 +9,10 @@ public class HealthManager : MonoBehaviour
 
     public static int playerHealth;
 
-    Text text;
     LifeManager lifeManager;
 
     protected void Awake()
     {
-        text = GetComponent<Text>();
         lifeManager = GetComponent<LifeManager>();
     }
 
@@ -28,16 +26,19 @@ public class HealthManager : MonoBehaviour
         //Debug.Log(playerHealth);
         if(playerHealth <= 0)
         {
-            lifeManager.TakeLife();
+            //lifeManager.TakeLife();
             Destroy(gameObject);
         }
-
-        text.text = "" + playerHealth;
     }
 
     public static void HurtPlayer(int damageToGive)
     {
         playerHealth -= damageToGive;
+    }
+
+    public static int GetHealth()
+    {
+        return playerHealth;
     }
 
     public void FullHealth()

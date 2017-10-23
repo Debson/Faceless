@@ -5,29 +5,40 @@ using UnityEngine;
 public class EnemyHealthManager : MonoBehaviour
 {
     [SerializeField]
-    public int enemyHealth;
+    public int enemyMaxHealth;
 
     [SerializeField]
     public int pointsToAdd;
 
+    private static int enemyHealth;
     //[SerializeField]
     //public GameObject deathEffect;
     private bool pointsAdded;
+
+    protected void Awake()
+    {
+        enemyHealth = enemyMaxHealth;
+    }
+
     void Update()
     {
-
+        //Debug.Log(enemyHealth);
         if (enemyHealth <= 0 && !pointsAdded)
         {
             ScoreManager.AddPoints(pointsToAdd);
             pointsAdded = true;
             
-            Destroy(gameObject, t: 1.5f);
+            Destroy(gameObject, t: 0);
         }
-        
     }
 
-    public void giveDamage(int damageToGive)
+    public static void GiveDamage(int damageToGive)
     {
         enemyHealth -= damageToGive;
+    }
+    
+    public static int GetHealth()
+    {
+        return enemyHealth;
     }
 }
