@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 114078566515432482}
   - component: {fileID: 114327590886171826}
   - component: {fileID: 70904421003876318}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Spider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1359685111122800}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.28, y: -3.7, z: 0}
+  m_LocalPosition: {x: -58, y: -42.6, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -179,7 +179,7 @@ MonoBehaviour:
   followSpeed: 4
   timeBeforeFirstWander: 1
   minTimeBetweenReconsideringDirection: 1
-  maxTimeBetweenReconsideringDirection: 3
+  maxTimeBetweenReconsideringDirection: 6
   playerRange: 10
   playerLayer:
     serializedVersion: 2
@@ -218,7 +218,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300018, guid: d1c98d58d5a58f74e9a25c9710399432, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7205882, g: 0.7205882, b: 0.7205882, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
