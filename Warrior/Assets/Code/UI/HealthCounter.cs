@@ -20,6 +20,6 @@ public class HealthCounter : MonoBehaviour
 
     protected void Update()
     {
-        text.text = "" + HealthManager.GetHealth();
+        text.text = "" + HealthManager.GetHealth() + "/" + HealthManager.GetMaxHealth();
     }
 }

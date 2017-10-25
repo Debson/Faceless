@@ -34,6 +34,7 @@ public class WanderWalkController : MonoBehaviour
     private bool isFlippedRigid;
     private bool playerInRange;
     private bool usingRigid;
+    private bool stopWalking;
 
     public bool isAttacking
     {
@@ -109,7 +110,7 @@ public class WanderWalkController : MonoBehaviour
         }
         else
         {
-            if((transform.position.x > playerController.transform.position.x) && !isFlippedRigid)
+            if ((transform.position.x > playerController.transform.position.x) && !isFlippedRigid)
             {
                 myBody.transform.rotation = Quaternion.Euler(0, -180, 0);
             }
@@ -133,31 +134,34 @@ public class WanderWalkController : MonoBehaviour
         //Debug.Log(isFlippedRigid);
         playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
         //Debug.Log(myCollider.bounds.size.y);
-        if (playerInRange && (transform.position.y + myCollider.bounds.size.y >= playerController.transform.position.y))
+        if (!stopWalking)
         {
-            transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
-                                                     followSpeed * Time.deltaTime);
-            usingRigid = false;
+            if (playerInRange && (transform.position.y + myCollider.bounds.size.y >= playerController.transform.position.y))
+            {
+                transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
+                                                         followSpeed * Time.deltaTime);
+                usingRigid = false;
+            }
+            else
+            {
+                float desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
+                myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
+                usingRigid = true;
+            }
+        }
+        //Debug.Log(characterXBounds);
+
+       if(Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds-0.8f)
+        {
+            stopWalking = true;
         }
         else
         {
-            float desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
-            myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
-            usingRigid = true;
+            stopWalking = false;
         }
+        
 
-
-
-        if(Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds)
-        {
-            isAttacking = true;
-        }
-        else
-        {
-            isAttacking = false;
-        }
-
-        animator.SetBool("isAttacking", isAttacking);
+        
     }
 
     private void OnDrawGizmosSelected()

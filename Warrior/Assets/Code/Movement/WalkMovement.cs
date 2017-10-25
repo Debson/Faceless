@@ -35,38 +35,39 @@ public class WalkMovement : MonoBehaviour
 
     protected void FixedUpdate()
     {
-        float desiredXVelocity;
-        if (crouchMovement.isCrouching)
-        {
-            desiredXVelocity = desiredWalkDirection * walkSpeed * 0.4f * Time.deltaTime;
-        }
-        else
-        {
-            desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
-        }
-       
-        if (knockbackTimeCount <= 0)
-        {
-            myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
-            spriteRenderer.color = startColor;
-        }
-        else
-        {
-            
-            if(knockFromRight)
-            {
-                myBody.velocity = new Vector2(-knockbackStrength, knockbackStrength / 3);
-                spriteRenderer.color = new Color(255, 0, 0);
-                
-            }
-            if(!knockFromRight)
-            {
-                myBody.velocity = new Vector2(knockbackStrength, knockbackStrength / 3);
-                spriteRenderer.color = new Color(255, 0, 0);
-            }
-            knockbackTimeCount -= Time.deltaTime;
-        }
-        //knockbackTimeCount -= Time.deltaTime;
-    }
 
+            float desiredXVelocity;
+            if (crouchMovement.isCrouching)
+            {
+                desiredXVelocity = desiredWalkDirection * walkSpeed * 0.4f * Time.deltaTime;
+            }
+            else
+            {
+                desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
+            }
+
+            if (knockbackTimeCount <= 0)
+            {
+                myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
+                spriteRenderer.color = startColor;
+            }
+            else
+            {
+
+                if (knockFromRight)
+                {
+                    myBody.velocity = new Vector2(-knockbackStrength, knockbackStrength / 3);
+                    spriteRenderer.color = new Color(1, 0, 0);
+
+                }
+                if (!knockFromRight)
+                {
+                    myBody.velocity = new Vector2(knockbackStrength, knockbackStrength / 3);
+                    spriteRenderer.color = new Color(1, 0, 0);
+                }
+                knockbackTimeCount -= Time.deltaTime;
+            }
+            //knockbackTimeCount -= Time.deltaTime;
+        }
+    
 }

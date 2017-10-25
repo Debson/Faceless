@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
-    public int maxPlayerHealth;
+    [SerializeField]
+    private int maxPlayerHealth;
 
-    public static int playerHealth;
+    private static int maxHealth;
+    private static int playerHealth;
 
     LifeManager lifeManager;
 
@@ -19,6 +21,7 @@ public class HealthManager : MonoBehaviour
     protected void Start()
     {
         playerHealth = maxPlayerHealth;
+        maxHealth = maxPlayerHealth;
     }
 
     protected void Update()
@@ -26,19 +29,30 @@ public class HealthManager : MonoBehaviour
         //Debug.Log(playerHealth);
         if(playerHealth <= 0)
         {
+            //Time.timeScale = 0;
             //lifeManager.TakeLife();
             Destroy(gameObject);
         }
     }
 
-    public static void HurtPlayer(int damageToGive)
+    public static void HurtPlayer(int minDmg, int maxDmg)
     {
-        playerHealth -= damageToGive;
+        playerHealth -= Random.Range(minDmg, maxDmg);
     }
 
     public static int GetHealth()
     {
+        if (playerHealth < 0)
+        {
+            playerHealth = 0;
+        }
+
         return playerHealth;
+    }
+
+    public static int GetMaxHealth()
+    {
+        return maxHealth;
     }
 
     public void FullHealth()
