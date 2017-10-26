@@ -30,7 +30,7 @@ public class WanderWalkController : MonoBehaviour
     float attackRange = 1f;
 
     private float desiredWalkDirection;
-    float characterXBounds;
+    private float characterXBounds;
     private bool isFlippedRigid;
     private bool playerInRange;
     private bool usingRigid;
@@ -151,7 +151,7 @@ public class WanderWalkController : MonoBehaviour
         }
         //Debug.Log(characterXBounds);
 
-       if(Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds-0.8f)
+       if(Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds)
         {
             stopWalking = true;
         }

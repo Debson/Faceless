@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212617937313479724}
   - component: {fileID: 95534349447068742}
   - component: {fileID: 58333665458599766}
+  - component: {fileID: 61937024227276562}
   - component: {fileID: 114960062268154366}
   - component: {fileID: 114610515819616118}
   - component: {fileID: 114867380129749178}
@@ -34,7 +35,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4210462365547874
 Transform:
   m_ObjectHideFlags: 1
@@ -77,12 +78,37 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.043975286, y: 0.8029972}
+  serializedVersion: 2
+  m_Radius: 0.36580494
+--- !u!61 &61937024227276562
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1348995075533954}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.00014305115, y: 0.8029972}
+  m_Offset: {x: 0.0371117, y: 0.8171377}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 0.94736844, y: 1.2631578}
+    newSize: {x: 0.94736844, y: 1.2631578}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.40963718
+  m_Size: {x: 0.9791783, y: 0.89204025}
+  m_EdgeRadius: 0
 --- !u!95 &95534349447068742
 Animator:
   serializedVersion: 3
@@ -112,7 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageToGive: 1
-  knockbackStrenght: 0
+  knockbackStrenght: 3
   knockBackLength: 0.25
 --- !u!114 &114610515819616118
 MonoBehaviour:
@@ -137,7 +163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d067e42a2d80bc41a9e146591b21814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageToGive: 1
+  minDamageToGive: 5
+  maxDamageToGive: 31
+  attackFreqConst: 2
 --- !u!114 &114867380129749178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -149,8 +177,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083b1c8c8a2b91d4e8e856b5702a28f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyMaxHealth: 0
+  enemyMaxHealth: 4
   pointsToAdd: 500
+  enemyHealthBar: {fileID: 0}
 --- !u!114 &114960062268154366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,7 +196,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
-  playerInRange: 1
+  attackRange: -0.2
 --- !u!212 &212617937313479724
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -7,27 +7,32 @@ public class BatMovement : MonoBehaviour
 {
     static readonly Quaternion flipRotation = Quaternion.Euler(0, 0, 1);
 
-    private PlayerController playerController;
+    [SerializeField]
+    private float moveSpeed;
 
     [SerializeField]
-    public float moveSpeed;
+    private float playerRange;
 
     [SerializeField]
-    public float playerRange;
+    private LayerMask playerLayer;
 
     [SerializeField]
-    public LayerMask playerLayer;
+    float attackRange = 1.5f;
 
+    PlayerController playerController;
     EnemyHealthManager enemyHealthManager;
     Rigidbody2D myBody;
 
-    public bool playerInRange;
+    private bool playerInRange;
 
     private float timeToFall = 1f;
     private float fallSpeed = 7;
+    private bool stopWalking;
+    private float characterXBounds;
 
     protected void Awake()
     {
+        characterXBounds = GetComponent<Collider2D>().bounds.size.x + attackRange;
         playerController = FindObjectOfType<PlayerController>();
         enemyHealthManager = GetComponent<EnemyHealthManager>();
     }
@@ -46,11 +51,24 @@ public class BatMovement : MonoBehaviour
             transform.rotation *= flipRotation;
         }
 
-        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
-        if (playerInRange)
+        if (!stopWalking)
         {
-            transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
-                                                     moveSpeed * Time.deltaTime);
+            playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
+
+            if (playerInRange)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
+                                                         moveSpeed * Time.deltaTime);
+            }
+        }
+
+        if (Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds)
+        {
+            stopWalking = true;
+        }
+        else
+        {
+            stopWalking = false;
         }
     }
 

@@ -136,7 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d067e42a2d80bc41a9e146591b21814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageToGive: 1
+  minDamageToGive: 0
+  maxDamageToGive: 0
+  attackFreqConst: 2
 --- !u!114 &114176762626397484
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -148,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c932fafef85afe04781d43d55b332819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageToGive: 1
+  damageToGive: 4
   knockbackStrenght: 4
   knockBackLength: 0.2
 --- !u!114 &114327590886171826
@@ -164,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMaxHealth: 5
   pointsToAdd: 500
+  enemyHealthBar: {fileID: 0}
 --- !u!114 &114361606397714092
 MonoBehaviour:
   m_ObjectHideFlags: 1

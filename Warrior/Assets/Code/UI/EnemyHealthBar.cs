@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class HealthBar : MonoBehaviour
+public class EnemyHealthBar : MonoBehaviour
 {
+
     [SerializeField]
     private float fillAmount;
 
@@ -24,12 +25,17 @@ public class HealthBar : MonoBehaviour
 
     protected void Update()
     {
+        if (EnemyHealthManager.GetHealth() <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+
         HandleBar();
     }
 
     private void HandleBar()
     {
-        currentAmount = Map(HealthManager.GetHealth(), 0, HealthManager.GetMaxHealth(), 0.07f, 0.67f);
+        currentAmount = Map(EnemyHealthManager.GetHealth(), 0, EnemyHealthManager.GetMaxHealth(), 0, 1);
 
         if (currentAmount != lastAmount)
         {

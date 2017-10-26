@@ -7,14 +7,19 @@ public class HurtEnemyOnContact : MonoBehaviour
     [SerializeField]
     public int damageToGive;
 
+    [SerializeField]
+    public float knockbackStrenght;
+
+    [SerializeField]
+    public float knockBackLength;
+
     EnemyHealthManager enemyHealthManager;
     SpriteRenderer spriteRenderer;
     Color startColor;
 
-    public float knockbackStrenght;
-    public float knockBackLength;
     private float knockbackTimeCount = 0.2f;
     private bool knockFromRight;
+    private bool hitOnlyOnce;
     
     protected void Awake()
     {
@@ -31,9 +36,14 @@ public class HurtEnemyOnContact : MonoBehaviour
     {
         if (collision.tag == "AttackTrigger")
         {
-            EnemyHealthManager.GiveDamage(damageToGive);
-            Debug.Log("working");
+            if (!hitOnlyOnce)
+            {
+                EnemyHealthManager.GiveDamage(damageToGive);
+            }
+            hitOnlyOnce = true;
+
             knockbackTimeCount = knockBackLength;
+
             if (collision.transform.position.x > transform.position.x)
             {
                 knockFromRight = true;
@@ -50,11 +60,11 @@ public class HurtEnemyOnContact : MonoBehaviour
         if (knockbackTimeCount <= 0)
         {
             spriteRenderer.color = startColor;
+            hitOnlyOnce = false;
             //gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         else
         {
-
             if (knockFromRight)
             {
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x - (Time.deltaTime * knockbackStrenght) , gameObject.transform.position.y);
@@ -70,5 +80,4 @@ public class HurtEnemyOnContact : MonoBehaviour
         }
         knockbackTimeCount -= Time.deltaTime;
     }
-
 }
