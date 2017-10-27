@@ -40,8 +40,6 @@ public class TurnAround : MonoBehaviour
 
     protected void Update()
     {
-        Debug.Log(isFacingLeft);
-        // ????
         if (Input.GetKey(KeyCode.LeftControl) && (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && 
             !Input.GetKey(KeyCode.LeftArrow) && isFacingLeft)
         {
