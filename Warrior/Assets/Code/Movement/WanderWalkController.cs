@@ -45,6 +45,7 @@ public class WanderWalkController : MonoBehaviour
     Rigidbody2D myBody;
     PlayerController playerController;
     Collider2D myCollider;
+    Canvas healthBarCanvas;
 
     protected void Awake()
     {
@@ -53,6 +54,7 @@ public class WanderWalkController : MonoBehaviour
         myCollider = GetComponent<Collider2D>();
         characterXBounds = playerController.GetComponent<Collider2D>().bounds.size.x + attackRange;
         animator = GetComponentInChildren<Animator>();
+        healthBarCanvas = GetComponentInChildren<Canvas>();
     }
 
 
@@ -98,12 +100,15 @@ public class WanderWalkController : MonoBehaviour
         {
             if (myBody.velocity.x > .1f && !isFlippedRigid)
             {
+                healthBarCanvas.transform.rotation = Quaternion.Euler(0, 180, 0);
                 myBody.transform.rotation = Quaternion.Euler(0, -180, 0);
+                //healthBarCanvas.enabled = true;
                 isFlippedRigid = true;
             }
 
             if (myBody.velocity.x < .1f && isFlippedRigid)
             {
+                healthBarCanvas.transform.rotation = Quaternion.Euler(0, 180, 0);
                 myBody.transform.rotation = Quaternion.Euler(0, 0, 0);
                 isFlippedRigid = false;
             }
@@ -112,6 +117,7 @@ public class WanderWalkController : MonoBehaviour
         {
             if ((transform.position.x > playerController.transform.position.x) && !isFlippedRigid)
             {
+                healthBarCanvas.transform.rotation = Quaternion.Euler(0, 0, 0);
                 myBody.transform.rotation = Quaternion.Euler(0, -180, 0);
             }
             else
@@ -122,6 +128,7 @@ public class WanderWalkController : MonoBehaviour
 
             if ((transform.position.x < playerController.transform.position.x) && !isFlippedRigid)
             {
+                healthBarCanvas.transform.rotation = Quaternion.Euler(0, 180, 0);
                 myBody.transform.rotation = Quaternion.Euler(0, -180, 0);
                 isFlippedRigid = true;
             }

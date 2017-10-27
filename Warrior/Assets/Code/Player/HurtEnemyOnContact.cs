@@ -38,7 +38,7 @@ public class HurtEnemyOnContact : MonoBehaviour
         {
             if (!hitOnlyOnce)
             {
-                EnemyHealthManager.GiveDamage(damageToGive);
+                enemyHealthManager.GiveDamage(damageToGive);
             }
             hitOnlyOnce = true;
 

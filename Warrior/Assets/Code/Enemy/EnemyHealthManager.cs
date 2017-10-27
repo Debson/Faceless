@@ -10,51 +10,50 @@ public class EnemyHealthManager : MonoBehaviour
 
     [SerializeField]
     private int pointsToAdd;
+    
 
-    [SerializeField]
-    private Image enemyHealthBar;
+    private Image healthBar;
 
-    private static int enemyHealth;
+    private int enemyHealth;
     //[SerializeField]
     //public GameObject deathEffect;
+
     private bool pointsAdded;
     private float enemyHeight;
-    private static int maxHealth;
-    GameObject enemyHealthBarCanvas;
+
     protected void Awake()
     {
         enemyHealth = enemyMaxHealth;
         enemyHeight = GetComponent<Collider2D>().bounds.size.y;
-        maxHealth = enemyMaxHealth;
+        healthBar = GetComponentInChildren<Image>();
     }
 
     void Update()
     {
-        Debug.Log(enemyHealth);
         if (enemyHealth <= 0 && !pointsAdded)
         {
-            enemyHealth = 0;
+            enemyHealth = -1;
             ScoreManager.AddPoints(pointsToAdd);
             pointsAdded = true;
             
-            Destroy(gameObject, t: 0);
+            Destroy(gameObject, t: 0.1f);
         }
   
-        enemyHealthBar.transform.position = new Vector3(transform.position.x, transform.position.y + enemyHeight, transform.position.z);
+        healthBar.transform.position = new Vector3(transform.position.x, transform.position.y + enemyHeight, transform.position.z);
     }
 
-    public static void GiveDamage(int damageToGive)
+    public void GiveDamage(int damageToGive)
     {
         enemyHealth -= damageToGive;
     }
     
-    public static int GetHealth()
+    public int GetHealth()
     {
         return enemyHealth;
     }
 
-    public static int GetMaxHealth()
+    public int GetMaxHealth()
     {
-        return maxHealth;
+        return enemyMaxHealth;
     }
 }

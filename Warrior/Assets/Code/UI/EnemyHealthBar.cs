@@ -15,8 +15,14 @@ public class EnemyHealthBar : MonoBehaviour
     [SerializeField]
     private Image content;
 
+    EnemyHealthManager enemyHealthManager;
     private float lastAmount;
     private float currentAmount;
+
+    protected void Awake()
+    {
+        enemyHealthManager = GetComponent<EnemyHealthManager>();
+    }
 
     protected void Start()
     {
@@ -25,9 +31,9 @@ public class EnemyHealthBar : MonoBehaviour
 
     protected void Update()
     {
-        if (EnemyHealthManager.GetHealth() <= 0)
+        if (enemyHealthManager.GetHealth() <= 0)
         {
-            gameObject.SetActive(false);
+            content.fillAmount = 0;
         }
 
         HandleBar();
@@ -35,8 +41,7 @@ public class EnemyHealthBar : MonoBehaviour
 
     private void HandleBar()
     {
-        currentAmount = Map(EnemyHealthManager.GetHealth(), 0, EnemyHealthManager.GetMaxHealth(), 0, 1);
-
+        currentAmount = Map(enemyHealthManager.GetHealth(), 0, enemyHealthManager.GetMaxHealth(), 0, 1);
         if (currentAmount != lastAmount)
         {
             content.fillAmount = Mathf.Lerp(lastAmount, currentAmount, healthDecrementationTime * Time.fixedDeltaTime);

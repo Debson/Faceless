@@ -31,7 +31,7 @@ public class HealthManager : MonoBehaviour
         {
             //Time.timeScale = 0;
             //lifeManager.TakeLife();
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 
