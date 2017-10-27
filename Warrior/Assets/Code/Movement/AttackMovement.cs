@@ -7,6 +7,8 @@ public class AttackMovement : MonoBehaviour
 {
     [SerializeField]
     public Collider2D attackTrigger;
+    TurnAround turnAround;
+    private bool currentState;
 
     public bool attackRequest
     {
@@ -24,6 +26,7 @@ public class AttackMovement : MonoBehaviour
 
     protected void Awake()
     {
+        turnAround = GetComponent<TurnAround>();
         attackTrigger.enabled = false;
     }
 
@@ -33,12 +36,12 @@ public class AttackMovement : MonoBehaviour
         {
             isAttacking = true;
             attackTimer = attackCooldown;
-
             attackTrigger.enabled = true;
+            currentState = turnAround.isFacingLeft;
         }
         attackRequest = false;
 
-        if (isAttacking)
+        if (isAttacking && (currentState == turnAround.isFacingLeft))
         {
             if (attackTimer > 0)
             {
@@ -49,6 +52,11 @@ public class AttackMovement : MonoBehaviour
                 isAttacking = false;
                 attackTrigger.enabled = false;
             }
+        }
+        else
+        {
+            isAttacking = false;
+            attackTrigger.enabled = false;
         }
     }
 }

@@ -12,11 +12,25 @@ public class TurnAround : MonoBehaviour
 
     public bool isFacingLeft
     {
-        set; private get;
+        set; get;
+    }
+
+    public bool IsFacingRight
+    {
+        get
+        {
+            return isFacingRight;
+        }
+
+        set
+        {
+            isFacingRight = value;
+        }
     }
 
     bool isFacingLeft2;
-    bool isFacingRight = true;
+
+    private bool isFacingRight = true;
 
     protected void Awake()
     {
@@ -26,20 +40,21 @@ public class TurnAround : MonoBehaviour
 
     protected void Update()
     {
+        Debug.Log(isFacingLeft);
         // ????
         if (Input.GetKey(KeyCode.LeftControl) && (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && 
             !Input.GetKey(KeyCode.LeftArrow) && isFacingLeft)
         {
             transform.rotation *= flipRotation;
             isFacingLeft = false;
-            isFacingRight = true;
+            IsFacingRight = true;
         }
 
         if (Input.GetKey(KeyCode.LeftControl) && (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && 
-            !Input.GetKey(KeyCode.RightArrow) && isFacingRight)
+            !Input.GetKey(KeyCode.RightArrow) && IsFacingRight)
         {
             transform.rotation *= flipRotation;
-            isFacingRight = false;
+            IsFacingRight = false;
             isFacingLeft = true;
         }
     }
@@ -51,7 +66,7 @@ public class TurnAround : MonoBehaviour
         if (Mathf.Abs(xVelocity) > .05f)
         {
             bool isTravelingLeft = xVelocity < 0;
-            isFacingRight = !isTravelingLeft;
+            IsFacingRight = !isTravelingLeft;
             if(isFacingLeft != isTravelingLeft)
             {
                 isFacingLeft = isTravelingLeft;
