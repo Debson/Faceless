@@ -22,9 +22,9 @@ public class DemonHunter : MonoBehaviour
     PlayerController playerController;
     Animator animator;
     Rigidbody2D myBody;
+    Rigidbody2D playerBody;
 
     public float throwScytheDirection;
-
 
     private bool isAttacking;
     private bool isWalking;
@@ -40,13 +40,15 @@ public class DemonHunter : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         animator = GetComponent<Animator>();
         myBody = GetComponent<Rigidbody2D>();
+        playerBody = playerController.GetComponent<Rigidbody2D>();
     }
 
     protected void Update()
     {
         playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
         playerInAttackingRange = Physics2D.OverlapCircle(transform.position, playerAttackingRange, playerLayer);
-        float desiredXVelocity = 400f * Time.deltaTime;
+
+        float desiredXVelocity = 1.5f;
 
         if (playerInAttackingRange && !playerInRange)
         {
@@ -98,10 +100,14 @@ public class DemonHunter : MonoBehaviour
             }
         }
 
-        if (playerInAttackingRange && !playerInRange && !isAttacking )
+        if ((Mathf.Abs(playerBody.velocity.x) < 0.1f && playerInRange && !isAttacking))
+        {
+            StartCoroutine(ThrowScytheAfterTime());
+            isAttacking = true;
+        }
+        else if ((playerInAttackingRange && !playerInRange && !isAttacking))
         {
             StartCoroutine(ThrowScythe());
-            //animator.SetBool("isAttacking", false);
             isAttacking = true;
         }
     }
@@ -111,6 +117,28 @@ public class DemonHunter : MonoBehaviour
         animator.SetBool("isAttacking", true);
         yield return new WaitForSeconds(0.4f);
         Instantiate(scythe, throwPoint.position, throwPoint.rotation);
+        animator.SetBool("isAttacking", false);
+        yield return new WaitForSeconds(2.5f);
+        isAttacking = false;
+    }
+
+    IEnumerator ThrowScytheAfterTime()
+    {
+        if(isWalkingLeft)
+        {
+            throwScytheDirection = 1;
+        }
+        else
+        {
+            throwScytheDirection = -1;
+        }
+
+        yield return new WaitForSeconds(1f);
+        transform.rotation *= Quaternion.Euler(0, -180, 0);
+        animator.SetBool("isAttacking", true);
+        yield return new WaitForSeconds(0.4f);
+        Instantiate(scythe, throwPoint.position, throwPoint.rotation);
+        transform.rotation *= Quaternion.Euler(0, -180, 0);
         animator.SetBool("isAttacking", false);
         yield return new WaitForSeconds(2.5f);
         isAttacking = false;

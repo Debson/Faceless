@@ -16,6 +16,7 @@ public class ScytheController : MonoBehaviour
     Rigidbody2D myBody;
     DemonHunter demonHunter;
 
+
     private float scytheDirection;
 
     protected void Awake()
@@ -26,7 +27,7 @@ public class ScytheController : MonoBehaviour
     }
 
     protected void Update()
-    { 
+    {
         myBody.velocity = new Vector2(speed * scytheDirection, myBody.velocity.y);
         myBody.transform.rotation *= Quaternion.Euler(0, 0, -speed / 2.7f);
     }

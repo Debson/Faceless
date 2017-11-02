@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 50944080300854436}
   - component: {fileID: 58196941184993050}
   - component: {fileID: 114565727678845484}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: Scythe
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 301532708b1499344a60f95d86897f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 12
   minDamageToGive: 0
   maxDamageToGive: 0
 --- !u!212 &212339225947185260

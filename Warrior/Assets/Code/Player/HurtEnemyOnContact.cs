@@ -5,7 +5,10 @@ using UnityEngine;
 public class HurtEnemyOnContact : MonoBehaviour
 {
     [SerializeField]
-    public int damageToGive;
+    public int minDamageToGive;
+
+    [SerializeField]
+    public int maxDamageToGive;
 
     [SerializeField]
     public float knockbackStrenght;
@@ -38,7 +41,7 @@ public class HurtEnemyOnContact : MonoBehaviour
         {
             if (!hitOnlyOnce)
             {
-                enemyHealthManager.GiveDamage(damageToGive);
+                enemyHealthManager.GiveDamage(Random.Range(minDamageToGive, maxDamageToGive));
             }
             hitOnlyOnce = true;
 
