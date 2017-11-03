@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     protected void Update()
     {
-
+        Debug.Log(transform.position.y);
         if (Input.GetKey(KeyCode.LeftControl) && floorDetector.isTouchingFloor || EnterTerritory.IsCharacterControlEnabled && floorDetector.isTouchingFloor)
         {
             walkMovement.desiredWalkDirection = 0;
