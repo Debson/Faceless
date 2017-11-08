@@ -11,18 +11,22 @@ public class HurtPlayerOnContact : MonoBehaviour
     [SerializeField]
     private float attackFreqConst;
 
+    [SerializeField]
+    private float animationDelayConst = 0.55f;
+
     Animator animator;
 
-    private float animationDelayConst = 0.55f;
     private float animationDelay;
     private float attackFreq;
     private bool isAttacking;
     private bool isInTrigger;
+    private bool check;
+    private bool check2;
 
 
     protected void Awake()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInParent<Animator>();
     }
 
     protected void Start()
@@ -33,7 +37,6 @@ public class HurtPlayerOnContact : MonoBehaviour
 
     protected void Update()
     {
-       
         if (isAttacking)
         {
             animationDelay -= Time.deltaTime;
@@ -77,7 +80,8 @@ public class HurtPlayerOnContact : MonoBehaviour
             else
             {
                 player.knockFromRight = false;
-            }
+            }    
         }
-    }   
-}
+    }
+ }
+

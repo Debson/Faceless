@@ -29,12 +29,15 @@ public class WanderWalkController : MonoBehaviour
     [SerializeField]
     float attackRange = 1f;
 
+    public bool isRunning;
+    public bool playerInRange;
+
     private float desiredWalkDirection;
     private float characterXBounds;
     private bool isFlippedRigid;
-    private bool playerInRange;
     private bool usingRigid;
     private bool stopWalking;
+    
 
     public bool isAttacking
     {
@@ -95,6 +98,7 @@ public class WanderWalkController : MonoBehaviour
 
     protected void FixedUpdate()
     {
+        
         //If player is not in range, rotate enemy's body basing on velocity. If player is in range, rotate enemy's body basing on his position relative to enemy's body.
         if (usingRigid)
         {
@@ -155,20 +159,28 @@ public class WanderWalkController : MonoBehaviour
                 myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
                 usingRigid = true;
             }
+
+            // For orcs
+            if(playerInRange)
+            {
+                isRunning = true;
+            }
+            else
+            {
+                isRunning = false;
+            }
         }
         //Debug.Log(characterXBounds);
 
        if(Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds)
         {
             stopWalking = true;
+            isRunning = false;
         }
         else
         {
             stopWalking = false;
         }
-        
-
-        
     }
 
     private void OnDrawGizmosSelected()
