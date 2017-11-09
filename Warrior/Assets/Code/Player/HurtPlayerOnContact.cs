@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class HurtPlayerOnContact : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class HurtPlayerOnContact : MonoBehaviour
     private float animationDelay;
     private float attackFreq;
     private bool isAttacking;
+    private bool isHurted;
     private bool isInTrigger;
     private bool check;
     private bool check2;
@@ -80,8 +83,15 @@ public class HurtPlayerOnContact : MonoBehaviour
             else
             {
                 player.knockFromRight = false;
-            }    
+            }
+            StartCoroutine(hurtPlayer());
         }
+    }
+
+    IEnumerator hurtPlayer()
+    {
+        yield return new WaitForSeconds(1f);
+        Debug.Log("hitted");
     }
  }
 

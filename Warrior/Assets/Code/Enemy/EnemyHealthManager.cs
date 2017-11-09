@@ -35,8 +35,6 @@ public class EnemyHealthManager : MonoBehaviour
             enemyHealth = -1;
             ScoreManager.AddPoints(pointsToAdd);
             pointsAdded = true;
-            
-            Destroy(gameObject, t: 0.1f);
         }
   
         healthBar.transform.position = new Vector3(transform.position.x, transform.position.y + enemyHeight, transform.position.z);

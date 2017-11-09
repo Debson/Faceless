@@ -16,13 +16,18 @@ public class HurtEnemyOnContact : MonoBehaviour
     [SerializeField]
     public float knockBackLength;
 
+    [SerializeField]
+    private bool colorRedOnHit;
+
     EnemyHealthManager enemyHealthManager;
     SpriteRenderer spriteRenderer;
     Color startColor;
 
+    [HideInInspector]
+    public bool hitOnlyOnce;
+
     private float knockbackTimeCount = 0.2f;
     private bool knockFromRight;
-    private bool hitOnlyOnce;
     
     protected void Awake()
     {
@@ -71,13 +76,19 @@ public class HurtEnemyOnContact : MonoBehaviour
             if (knockFromRight)
             {
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x - (Time.deltaTime * knockbackStrenght) , gameObject.transform.position.y);
-                spriteRenderer.color = new Color(255, 0, 0);
+                if (colorRedOnHit)
+                {
+                    spriteRenderer.color = new Color(255, 0, 0);
+                }
                 //gameObject.transform.rotation = Quaternion.Euler(0, 0, -40);
             }
             if (!knockFromRight)
             {
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x + (Time.deltaTime * knockbackStrenght), gameObject.transform.position.y);
-                spriteRenderer.color = new Color(255, 0, 0);
+                if (colorRedOnHit)
+                {
+                    spriteRenderer.color = new Color(255, 0, 0);
+                }
                 //gameObject.transform.rotation = Quaternion.Euler(0, 0, -40);
             }
         }

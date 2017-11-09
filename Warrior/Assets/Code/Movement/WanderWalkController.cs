@@ -29,7 +29,13 @@ public class WanderWalkController : MonoBehaviour
     [SerializeField]
     float attackRange = 1f;
 
+    [SerializeField]
+    float verticalRange = 0;
+
+    [HideInInspector]
     public bool isRunning;
+
+    [HideInInspector]
     public bool playerInRange;
 
     private float desiredWalkDirection;
@@ -147,30 +153,22 @@ public class WanderWalkController : MonoBehaviour
         //Debug.Log(myCollider.bounds.size.y);
         if (!stopWalking)
         {
-            if (playerInRange && (transform.position.y + myCollider.bounds.size.y >= playerController.transform.position.y))
+            if (playerInRange && (transform.position.y + myCollider.bounds.size.y + verticalRange >= playerController.transform.position.y))
             {
                 transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
                                                          followSpeed * Time.deltaTime);
                 usingRigid = false;
+                isRunning = true;
             }
             else
             {
                 float desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
                 myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
                 usingRigid = true;
-            }
-
-            // For orcs
-            if(playerInRange)
-            {
-                isRunning = true;
-            }
-            else
-            {
                 isRunning = false;
             }
+            //Debug.Log(characterXBounds);
         }
-        //Debug.Log(characterXBounds);
 
        if(Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds)
         {
