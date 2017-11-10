@@ -29,6 +29,7 @@ public class HurtEnemyOnContact : MonoBehaviour
     private float knockbackTimeCount = 0.2f;
     private bool knockFromRight;
     
+    
     protected void Awake()
     {
         enemyHealthManager = GetComponent<EnemyHealthManager>();

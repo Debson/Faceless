@@ -16,15 +16,27 @@ public class HurtPlayerOnContact : MonoBehaviour
     [SerializeField]
     private float animationDelayConst = 0.55f;
 
+    [SerializeField]
+    private bool hitAfterTime;
+
+
     Animator animator;
+
+    public bool isHurted
+    { get; set;}
+
+    private bool checkIfIsHurted;
+
+    [HideInInspector]
+    public float hitTimer = 0.5f;
+
+    [HideInInspector]
+    public float hitDelay;
 
     private float animationDelay;
     private float attackFreq;
     private bool isAttacking;
-    private bool isHurted;
     private bool isInTrigger;
-    private bool check;
-    private bool check2;
 
 
     protected void Awake()
@@ -36,6 +48,8 @@ public class HurtPlayerOnContact : MonoBehaviour
     {
         attackFreq = attackFreqConst;
         animationDelay = animationDelayConst;
+        hitDelay = hitTimer;
+
     }
 
     protected void Update()
@@ -67,31 +81,38 @@ public class HurtPlayerOnContact : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && !isAttacking)
-        {
-            HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
-            isAttacking = true;
-            animator.SetBool("isAttacking", true);
-
-            var player = collision.GetComponent<WalkMovement>();
-            player.knockbackTimeCount = player.knockBackLength;
-
-            if (collision.transform.position.x < transform.position.x)
+        if (collision.tag == "Player" && hitAfterTime && !isHurted)
+        {// Attack player 0.5s after entering AttackTrigger collider
+            if(hitDelay > 0)
             {
-                player.knockFromRight = true;
+                hitDelay -= Time.deltaTime;
+                return;
             }
-            else
-            {
-                player.knockFromRight = false;
-            }
-            StartCoroutine(hurtPlayer());
+            isHurted = true;
         }
-    }
+        else if (collision.tag == "Player" && !isAttacking && isHurted)
+        {
+                
+                isAttacking = true;
+                animator.SetBool("isAttacking", true);
 
-    IEnumerator hurtPlayer()
-    {
-        yield return new WaitForSeconds(1f);
-        Debug.Log("hitted");
+                var player = collision.GetComponent<WalkMovement>();
+                player.knockbackTimeCount = player.knockBackLength;
+
+                if (collision.transform.position.x < transform.position.x)
+                {
+                    player.knockFromRight = true;
+                }
+                else
+                {
+                    player.knockFromRight = false;
+                }
+        }
+
+        if (collision.tag != "Player" && !isAttacking && isHurted)
+        {
+            checkIfIsHurted = true;
+        }
     }
  }
 

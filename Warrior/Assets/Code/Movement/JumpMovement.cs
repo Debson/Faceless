@@ -45,7 +45,16 @@ public class JumpMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && !floorDetector.isTouchingFloor && !isDoubleJump)
         {
+            if(myBody.velocity.y > 0)
+            { 
             Jump(secondJumpSpeed);
+            }
+
+            if (myBody.velocity.y < 0)
+            {
+                Jump(secondJumpSpeed * 3.14159f);
+            }
+
             isDoubleJump = true;
         }
 

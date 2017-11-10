@@ -6,12 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(JumpMovement))]
 [RequireComponent(typeof(AttackMovement))]
 [RequireComponent(typeof(TurnAround))]
+[RequireComponent(typeof(FloorDetector))]
 public class PlayerController : MonoBehaviour
 {
     WalkMovement walkMovement;
     JumpMovement jumpMovement;
     AttackMovement attackMovement;
     FloorDetector floorDetector;
+    Rigidbody2D myBody;
 
 
     protected void Awake()
@@ -20,12 +22,12 @@ public class PlayerController : MonoBehaviour
         jumpMovement = GetComponent<JumpMovement>();
         attackMovement = GetComponent<AttackMovement>();
         floorDetector = GetComponent<FloorDetector>();
+        myBody = GetComponent<Rigidbody2D>();
 
     }
 
     protected void Update()
     {
-        //Debug.Log(transform.position.y);
         if (Input.GetKey(KeyCode.LeftControl) && floorDetector.isTouchingFloor || EnterTerritory.IsCharacterControlEnabled && floorDetector.isTouchingFloor)
         {
             walkMovement.desiredWalkDirection = 0;
