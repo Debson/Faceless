@@ -8,6 +8,11 @@ public class ElfController : MonoBehaviour
     [SerializeField]
     public float playerRange;
 
+    [SerializeField]
+    Transform shootPoint;
+
+    [SerializeField]
+    GameObject arrow;
 
 
     PlayerController playerController;
@@ -16,6 +21,7 @@ public class ElfController : MonoBehaviour
 
     private bool playerInRange;
     private bool isFacingRight;
+    private bool shoot;
  
 
 
@@ -39,13 +45,21 @@ public class ElfController : MonoBehaviour
             direction = -1;
         }
 
-
-        
+        if (!shoot)
+        {
+            StartCoroutine(ShootArrow());
+            shoot = true;
+        }
 
     }
 
-    private void OnDrawGizmosSelected()
+    IEnumerator ShootArrow()
     {
-        Gizmos.DrawWireSphere(transform.position, playerRange);
+        yield return new WaitForSeconds(1f);
+        Instantiate(arrow, shootPoint.position, shootPoint.rotation, shootPoint.transform);
+        yield return new WaitForSeconds(1f);
+        shoot = false;
+
     }
+
 }

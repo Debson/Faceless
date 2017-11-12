@@ -10,41 +10,33 @@ public class BowMovement : MonoBehaviour
     [SerializeField]
     private float playerRange;
 
+
     PlayerController playerController;
     ElfController elfController;
 
+
+    private Vector3 difference;
+    private float rotationZ;
     private bool playerInRange;
-    private float sinus;
+    private float playerBounds;
 
     protected void Awake()
     {
         playerController = FindObjectOfType<PlayerController>();
         elfController = GetComponentInParent<ElfController>();
+        playerBounds = playerController.GetComponent<Collider2D>().bounds.size.y;
     }
 
     protected void Update()
     {
-        //Debug.Log(playerController.transform.position.y);
-        //Debug.Log(elfController.transform.position.y);
-        //Debug.Log(Vector2.Distance(elfController.transform.position, playerController.transform.position));
-
-        sinus = Mathf.Abs(elfController.transform.position.y - playerController.transform.position.y) / Vector2.Distance(elfController.transform.position, playerController.transform.position);
-        //Debug.Log(sinus);
-
-
+        difference = playerController.transform.position - transform.position;
+        rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+        Debug.DrawLine(transform.position, playerController.transform.position, Color.red);
 
         playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
-        Debug.Log(elfController.direction);
         if (playerInRange)
         {
-            if (elfController.direction == -1)
-            {
-                transform.rotation = Quaternion.Euler(0, -180, Mathf.Rad2Deg * sinus * elfController.direction);
-            }
-            else
-            {
-                transform.rotation = Quaternion.Euler(0, 0, -Mathf.Rad2Deg * sinus);
-            }
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
         }
     }
 

@@ -90,9 +90,8 @@ public class HurtPlayerOnContact : MonoBehaviour
             }
             isHurted = true;
         }
-        else if (collision.tag == "Player" && !isAttacking && isHurted)
+        else if (collision.tag == "Player" && !isAttacking)
         {
-                
                 isAttacking = true;
                 animator.SetBool("isAttacking", true);
 
@@ -107,11 +106,6 @@ public class HurtPlayerOnContact : MonoBehaviour
                 {
                     player.knockFromRight = false;
                 }
-        }
-
-        if (collision.tag != "Player" && !isAttacking && isHurted)
-        {
-            checkIfIsHurted = true;
         }
     }
  }
