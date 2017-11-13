@@ -36,7 +36,7 @@ public class EnemyHealthManager : MonoBehaviour
             ScoreManager.AddPoints(pointsToAdd);
             pointsAdded = true;
         }
-  
+        // Enemy must have bottom pivot;
         healthBar.transform.position = new Vector3(transform.position.x, transform.position.y + enemyHeight, transform.position.z);
     }
 

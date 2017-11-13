@@ -23,7 +23,6 @@ public class BowMovement : MonoBehaviour
     protected void Awake()
     {
         playerController = FindObjectOfType<PlayerController>();
-        elfController = GetComponentInParent<ElfController>();
         playerBounds = playerController.GetComponent<Collider2D>().bounds.size.y;
     }
 

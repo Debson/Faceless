@@ -25,7 +25,6 @@ public class HurtPlayerOnContact : MonoBehaviour
     public bool isHurted
     { get; set;}
 
-    private bool checkIfIsHurted;
 
     [HideInInspector]
     public float hitTimer = 0.5f;
@@ -33,10 +32,16 @@ public class HurtPlayerOnContact : MonoBehaviour
     [HideInInspector]
     public float hitDelay;
 
+    [HideInInspector]
+    public bool attackingAnimation;
+
+    [HideInInspector]
+    public bool isInTrigger;
+
     private float animationDelay;
     private float attackFreq;
     private bool isAttacking;
-    private bool isInTrigger;
+    
 
 
     protected void Awake()
@@ -61,18 +66,20 @@ public class HurtPlayerOnContact : MonoBehaviour
 
             if(animationDelay < 0)
             {
-                animator.SetBool("isAttacking", false);
-                animator.SetBool("isInTrigger", true);
+                attackingAnimation = false;
+                //animator.SetBool("isAttacking", false);
+                //animator.SetBool("isInTrigger", true);
                 isInTrigger = true;
             }
 
             if(attackFreq < 0)
             {
                 isAttacking = false;
-                animator.SetBool("isAttacking", isAttacking);
+                attackingAnimation = false;
+                //animator.SetBool("isAttacking", isAttacking);
                 attackFreq = attackFreqConst;
                 animationDelay = animationDelayConst;
-                animator.SetBool("isInTrigger", false);
+                //animator.SetBool("isInTrigger", false);
                 isInTrigger = false;
             }
         }
@@ -93,7 +100,9 @@ public class HurtPlayerOnContact : MonoBehaviour
         else if (collision.tag == "Player" && !isAttacking)
         {
                 isAttacking = true;
-                animator.SetBool("isAttacking", true);
+                attackingAnimation = true;
+                HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
+                //animator.SetBool("isAttacking", true);
 
                 var player = collision.GetComponent<WalkMovement>();
                 player.knockbackTimeCount = player.knockBackLength;

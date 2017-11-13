@@ -56,6 +56,8 @@ public class OrcController : MonoBehaviour
                 animator.SetBool("isWalking", !wanderWalkController.playerInRange);
                 animator.SetBool("isHurted", hurtEnemyOnContact.hitOnlyOnce);
                 animator.SetBool("isTouchingFloor", floorDetector.isTouchingFloor);
+                animator.SetBool("isAttacking", hurtPlayerOnContact.attackingAnimation);
+                animator.SetBool("isInTrigger", hurtPlayerOnContact.isInTrigger);
             }
         }
     }

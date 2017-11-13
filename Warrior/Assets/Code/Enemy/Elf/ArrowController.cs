@@ -18,17 +18,32 @@ public class ArrowController : MonoBehaviour
     private Vector2 arrowPositionOnStart;
     private Quaternion arrowZ;
 
+    private float distance;
+    private float multiplier;
+    private const float constDist = 15f;
     private float currentLerpTime = 0;
-    private float lerpTime = 2f;
+    private float lerpTime;
+    private float speed;
 
     protected void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
         playerPositionOnStart = FindObjectOfType<PlayerController>().transform.position;
         arrowPositionOnStart = transform.position;
+        // IF DIST == 15, multiplier = 1
+        distance = Vector2.Distance(arrowPositionOnStart, playerPositionOnStart);
+        multiplier = distance / constDist;
+
+        if(multiplier < 1)
+        {
+            multiplier = 20 / multiplier;
+        }
+
 
         extendedPosition = playerPositionOnStart - arrowPositionOnStart;
-        extendedPosition = extendedPosition * 1.5f;
+        extendedPosition = extendedPosition * 2f * multiplier;
+        lerpTime = 1.5f * multiplier * distance / constDist;
+
         result = playerPositionOnStart + extendedPosition;
 
         arrowZ = transform.rotation;
@@ -50,14 +65,5 @@ public class ArrowController : MonoBehaviour
         currentLerpTime += Time.deltaTime;
 
         Destroy(gameObject, 3f);
-    }
-
-    protected void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.tag == "Player")
-        {
-            Debug.Log("hit");
-            //Destroy(gameObject);
-        }
     }
 }

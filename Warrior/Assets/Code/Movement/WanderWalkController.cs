@@ -128,7 +128,7 @@ public class WanderWalkController : MonoBehaviour
             if ((transform.position.x > playerController.transform.position.x) && !isFlippedRigid)
             {
                 healthBarCanvas.transform.rotation = Quaternion.Euler(0, 0, 0);
-                myBody.transform.rotation = Quaternion.Euler(0, -180, 0);
+                myBody.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
             else
             {
