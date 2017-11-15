@@ -190,7 +190,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1510533612181684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -35.83, y: -43.65, z: 0}
+  m_LocalPosition: {x: -50.12925, y: -240.61487, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 224675554364867300}
@@ -311,6 +311,9 @@ MonoBehaviour:
   maxDamageToGive: 4
   knockbackStrenght: 0.7
   knockBackLength: 0.25
+  colorRedOnHit: 1
+  hitOnlyOnce: 0
+  isHurt: 0
 --- !u!114 &114126259377198036
 MonoBehaviour:
   m_ObjectHideFlags: 1

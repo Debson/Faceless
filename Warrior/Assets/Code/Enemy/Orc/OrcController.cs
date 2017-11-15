@@ -62,12 +62,12 @@ public class OrcController : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    /*private void OnTriggerExit2D(Collider2D collision)
     {
         // On exit from Troll's attack trigger collider reset variables responsible for attack delay on first contact with Troll
         if (collision.tag == "Player")
         {
             hurtPlayerOnContact.isHurted = false;
         }
-    }
+    }*/
 }

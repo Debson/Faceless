@@ -5,16 +5,25 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class WalkMovement : MonoBehaviour
 {
-    public float desiredWalkDirection;
     public static int playerPoints = 0;
 
-    public float knockbackStrength;
+    [SerializeField]
+    private float knockbackStrength;
+
+    [SerializeField]
     public float knockBackLength;
-    public float knockbackTimeCount;
-    public bool knockFromRight;
 
     [SerializeField]
     float walkSpeed = 50;
+
+    [HideInInspector]
+    public float knockbackTimeCount;
+
+    [HideInInspector]
+    public bool knockFromRight;
+
+    [HideInInspector]
+    public float desiredWalkDirection;
 
     Rigidbody2D myBody;
     CrouchMovement crouchMovement;
@@ -39,13 +48,14 @@ public class WalkMovement : MonoBehaviour
             float desiredXVelocity;
             if (crouchMovement.isCrouching)
             {
-                desiredXVelocity = desiredWalkDirection * walkSpeed * 0.4f * Time.deltaTime;
+                desiredXVelocity = desiredWalkDirection * walkSpeed * 0.4f * Time.fixedDeltaTime;
             }
             else
             {
-                desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
+                desiredXVelocity = desiredWalkDirection * walkSpeed * Time.fixedDeltaTime;
             }
 
+            // TODO it in cooroutine
             if (knockbackTimeCount <= 0)
             {
                 myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
@@ -67,7 +77,5 @@ public class WalkMovement : MonoBehaviour
                 }
                 knockbackTimeCount -= Time.deltaTime;
             }
-            //knockbackTimeCount -= Time.deltaTime;
         }
-    
 }

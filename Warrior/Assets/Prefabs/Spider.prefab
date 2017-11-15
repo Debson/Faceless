@@ -41,12 +41,13 @@ GameObject:
   - component: {fileID: 95170622260711394}
   - component: {fileID: 50634602797873466}
   - component: {fileID: 61436707387629904}
+  - component: {fileID: 70904421003876318}
+  - component: {fileID: 114796690230249040}
   - component: {fileID: 114361606397714092}
   - component: {fileID: 114176762626397484}
   - component: {fileID: 114078566515432482}
   - component: {fileID: 114327590886171826}
   - component: {fileID: 114291198406463648}
-  - component: {fileID: 70904421003876318}
   m_Layer: 10
   m_Name: Spider
   m_TagString: Untagged
@@ -132,7 +133,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1359685111122800}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -70.83524, y: -43.781734, z: 0}
+  m_LocalPosition: {x: -47.34018, y: -238.72513, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 224696821958053676}
@@ -171,7 +172,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.38241234}
+  m_Offset: {x: -0.19645125, y: 0.38241234}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -182,7 +183,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.89, y: 0.5433492}
+  m_Size: {x: 1.2829026, y: 0.5433492}
   m_EdgeRadius: 0
 --- !u!70 &70904421003876318
 CapsuleCollider2D:
@@ -229,7 +230,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDamageToGive: 0
   maxDamageToGive: 0
-  attackFreqConst: 2
+  attackFreq: 1.5
+  animationDelay: 0.4
+  hitAfterTime: 0
+  hitDelay: 0
+  attackingAnimation: 0
+  isInTrigger: 0
+  isAttacking: 0
 --- !u!114 &114090833523183494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -299,6 +306,9 @@ MonoBehaviour:
   maxDamageToGive: 0
   knockbackStrenght: 4
   knockBackLength: 0.2
+  colorRedOnHit: 1
+  hitOnlyOnce: 0
+  isHurt: 0
 --- !u!114 &114276812877015994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -360,7 +370,11 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
-  attackRange: 0.7
+  attackRange: 0.3
+  verticalRange: 0
+  isRunning: 0
+  playerInRange: 0
+  isWalking: 0
 --- !u!114 &114369800451617468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -446,6 +460,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a89a7a3fce1b9549b7eb2ac3dc51154, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114796690230249040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1359685111122800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62a0a6b22dc46a245a49c6f9f0d32893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114920033756607256

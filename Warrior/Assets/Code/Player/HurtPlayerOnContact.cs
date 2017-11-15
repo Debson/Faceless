@@ -11,20 +11,13 @@ public class HurtPlayerOnContact : MonoBehaviour
     private int maxDamageToGive;
 
     [SerializeField]
-    private float attackFreqConst;
+    private float attackFreq;
 
     [SerializeField]
     private float animationDelay = 0.55f;
 
     [SerializeField]
     private bool hitAfterTime;
-
-
-    Animator animator;
-
-    public bool isHurted
-    { get; set;}
-
 
     [SerializeField]
     private float hitDelay;
@@ -38,8 +31,11 @@ public class HurtPlayerOnContact : MonoBehaviour
     [HideInInspector]
     public bool isAttacking;
 
-    private float attackFreq;
-    private bool inCollider;
+    Animator animator;
+
+    public bool isHurted
+    { get; set; }
+
     private bool firstHit = true;
 
     protected void Awake()
@@ -49,21 +45,20 @@ public class HurtPlayerOnContact : MonoBehaviour
 
     protected void Start()
     {
-        attackFreq = attackFreqConst;
+
     }
 
     protected void Update()
     {
-        Debug.Log(inCollider);
+
     }
 
     protected void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag == "Player" && !isAttacking)
         {
-                inCollider =  true;
+                isInTrigger =  true;
                 StartCoroutine(Attack(collision));
-
         }
     }
 
@@ -71,10 +66,11 @@ public class HurtPlayerOnContact : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            inCollider = false;
+            isInTrigger = false;
         }
     }
 
+    // Not needed for now
     IEnumerator BeforeAttackDelay(float time)
     {
         Debug.Log(isHurted);
@@ -84,8 +80,6 @@ public class HurtPlayerOnContact : MonoBehaviour
 
     IEnumerator Attack(Collider2D collision)
     {
-       
-        isInTrigger = true;
         isAttacking = true;
         StartCoroutine(Animation(collision));
         yield return null;
@@ -93,27 +87,30 @@ public class HurtPlayerOnContact : MonoBehaviour
 
     IEnumerator Animation(Collider2D collision)
     {
-
+        // On first contact with player don't apply any attack delay
         if (!firstHit)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(attackFreq);
         }
-
-        if (inCollider)
+        // If player in in attacking collider, start animation, damage player, do knockback, else stop attacking sequence(avoid playing animation when player run out from collider range)
+        if (isInTrigger)
         {
-            isInTrigger = true;
+            if (hitAfterTime)
+            {
+                yield return new WaitForSeconds(hitDelay);
+            }
             attackingAnimation = true;
-            yield return new WaitForSeconds(0.55f);
-            attackingAnimation = false;
-
             HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
             StartCoroutine(Knockback(collision));
+
+            yield return new WaitForSeconds(animationDelay);
+            attackingAnimation = false;
+
             isAttacking = false;
             firstHit = false;
         }
         else
         {
-            Debug.Log("wyszedl");
             isAttacking = false;
             firstHit = true;
         }
