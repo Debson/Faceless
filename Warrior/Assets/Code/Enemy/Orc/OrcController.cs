@@ -53,7 +53,7 @@ public class OrcController : MonoBehaviour
             else
             {
                 animator.SetBool("isRunning", wanderWalkController.isRunning);
-                animator.SetBool("isWalking", !wanderWalkController.playerInRange);
+                animator.SetBool("isWalking", wanderWalkController.isWalking);
                 animator.SetBool("isHurted", hurtEnemyOnContact.hitOnlyOnce);
                 animator.SetBool("isTouchingFloor", floorDetector.isTouchingFloor);
                 animator.SetBool("isAttacking", hurtPlayerOnContact.attackingAnimation);
@@ -68,7 +68,6 @@ public class OrcController : MonoBehaviour
         if (collision.tag == "Player")
         {
             hurtPlayerOnContact.isHurted = false;
-            hurtPlayerOnContact.hitDelay = hurtPlayerOnContact.hitTimer;
         }
     }
 }

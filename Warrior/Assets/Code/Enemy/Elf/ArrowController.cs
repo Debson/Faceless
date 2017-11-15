@@ -39,7 +39,6 @@ public class ArrowController : MonoBehaviour
             multiplier = 20 / multiplier;
         }
 
-
         extendedPosition = playerPositionOnStart - arrowPositionOnStart;
         extendedPosition = extendedPosition * 2f * multiplier;
         lerpTime = 1.5f * multiplier * distance / constDist;

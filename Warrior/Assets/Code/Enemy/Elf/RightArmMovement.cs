@@ -14,9 +14,9 @@ public class RightArmMovement : MonoBehaviour
     Transform arrow;
 
     ElfController elfController;
-
-    private bool stretchBow;
-    private bool startStretch = true;
+    
+    [HideInInspector]
+    public bool startStretch = true;
 
     protected void Awake()
     {
@@ -28,30 +28,25 @@ public class RightArmMovement : MonoBehaviour
 
     }
 
-    public void MoveHandOnShoot()
+    public IEnumerator MoveHandBeforeShoot()
     {
-        if (startStretch)
-        {
-            arm.transform.rotation *= Quaternion.Euler(0, 0, arm.transform.position.z + 0.1f * 12);
-            hand.transform.position = new Vector2(hand.transform.position.x + (Time.fixedDeltaTime * 0.03f * 12 * elfController.direction), hand.transform.position.y);
-
-            if (arm.transform.eulerAngles.z > 20)
+        if(startStretch)
+        { 
+            for (int i = 0; i < 55; i++)
             {
-                startStretch = false;
-                stretchBow = true;
+                arm.transform.rotation *= Quaternion.Euler(0, 0, arm.transform.position.z + 0.08f * i);
+                hand.transform.position = new Vector2(hand.transform.position.x + ( 0.01f * (float)i / 47 * elfController.direction), hand.transform.position.y + 0.0011f * (float)i / 4);
+               
+                yield return 0;
             }
-        }
 
-        if (stretchBow)
-        {
-            arm.transform.rotation *= Quaternion.Euler(0, 0, arm.transform.position.z - 0.1f * 12);
-            hand.transform.position = new Vector2(hand.transform.position.x - Time.fixedDeltaTime * (0.08f * 3 * elfController.direction), hand.transform.position.y);
 
-            if (arm.transform.eulerAngles.z > 338 && arm.transform.eulerAngles.z < 342)
+            for (int i = 0; i < 55; i++)
             {
-                stretchBow = false;
-                startStretch = true;
-                // Shoot arrow
+                arm.transform.rotation *= Quaternion.Euler(0, 0, arm.transform.position.z - 0.08f * i);
+                hand.transform.position = new Vector2(hand.transform.position.x - (0.01f * (float)i / 47 * elfController.direction), hand.transform.position.y - 0.0011f * (float)i / 4);
+
+                yield return 0;
             }
         }
     }

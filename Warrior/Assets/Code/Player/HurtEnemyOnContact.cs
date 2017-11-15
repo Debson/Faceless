@@ -26,6 +26,9 @@ public class HurtEnemyOnContact : MonoBehaviour
     [HideInInspector]
     public bool hitOnlyOnce;
 
+    [HideInInspector]
+    public bool isHurt;
+
     private float knockbackTimeCount = 0.2f;
     private bool knockFromRight;
     
@@ -48,6 +51,7 @@ public class HurtEnemyOnContact : MonoBehaviour
             if (!hitOnlyOnce)
             {
                 enemyHealthManager.GiveDamage(Random.Range(minDamageToGive, maxDamageToGive));
+                isHurt = true;
             }
             hitOnlyOnce = true;
 
@@ -70,6 +74,7 @@ public class HurtEnemyOnContact : MonoBehaviour
         {
             spriteRenderer.color = startColor;
             hitOnlyOnce = false;
+            isHurt = false;
             //gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         else

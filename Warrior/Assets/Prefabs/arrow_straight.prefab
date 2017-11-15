@@ -113,8 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d067e42a2d80bc41a9e146591b21814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamageToGive: 19
-  maxDamageToGive: 37
+  minDamageToGive: 0
+  maxDamageToGive: 0
   attackFreqConst: 1
   animationDelayConst: 0.55
   hitAfterTime: 0

@@ -178,7 +178,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1720214198102106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -53.106464, y: -158.51173, z: 0}
+  m_LocalPosition: {x: -49, y: -235, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 224755750468931704}
@@ -320,9 +320,9 @@ MonoBehaviour:
   animationDelayConst: 0.55
   hitAfterTime: 1
   hitTimer: 0.5
-  hitDelay: 0
   attackingAnimation: 0
   isInTrigger: 0
+  isAttacking: 0
 --- !u!114 &114218746516230644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -432,7 +432,7 @@ MonoBehaviour:
   timeBeforeFirstWander: 1
   minTimeBetweenReconsideringDirection: 4
   maxTimeBetweenReconsideringDirection: 8
-  playerRange: 10
+  playerRange: 30
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -484,12 +484,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c932fafef85afe04781d43d55b332819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamageToGive: 1
-  maxDamageToGive: 1
+  minDamageToGive: 0
+  maxDamageToGive: 0
   knockbackStrenght: 4
   knockBackLength: 0.25
   colorRedOnHit: 0
   hitOnlyOnce: 0
+  isHurt: 0
 --- !u!114 &114789962532969786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -582,10 +583,10 @@ MonoBehaviour:
   attackFreqConst: 2
   animationDelayConst: 0.55
   hitAfterTime: 0
-  hitTimer: 0.5
-  hitDelay: 0
+  hitTimer: 2
   attackingAnimation: 0
   isInTrigger: 0
+  isAttacking: 0
 --- !u!114 &114998229557050714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -631,7 +632,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 9a5604ea76ee07041b05e54379dee203, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -683,7 +684,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &224521000304918982
 RectTransform:

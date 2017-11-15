@@ -38,11 +38,16 @@ public class WanderWalkController : MonoBehaviour
     [HideInInspector]
     public bool playerInRange;
 
+    [HideInInspector]
+    public bool isWalking;
+
+    private float enemyYBounds;
     private float desiredWalkDirection;
     private float characterXBounds;
     private bool isFlippedRigid;
     private bool usingRigid;
     private bool stopWalking;
+
     
 
     public bool isAttacking
@@ -61,6 +66,7 @@ public class WanderWalkController : MonoBehaviour
         myBody = GetComponent<Rigidbody2D>();
         playerController = FindObjectOfType<PlayerController>();
         myCollider = GetComponent<Collider2D>();
+        enemyYBounds = myCollider.bounds.size.y;
         characterXBounds = playerController.GetComponent<Collider2D>().bounds.size.x + attackRange;
         animator = GetComponentInChildren<Animator>();
         healthBarCanvas = GetComponentInChildren<Canvas>();
@@ -148,12 +154,23 @@ public class WanderWalkController : MonoBehaviour
             }
         }
 
-        //Debug.Log(isFlippedRigid);
+        if(Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds)
+        {
+            stopWalking = true;
+            isRunning = false;
+        }
+        else
+        {
+            stopWalking = false;
+        }
+
+        StartCoroutine(StopWalking());
+
         playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
-        //Debug.Log(myCollider.bounds.size.y);
+
         if (!stopWalking)
         {
-            if (playerInRange && (transform.position.y + myCollider.bounds.size.y + verticalRange >= playerController.transform.position.y))
+            if (playerInRange && (transform.position.y + enemyYBounds + verticalRange >= playerController.transform.position.y))
             {
                 transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
                                                          followSpeed * Time.deltaTime);
@@ -167,10 +184,31 @@ public class WanderWalkController : MonoBehaviour
                 usingRigid = true;
                 isRunning = false;
             }
-            //Debug.Log(characterXBounds);
-        }
 
-       if(Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds)
+            if(!playerInRange)
+            {
+                isWalking = true;
+            }
+            else
+            {
+                isWalking = false;
+            }
+
+            if(transform.position.y + enemyYBounds + verticalRange >= playerController.transform.position.y)
+            {
+                isWalking = false;
+            }
+            else
+            {
+                isWalking = true;
+            }
+        }
+    }
+
+
+    IEnumerator StopWalking()
+    {
+        if (Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds)
         {
             stopWalking = true;
             isRunning = false;
@@ -179,6 +217,8 @@ public class WanderWalkController : MonoBehaviour
         {
             stopWalking = false;
         }
+
+        yield return new WaitForSeconds(0.2f);
     }
 
     private void OnDrawGizmosSelected()

@@ -9,6 +9,9 @@ public class ElfController : MonoBehaviour
     private float playerRange;
 
     [SerializeField]
+    private float shootingSpeed = 1f;
+
+    [SerializeField]
     LayerMask playerLayer;
 
     [SerializeField]
@@ -36,6 +39,7 @@ public class ElfController : MonoBehaviour
     ElfController elfController;
     RightArmMovement rightArmMovement;
     EnemyHealthManager enemyHealthManager;
+    HurtEnemyOnContact hurtEnemyOnContact;
 
 
     private Vector3 difference;
@@ -54,21 +58,28 @@ public class ElfController : MonoBehaviour
         playerBounds = playerController.GetComponent<Collider2D>().bounds.size.y;
         rightArmMovement = GetComponent<RightArmMovement>();
         enemyHealthManager = GetComponent<EnemyHealthManager>();
+        hurtEnemyOnContact = GetComponent<HurtEnemyOnContact>();
     }
 
     protected void Start()
     {
-        enemyHealthBar.rotation *= Quaternion.Euler(0, -180, 0);
+
     }
 
     protected void Update()
+    {
+        //animator.SetBool("isHurt", hurtEnemyOnContact.isHurt);
+
+        StartCoroutine(OnDeath());
+    }
+
+    IEnumerator OnDeath()
     {
         if (enemyHealthManager.GetHealth() <= 0)
         {
             animator.SetBool("isDead", true);
             disableOnDeath.SetActive(false);
             gameObject.GetComponent<Collider2D>().enabled = false;
-            deathCollider.SetActive(true);
         }
         else
         {
@@ -80,6 +91,7 @@ public class ElfController : MonoBehaviour
 
                 isFacingRight = true;
                 direction = 1;
+                yield return new WaitForSeconds(0.2f);
             }
             else if (transform.position.x > playerController.transform.position.x && isFacingRight)
             {
@@ -88,29 +100,29 @@ public class ElfController : MonoBehaviour
 
                 isFacingRight = false;
                 direction = -1;
+                yield return new WaitForSeconds(0.2f);
             }
 
-            if (!shoot)
+            if (rightArmMovement.startStretch)
             {
                 StartCoroutine(ShootArrow());
-                shoot = true;
+                rightArmMovement.startStretch = false;
             }
-            BowFollowPlayer();
+
+            StartCoroutine(BowFollowPlayer());
         }
     }
 
+
     IEnumerator ShootArrow()
     {
-        yield return new WaitForSeconds(1f);
-        rightArmMovement.MoveHandOnShoot();
-        Instantiate(arrow, shootPoint.position, shootPoint.rotation, shootPoint.transform);
-        yield return new WaitForSeconds(1f);
-        shoot = false;
-
+            StartCoroutine(rightArmMovement.MoveHandBeforeShoot());
+            Instantiate(arrow, shootPoint.position, shootPoint.rotation, shootPoint.transform);
+            yield return new WaitForSeconds(shootingSpeed);
+            rightArmMovement.startStretch = true;
     }
 
-
-    void BowFollowPlayer()
+    IEnumerator BowFollowPlayer()
     {
         difference = playerController.transform.position - bow.transform.position;
         rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
@@ -121,6 +133,7 @@ public class ElfController : MonoBehaviour
         {
             bow.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
         }
+        yield return new WaitForSeconds(0.2f);
     }
 
     private void OnDrawGizmosSelected()

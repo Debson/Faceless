@@ -14,7 +14,7 @@ public class HurtPlayerOnContact : MonoBehaviour
     private float attackFreqConst;
 
     [SerializeField]
-    private float animationDelayConst = 0.55f;
+    private float animationDelay = 0.55f;
 
     [SerializeField]
     private bool hitAfterTime;
@@ -26,11 +26,8 @@ public class HurtPlayerOnContact : MonoBehaviour
     { get; set;}
 
 
-    [HideInInspector]
-    public float hitTimer = 0.5f;
-
-    [HideInInspector]
-    public float hitDelay;
+    [SerializeField]
+    private float hitDelay;
 
     [HideInInspector]
     public bool attackingAnimation;
@@ -38,11 +35,12 @@ public class HurtPlayerOnContact : MonoBehaviour
     [HideInInspector]
     public bool isInTrigger;
 
-    private float animationDelay;
-    private float attackFreq;
-    private bool isAttacking;
-    
+    [HideInInspector]
+    public bool isAttacking;
 
+    private float attackFreq;
+    private bool inCollider;
+    private bool firstHit = true;
 
     protected void Awake()
     {
@@ -52,70 +50,89 @@ public class HurtPlayerOnContact : MonoBehaviour
     protected void Start()
     {
         attackFreq = attackFreqConst;
-        animationDelay = animationDelayConst;
-        hitDelay = hitTimer;
-
     }
 
     protected void Update()
     {
-        if (isAttacking)
-        {
-            animationDelay -= Time.deltaTime;
-            attackFreq -= Time.deltaTime;
-
-            if(animationDelay < 0)
-            {
-                attackingAnimation = false;
-                //animator.SetBool("isAttacking", false);
-                //animator.SetBool("isInTrigger", true);
-                isInTrigger = true;
-            }
-
-            if(attackFreq < 0)
-            {
-                isAttacking = false;
-                attackingAnimation = false;
-                //animator.SetBool("isAttacking", isAttacking);
-                attackFreq = attackFreqConst;
-                animationDelay = animationDelayConst;
-                //animator.SetBool("isInTrigger", false);
-                isInTrigger = false;
-            }
-        }
-
+        Debug.Log(inCollider);
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    protected void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && hitAfterTime && !isHurted)
-        {// Attack player 0.5s after entering AttackTrigger collider
-            if(hitDelay > 0)
-            {
-                hitDelay -= Time.deltaTime;
-                return;
-            }
-            isHurted = true;
-        }
-        else if (collision.tag == "Player" && !isAttacking)
+        if (collision.tag == "Player" && !isAttacking)
         {
-                isAttacking = true;
-                attackingAnimation = true;
-                HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
-                //animator.SetBool("isAttacking", true);
+                inCollider =  true;
+                StartCoroutine(Attack(collision));
 
-                var player = collision.GetComponent<WalkMovement>();
-                player.knockbackTimeCount = player.knockBackLength;
-
-                if (collision.transform.position.x < transform.position.x)
-                {
-                    player.knockFromRight = true;
-                }
-                else
-                {
-                    player.knockFromRight = false;
-                }
         }
+    }
+
+    protected void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            inCollider = false;
+        }
+    }
+
+    IEnumerator BeforeAttackDelay(float time)
+    {
+        Debug.Log(isHurted);
+        yield return new WaitForSeconds(time);
+        isHurted = true;
+    }
+
+    IEnumerator Attack(Collider2D collision)
+    {
+       
+        isInTrigger = true;
+        isAttacking = true;
+        StartCoroutine(Animation(collision));
+        yield return null;
+    }
+
+    IEnumerator Animation(Collider2D collision)
+    {
+
+        if (!firstHit)
+        {
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        if (inCollider)
+        {
+            isInTrigger = true;
+            attackingAnimation = true;
+            yield return new WaitForSeconds(0.55f);
+            attackingAnimation = false;
+
+            HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
+            StartCoroutine(Knockback(collision));
+            isAttacking = false;
+            firstHit = false;
+        }
+        else
+        {
+            Debug.Log("wyszedl");
+            isAttacking = false;
+            firstHit = true;
+        }
+    }
+
+    IEnumerator Knockback(Collider2D collision)
+    {
+        var player = collision.GetComponent<WalkMovement>();
+        player.knockbackTimeCount = player.knockBackLength;
+
+        if (collision.transform.position.x < transform.position.x)
+        {
+            player.knockFromRight = true;
+        }
+        else
+        {
+            player.knockFromRight = false;
+        }
+        yield return null;
     }
  }
 

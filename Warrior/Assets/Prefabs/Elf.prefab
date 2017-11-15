@@ -393,13 +393,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1304569303979862}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.19, y: -0.03, z: 0}
+  m_LocalRotation: {x: -0.0040294756, y: 0.0077405516, z: -0.46173102, w: 0.88697714}
+  m_LocalPosition: {x: -0.46, y: -0.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4462852390962940}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 1, z: -55}
 --- !u!4 &4116656223914850
 Transform:
   m_ObjectHideFlags: 1
@@ -496,7 +496,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1597683968753230}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.3, y: -0.56, z: 0}
+  m_LocalPosition: {x: 0.41, y: -1.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4462852390962940}
@@ -604,14 +604,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1685866943662486}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -44.32, y: -228.26, z: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -44.36, y: -228.27, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 4510102442830572}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!50 &50588960935137878
 Rigidbody2D:
   serializedVersion: 4
@@ -723,6 +723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRange: 30
+  shootingSpeed: 1
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -877,6 +878,7 @@ MonoBehaviour:
   arm: {fileID: 4036523581830740}
   hand: {fileID: 4616478146000814}
   arrow: {fileID: 4698357562746268, guid: 60d3e2f93bc17d5478b452d3710fb22f, type: 2}
+  startStretch: 1
 --- !u!114 &114717538759956124
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -932,6 +934,7 @@ MonoBehaviour:
   knockBackLength: 0
   colorRedOnHit: 0
   hitOnlyOnce: 0
+  isHurt: 0
 --- !u!212 &212055735238385664
 SpriteRenderer:
   m_ObjectHideFlags: 1
