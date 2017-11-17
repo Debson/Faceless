@@ -7,6 +7,9 @@ public class OrcController : MonoBehaviour
     [SerializeField]
     Collider2D deadCollider;
 
+    [SerializeField]
+    Collider2D attackTrigger;
+
     WanderWalkController wanderWalkController;
     HurtEnemyOnContact hurtEnemyOnContact;
     HurtPlayerOnContact hurtPlayerOnContact;
@@ -42,8 +45,10 @@ public class OrcController : MonoBehaviour
             {
                 animator.SetTrigger("isDead");
                 isDead = true;
+
+                attackTrigger.gameObject.SetActive(false);
+
                 wanderWalkController.enabled = false;
-                hurtPlayerOnContact.enabled = false;
                 healthBarCanvas.enabled = false;
                 myCollider.enabled = false;
                 deadCollider.enabled = true;

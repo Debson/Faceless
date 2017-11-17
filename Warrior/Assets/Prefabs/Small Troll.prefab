@@ -111,10 +111,10 @@ GameObject:
   - component: {fileID: 95740002261062374}
   - component: {fileID: 50127967702307318}
   - component: {fileID: 70828215747027048}
+  - component: {fileID: 114789962532969786}
   - component: {fileID: 114468296190166956}
   - component: {fileID: 114387805681725854}
   - component: {fileID: 114381659277619420}
-  - component: {fileID: 114789962532969786}
   - component: {fileID: 114612676315056566}
   - component: {fileID: 114945438147099056}
   m_Layer: 10
@@ -134,9 +134,9 @@ GameObject:
   - component: {fileID: 4046238743579860}
   - component: {fileID: 61854236724345040}
   - component: {fileID: 61227984938235392}
-  m_Layer: 11
+  m_Layer: 15
   m_Name: AttackTrigger
-  m_TagString: AttackTrigger
+  m_TagString: EnemyAttackTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,7 +178,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1720214198102106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -52.039055, y: -238.99283, z: 0}
+  m_LocalPosition: {x: -30.268087, y: -239.06937, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 224755750468931704}
@@ -509,6 +509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deadCollider: {fileID: 70736356735864552}
+  attackTrigger: {fileID: 61854236724345040}
 --- !u!114 &114806549631949742
 MonoBehaviour:
   m_ObjectHideFlags: 1
