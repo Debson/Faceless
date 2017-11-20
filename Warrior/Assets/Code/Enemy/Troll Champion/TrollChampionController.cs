@@ -53,7 +53,7 @@ public class TrollChampionController : MonoBehaviour
                 isDead = true;
 
                 attackTrigger.gameObject.SetActive(false);
-
+                hurtEnemyOnContact.enabled = false;
                 wanderWalkController.enabled = false;
                 healthBarCanvas.enabled = false;
                 myCollider.enabled = false;

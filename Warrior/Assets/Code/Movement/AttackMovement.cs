@@ -6,8 +6,12 @@ using UnityEngine;
 public class AttackMovement : MonoBehaviour
 {
     [SerializeField]
-    public Collider2D attackTrigger;
+    private Collider2D attackTrigger;
+
+    AudioManager audioManager;
     TurnAround turnAround;
+
+
     private bool currentState;
 
     public bool attackRequest
@@ -27,6 +31,7 @@ public class AttackMovement : MonoBehaviour
     protected void Awake()
     {
         turnAround = GetComponent<TurnAround>();
+        audioManager = FindObjectOfType<AudioManager>();
         attackTrigger.enabled = false;
     }
 
@@ -34,6 +39,7 @@ public class AttackMovement : MonoBehaviour
     {
         if (attackRequest && !isAttacking)
         {
+            audioManager.attackSound[Random.Range(0, 2)].Play();
             isAttacking = true;
             attackTimer = attackCooldown;
             attackTrigger.enabled = true;

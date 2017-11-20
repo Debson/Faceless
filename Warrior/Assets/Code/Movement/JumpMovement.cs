@@ -22,6 +22,7 @@ public class JumpMovement : MonoBehaviour
     FloorDetector floorDetector;
     CrouchMovement crouchMovement;
     Physics2D gravity;
+    AudioManager audioManager;
 
     protected void Awake()
     {
@@ -29,6 +30,7 @@ public class JumpMovement : MonoBehaviour
         floorDetector = GetComponent<FloorDetector>();
         playerController = GetComponent<PlayerController>();
         crouchMovement = GetComponent<CrouchMovement>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     protected void Update()
@@ -62,6 +64,7 @@ public class JumpMovement : MonoBehaviour
 
     public void Jump(float speed)
     {
+        audioManager.playerJump[Random.Range(0, 4)].Play();
         myBody.AddForce(new Vector2(0, speed), ForceMode2D.Impulse);
     }
 }

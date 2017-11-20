@@ -169,7 +169,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4320126797791676}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4320126797791676
 Transform:
@@ -178,12 +178,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1720214198102106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30.268087, y: -239.06937, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: -43.853287, y: -238.98233, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
-  - {fileID: 224755750468931704}
   - {fileID: 4046238743579860}
   - {fileID: 4692378139831726}
+  - {fileID: 224755750468931704}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -198,7 +198,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4320126797791676}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &50127967702307318
 Rigidbody2D:
@@ -232,7 +232,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.49967194, y: 7.3398743}
+  m_Offset: {x: -0.121343434, y: 1.244807}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -243,7 +243,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.9628906, y: 0.5178833}
+  m_Size: {x: 0.97905993, y: 0.10151684}
   m_EdgeRadius: 0
 --- !u!61 &61854236724345040
 BoxCollider2D:
@@ -257,7 +257,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -5.831585, y: 3.9540176}
+  m_Offset: {x: -1.145577, y: 0.6856564}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -268,7 +268,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 7.796608, y: 7.3151093}
+  m_Size: {x: 1.0639853, y: 1.2360942}
   m_EdgeRadius: 0
 --- !u!70 &70736356735864552
 CapsuleCollider2D:
@@ -282,8 +282,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.489476, y: -0.35231367}
-  m_Size: {x: 3.7161064, y: 0.014885785}
+  m_Offset: {x: -0.33847007, y: 0.034133658}
+  m_Size: {x: 1.3056653, y: 0.0024863286}
   m_Direction: 1
 --- !u!70 &70828215747027048
 CapsuleCollider2D:
@@ -297,8 +297,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.41560745, y: 3.4072266}
-  m_Size: {x: 6.574486, y: 6.748749}
+  m_Offset: {x: -0.05547142, y: 0.60834}
+  m_Size: {x: 1.1039747, y: 1.1656954}
   m_Direction: 0
 --- !u!95 &95740002261062374
 Animator:
@@ -495,6 +495,8 @@ MonoBehaviour:
   knockbackStrenght: 4
   knockBackLength: 0.25
   colorRedOnHit: 0
+  blood: {fileID: 1882104490518854, guid: 1aa24812494a9644a994014e5fb94f3d, type: 2}
+  bloodColor: {r: 0, g: 0.784, b: 0, a: 0}
   hitOnlyOnce: 0
   isHurt: 0
 --- !u!114 &114789962532969786
@@ -590,7 +592,7 @@ MonoBehaviour:
   attackFreq: 1.5
   animationDelay: 0.55
   hitAfterTime: 1
-  hitDelay: 0.25
+  hitDelay: 0.5
   attackingAnimation: 0
   isInTrigger: 0
   isAttacking: 0
@@ -640,12 +642,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 9a5604ea76ee07041b05e54379dee203, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9c65c601f0a7bcf4fb91150af2200007, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 10.56, y: 7.15}
+  m_Size: {x: 0.12, y: 0.17}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -738,15 +740,15 @@ RectTransform:
   m_GameObject: {fileID: 1509689189531710}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
   m_Children:
   - {fileID: 224822414163606074}
   m_Father: {fileID: 4320126797791676}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1172.3015, y: 973.6625}
+  m_AnchoredPosition: {x: 533.68353, y: 498.711}
   m_SizeDelta: {x: 1024, y: 768}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224817091723990874

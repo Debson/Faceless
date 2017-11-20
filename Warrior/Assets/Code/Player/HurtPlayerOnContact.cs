@@ -32,6 +32,7 @@ public class HurtPlayerOnContact : MonoBehaviour
     public bool isAttacking;
 
     Animator animator;
+    AudioManager audioManager;
 
     public bool isHurted
     { get; set; }
@@ -41,6 +42,7 @@ public class HurtPlayerOnContact : MonoBehaviour
     protected void Awake()
     {
         animator = GetComponentInParent<Animator>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     protected void Start()
@@ -100,6 +102,7 @@ public class HurtPlayerOnContact : MonoBehaviour
                 yield return new WaitForSeconds(hitDelay);
             }
             attackingAnimation = true;
+            audioManager.playerHurt[Random.Range(0, 2)].Play();
             HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
             StartCoroutine(Knockback(collision));
 

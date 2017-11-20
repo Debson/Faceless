@@ -35,6 +35,11 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+    public static void AddHealth(int health)
+    {
+        playerHealth += health;
+    }
+
     public static void HurtPlayer(int minDmg, int maxDmg)
     {
         playerHealth -= Random.Range(minDmg, maxDmg);

@@ -44,9 +44,12 @@ public class WanderWalkController : MonoBehaviour
     private float enemyYBounds;
     private float desiredWalkDirection;
     private float characterXBounds;
+    private float distanceToPlayer;
+
     private bool isFlippedRigid;
     private bool usingRigid;
     private bool stopWalking;
+
 
     
 
@@ -154,7 +157,9 @@ public class WanderWalkController : MonoBehaviour
             }
         }
 
-        if(Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds)
+
+        distanceToPlayer = Vector3.Distance(playerController.transform.position, transform.position);
+        if (distanceToPlayer < characterXBounds)
         {
             stopWalking = true;
             isRunning = false;
@@ -163,8 +168,6 @@ public class WanderWalkController : MonoBehaviour
         {
             stopWalking = false;
         }
-
-        StartCoroutine(StopWalking());
 
         playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
 
@@ -185,6 +188,8 @@ public class WanderWalkController : MonoBehaviour
                 isRunning = false;
             }
 
+
+            //WALKING
             if(!playerInRange)
             {
                 isWalking = true;
@@ -208,17 +213,7 @@ public class WanderWalkController : MonoBehaviour
 
     IEnumerator StopWalking()
     {
-        if (Vector3.Distance(playerController.transform.position, transform.position) < characterXBounds)
-        {
-            stopWalking = true;
-            isRunning = false;
-        }
-        else
-        {
-            stopWalking = false;
-        }
-
-        yield return new WaitForSeconds(0.2f);
+        yield return 0;
     }
 
     private void OnDrawGizmosSelected()

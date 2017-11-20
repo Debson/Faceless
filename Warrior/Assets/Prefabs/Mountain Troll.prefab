@@ -165,7 +165,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1890064065317466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -45.58, y: -238.15, z: 0}
+  m_LocalPosition: {x: -50.05799, y: -238.55196, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4449256791768044}
@@ -282,8 +282,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.08075234, y: 0.016438913}
-  m_Size: {x: 0.67837167, y: 0.0025583883}
+  m_Offset: {x: -0.19153379, y: 0.016438976}
+  m_Size: {x: 1.2229658, y: 0.0025583883}
   m_Direction: 1
 --- !u!70 &70784473312576456
 CapsuleCollider2D:
@@ -592,6 +592,8 @@ MonoBehaviour:
   knockbackStrenght: 4
   knockBackLength: 0.25
   colorRedOnHit: 0
+  blood: {fileID: 1882104490518854, guid: 1aa24812494a9644a994014e5fb94f3d, type: 2}
+  bloodColor: {r: 0.24946572, g: 0.27205884, b: 0.080017306, a: 0}
   hitOnlyOnce: 0
   isHurt: 0
 --- !u!114 &114812174811774012
@@ -639,7 +641,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 23cf305c7b30f4f43b626c1fcfbfb6a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1

@@ -133,7 +133,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1359685111122800}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -47.34018, y: -238.72513, z: 0}
+  m_LocalPosition: {x: -44.70405, y: -239.45207, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 224696821958053676}
@@ -228,8 +228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d067e42a2d80bc41a9e146591b21814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamageToGive: 0
-  maxDamageToGive: 0
+  minDamageToGive: 1
+  maxDamageToGive: 15
   attackFreq: 1.5
   animationDelay: 0.4
   hitAfterTime: 0
@@ -302,11 +302,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c932fafef85afe04781d43d55b332819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamageToGive: 0
-  maxDamageToGive: 0
+  minDamageToGive: 1
+  maxDamageToGive: 1
   knockbackStrenght: 4
   knockBackLength: 0.2
   colorRedOnHit: 1
+  blood: {fileID: 1882104490518854, guid: 1aa24812494a9644a994014e5fb94f3d, type: 2}
+  bloodColor: {r: 0.22142956, g: 0.875, b: 0.12867649, a: 0}
   hitOnlyOnce: 0
   isHurt: 0
 --- !u!114 &114276812877015994
@@ -362,7 +364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 70
-  followSpeed: 4
+  followSpeed: 5
   timeBeforeFirstWander: 1
   minTimeBetweenReconsideringDirection: 1
   maxTimeBetweenReconsideringDirection: 6

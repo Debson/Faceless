@@ -19,9 +19,16 @@ public class HurtEnemyOnContact : MonoBehaviour
     [SerializeField]
     private bool colorRedOnHit;
 
+    [SerializeField]
+    private GameObject blood;
+
+    [SerializeField]
+    Color bloodColor;
+
     EnemyHealthManager enemyHealthManager;
     SpriteRenderer spriteRenderer;
     Color startColor;
+    AudioManager audioManager;
 
     [HideInInspector]
     public bool hitOnlyOnce;
@@ -29,19 +36,28 @@ public class HurtEnemyOnContact : MonoBehaviour
     [HideInInspector]
     public bool isHurt;
 
+    private GameObject bloodInstantiate;
+    private ParticleSystem bl;
     private float knockbackTimeCount = 0.2f;
     private bool knockFromRight;
+    private float enemyYBounds;
     
     
     protected void Awake()
     {
         enemyHealthManager = GetComponent<EnemyHealthManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        bl = blood.GetComponent<ParticleSystem>();
+        enemyYBounds = GetComponent<Collider2D>().bounds.size.y;
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     protected void Start()
     {
+
         startColor = spriteRenderer.color;
+        var main = bl.main;
+        main.startColor = new Color(bloodColor.r, bloodColor.g, bloodColor.b);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -50,10 +66,15 @@ public class HurtEnemyOnContact : MonoBehaviour
         {
             if (!hitOnlyOnce)
             {
+                audioManager.monsterHurt[Random.Range(0, 3)].Play();
                 enemyHealthManager.GiveDamage(Random.Range(minDamageToGive, maxDamageToGive));
                 isHurt = true;
+                bloodInstantiate =  Instantiate(blood, new Vector2(transform.position.x, transform.position.y + enemyYBounds * 0.7f) , Quaternion.identity);
+                Destroy(bloodInstantiate, 2f);
             }
             hitOnlyOnce = true;
+
+
 
             knockbackTimeCount = knockBackLength;
 
