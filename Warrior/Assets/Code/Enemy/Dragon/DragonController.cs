@@ -18,6 +18,7 @@ public class DragonController : MonoBehaviour
 
     private Animator animator;
     private PlayerController playerController;
+    private EnterTerritory enterTerritory;
 
     private bool isLanding;
     private bool isStopping;
@@ -25,8 +26,7 @@ public class DragonController : MonoBehaviour
     private bool fireBlow2;
     private bool isWalking;
     private bool isIdle;
-
-
+    private bool isReady;
 
 
 
@@ -42,13 +42,14 @@ public class DragonController : MonoBehaviour
     private float Perc;
     private int direction = -1;
 
-    private int flyStage = 3;
+    private int flyStage = 0;
 
     protected void Awake()
     {
         animator = GetComponent<Animator>();
         startPosition = transform.position;
         playerController = FindObjectOfType<PlayerController>();
+        enterTerritory = FindObjectOfType<EnterTerritory>();
     }
 
     protected void Start()
@@ -58,8 +59,15 @@ public class DragonController : MonoBehaviour
 
     protected void Update()
     {
-        Debug.Log(flyStage);
+        if (enterTerritory.bossEnabled)
+        {
+            StartFly();
+        }
+    }
 
+
+    public void StartFly()
+    {
         if (currentLerpTime >= lerpTime && flyStage != -1)
         {
             currentLerpTime = 0f;
@@ -67,25 +75,26 @@ public class DragonController : MonoBehaviour
         }
 
         Perc = currentLerpTime / lerpTime;
-        
-        switch(flyStage)
-        { 
-            case 0: { transform.position = Vector2.Lerp(startPosition, checkPoint[0].transform.position, Perc); break; }
-            case 1: { lerpTime = 3f; transform.position = Vector2.Lerp(checkPoint[0].transform.position, checkPoint[1].transform.position, Perc); break; }
-            case 2: { lerpTime = 3f; transform.position = Vector2.Lerp(checkPoint[1].transform.position, checkPoint[2].transform.position, Perc); break; }
-            case 3:
+
+        switch (flyStage)
+        {
+            case 0: { lerpTime = 3.5f; enterTerritory.mainCamera.transform.position = Vector3.Lerp(enterTerritory.startPosition, enterTerritory.dragonStartPosition, Perc); break; }
+            case 1: { lerpTime = 5f;  transform.position = Vector2.Lerp(enterTerritory.dragonStartPosition, checkPoint[0].transform.position, Perc); break; }
+            case 2: { lerpTime = 3f; transform.position = Vector2.Lerp(checkPoint[0].transform.position, checkPoint[1].transform.position, Perc); break; }
+            case 3: { lerpTime = 3f; transform.position = Vector2.Lerp(checkPoint[1].transform.position, checkPoint[2].transform.position, Perc); break; }
+            case 4:
                 {
-                  animator.SetBool("isLanding", true);
-                  lerpTime = 2f;
-                  transform.position = Vector2.Lerp(checkPoint[2].transform.position, checkPoint[3].transform.position, Perc);
-                  if(currentLerpTime > lerpTime * 0.7f)
+                    animator.SetBool("isLanding", true);
+                    lerpTime = 2f;
+                    transform.position = Vector2.Lerp(checkPoint[2].transform.position, checkPoint[3].transform.position, Perc);
+                    if (currentLerpTime > lerpTime * 0.7f)
                     {
                         animator.SetBool("isLanding", false);
                         animator.SetBool("isStopping", true);
                     }
-                  break;
+                    break;
                 }
-            case 4:
+            case 5:
                 {
                     animator.SetBool("isStopping", false);
                     animator.SetBool("isIdle", true);
@@ -94,10 +103,9 @@ public class DragonController : MonoBehaviour
                     break;
                 }
         }
-
         currentLerpTime += Time.deltaTime;
 
-        if (flyStage == -1)
+        if (isReady)
         {
             StartCoroutine(Walking());
             StartCoroutine(CheckPlayerPosition());
@@ -107,6 +115,7 @@ public class DragonController : MonoBehaviour
     // Two IEnumerators used only once on start
     IEnumerator StartFireBlow()
     {
+        isWalking = true;
         animator.SetTrigger("fireBlow2");
         StartCoroutine(StartWalk());
         yield return 0;
@@ -115,6 +124,9 @@ public class DragonController : MonoBehaviour
     IEnumerator StartWalk()
     {
         yield return new WaitForSeconds(1f);
+        animator.SetBool("isIdle", true);
+        yield return new WaitForSeconds(3f);
+        isReady = true;
         animator.SetBool("isWalking", true);
         animator.SetBool("isIdle", false);
     }
@@ -137,7 +149,6 @@ public class DragonController : MonoBehaviour
     }
     IEnumerator Walking()
     {
-        yield return new WaitForSeconds(1f);
         playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
 
         if (playerInRange && !isWalking)

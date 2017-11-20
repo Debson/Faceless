@@ -13,6 +13,7 @@ public class CameraFollow : MonoBehaviour
 
     public Vector3 minCameraPosition;
     public Vector3 maxCameraPosition;
+    public bool follow;
 
     private float playerYPositionOnStart;
     private float playerXPositionOnStart;
