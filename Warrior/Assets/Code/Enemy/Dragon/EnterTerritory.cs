@@ -37,14 +37,17 @@ public class EnterTerritory : MonoBehaviour
     Collider2D myCollider;
     PlayerController playerController;
     CameraFollow cameraFollow;
+    FloorDetector floorDetector;
 
 
     public Vector3 dragonStartPosition;
     public Vector3 startPosition;
+    public Vector3 playerAfterEnteringTerritoryPos;
     public Vector3 cameraStartPosition;
     private float endTime;
     private float percentage;
     private float minCameraY = -95f;
+    private bool enteredTerritory;
 
     private bool stopFollowVertical;
 
@@ -56,6 +59,7 @@ public class EnterTerritory : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         cameraFollow = FindObjectOfType<CameraFollow>();
         dragonController = FindObjectOfType<DragonController>();
+        floorDetector = FindObjectOfType<FloorDetector>();
 
 
         dragonStartPosition = new Vector3(dragon.transform.position.x, dragon.transform.position.y, -11);
@@ -66,6 +70,14 @@ public class EnterTerritory : MonoBehaviour
         myCollider.isTrigger = true;
     }
 
+    protected void Update()
+    {
+        if (enteredTerritory)
+        {
+            SavePlayerGroundedPosition();
+        }
+    }
+
     protected void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && !bossEnabled)
@@ -73,16 +85,20 @@ public class EnterTerritory : MonoBehaviour
             IsCharacterControlEnabled = true;
             cameraFollow.stopFollow = true;
             bossEnabled = true;
+            enteredTerritory = true;
             cameraStartPosition = cameraFollow.transform.position;
-
             startPosition = playerController.transform.position;
         }
     }
-
-    protected void Update()
+    
+    private void SavePlayerGroundedPosition()
     {
-
+        var callOnce = true;
+        if (floorDetector.isTouchingFloor && callOnce)
+        {
+            playerAfterEnteringTerritoryPos = playerController.transform.position;
+            callOnce = false;
+        }
     }
-
 }
 

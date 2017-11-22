@@ -19,6 +19,7 @@ public class CameraFollow : MonoBehaviour
 
     private float playerYPositionOnStart;
     private float playerXPositionOnStart;
+    private float minYCameraPosition = -93f;
 
     GameObject player;
     EnterTerritory enterTerritory;
@@ -47,11 +48,5 @@ public class CameraFollow : MonoBehaviour
                                                  Mathf.Clamp(transform.position.z, -10, -10));
             }
         }
-    }
-
-    public void BackToFollowPlayer()
-    {
-        transform.position = enterTerritory.startPosition;
-        return;
     }
 }
