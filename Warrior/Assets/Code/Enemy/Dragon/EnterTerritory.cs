@@ -44,11 +44,12 @@ public class EnterTerritory : MonoBehaviour
     public Vector3 startPosition;
     public Vector3 playerAfterEnteringTerritoryPos;
     public Vector3 cameraStartPosition;
+
+
     private float endTime;
     private float percentage;
     private float minCameraY = -95f;
     private bool enteredTerritory;
-
     private bool stopFollowVertical;
 
     public static bool IsCharacterControlEnabled;
@@ -93,11 +94,10 @@ public class EnterTerritory : MonoBehaviour
     
     private void SavePlayerGroundedPosition()
     {
-        var callOnce = true;
-        if (floorDetector.isTouchingFloor && callOnce)
+        if (floorDetector.isTouchingFloor)
         {
             playerAfterEnteringTerritoryPos = playerController.transform.position;
-            callOnce = false;
+            enteredTerritory = false;
         }
     }
 }

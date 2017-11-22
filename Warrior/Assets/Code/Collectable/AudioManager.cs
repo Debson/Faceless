@@ -14,4 +14,10 @@ public class AudioManager : MonoBehaviour
     public AudioSource[] playerJump;
     public AudioSource[] playerHurt;
 
+    public AudioSource dragonFlapping;
+    public AudioSource dragonRoar;
+    public AudioSource dragonAttack1;
+    public AudioSource dragonAttack2;
+    public AudioSource dragonStep;
+    public AudioSource[] dragonPain;
 }
