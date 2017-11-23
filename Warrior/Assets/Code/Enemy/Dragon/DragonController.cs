@@ -19,6 +19,15 @@ public class DragonController : MonoBehaviour
     [SerializeField]
     public LayerMask playerLayer;
 
+    [SerializeField]
+    private GameObject healthBar;
+
+    [HideInInspector]
+    public float minCameraYPosition;
+
+    [HideInInspector]
+    public bool shakeScreen;
+
     private AudioManager audioManager;
     private Animator animator;
     private PlayerController playerController;
@@ -27,44 +36,42 @@ public class DragonController : MonoBehaviour
     private Rigidbody2D myBody;
     private HurtEnemyOnContact hurtEnemyOnContact;
     private EnemyHealthManager enemyHealthManager;
-
-    private bool isLanding;
-    private bool isStopping;
-    private bool fireBlow1;
-    private bool fireBlow2;
-    private bool isWalking;
-    private bool isIdle;
-    private bool isReady;
-    private bool isDead;
-
-    private bool attack;
-
-
-
+    private Canvas canvas;
 
     private Vector2 startPosition;
-    private Vector2 result;
 
-    private float expectedOrthographicsSize = 18f;
+    private float expectedOrthographicsSize;
     private float startOrthographicSize;
 
-    [HideInInspector]
-    public float minCameraYPosition = -93f;
-
-    [HideInInspector]
-    public bool shakeScreen;
-
+    /// <summary>
+    /// Boolean to enter if statement only once
+    /// </summary>
+    private bool callOnce;
+    /// <summary>
+    /// When dragon is hit it reset attacking
+    /// </summary>
+    private bool access;
+    private bool isWalking;
+    private bool isReady;
+    private bool attack;
     private bool playerInRange;
     private bool isFacingRight;
     private bool isFacingLeft = true;
-    private bool callOnce;
+    private bool isDead;
 
-    private float currentLerpTime = 0;
-    private float lerpTime = 0.4f;
+
+    private int direction;
+    private int flyStage;
+
+    private float currentLerpTime;
+    private float lerpTime;
     private float Perc;
+    private float dieDelay;
 
-    private int direction = -1;
-    private int flyStage = 4;
+    /// <summary>
+    /// Time by which camera should stay at dragon after landed
+    /// </summary>
+    public float delay { get; private set; }
 
     protected void Awake()
     {
@@ -78,33 +85,52 @@ public class DragonController : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
         hurtEnemyOnContact = GetComponent<HurtEnemyOnContact>();
         enemyHealthManager = GetComponent<EnemyHealthManager>();
+        canvas = healthBar.GetComponent<Canvas>();
     }
 
     protected void Start()
     {
-
+        canvas.enabled = false;
+        expectedOrthographicsSize = 18f;
+        minCameraYPosition = -93f;
+        currentLerpTime = 0;
+        lerpTime = 0.4f;
+        direction = -1;
+        delay = 0f;
+        dieDelay = 0f;
+        flyStage = 4;
     }
 
     protected void Update()
     {
-        if(hurtEnemyOnContact.isHurt)
+        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
+
+        if (hurtEnemyOnContact.isHurt)
         {
             animator.SetTrigger("isHurt");
             audioManager.dragonPain[Random.Range(0, 4)].Play();
         }
-        if(enemyHealthManager.GetHealth() <= 0)
+
+        if (enemyHealthManager.GetHealth() <= 0 && !isDead)
         {
+            StopAllCoroutines();
+            animator.SetTrigger("exitAnimation");
             animator.SetTrigger("isDead");
+            if(dieDelay > 0.1f)
+            {
+                audioManager.dragonStep.Play();
+                isDead = true;
+            }
+            dieDelay += Time.deltaTime;
         }
-        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
-        //if (enterTerritory.bossEnabled)
+        
+        if (enterTerritory.bossEnabled && !isDead)
         {
-            StartCoroutine(StartFly());
+            StartFly();
         }
     }
 
-
-    public IEnumerator StartFly()
+    private void StartFly()
     {
         if (currentLerpTime >= lerpTime && flyStage != -1)
         {
@@ -117,81 +143,54 @@ public class DragonController : MonoBehaviour
         {
             case 0:
                 {
-                    audioManager.dragonFlapping.Play();
-                    cameraFollow.stopFollow = true;
-                    lerpTime = 3.5f;
-                    enterTerritory.mainCamera.transform.position = Vector3.Lerp(new Vector3(enterTerritory.startPosition.x, minCameraYPosition, -10), enterTerritory.dragonStartPosition, Perc);
-                    mainCamera.orthographicSize = Mathf.Lerp(startOrthographicSize, expectedOrthographicsSize, Perc);
-                    currentLerpTime += Time.deltaTime;
-
+                    Stage0();
                     break;
                 }
             case 1:
                 {
-                    lerpTime = 2f;
-                    transform.position = Vector2.Lerp(enterTerritory.dragonStartPosition, checkPoint[0].transform.position, Perc);
-                    mainCamera.transform.position = Vector3.Lerp(enterTerritory.dragonStartPosition, checkPoint[0].transform.position, Perc);
-                    currentLerpTime += Time.deltaTime;
-
+                    Stage1();
                     break;
                 }
             case 2:
                 {
-                    lerpTime = 3f;
-                    transform.position = Vector2.Lerp(checkPoint[0].transform.position, checkPoint[1].transform.position, Perc);
-                    mainCamera.transform.position = Vector3.Lerp(checkPoint[0].transform.position, checkPoint[1].transform.position, Perc);
-                    currentLerpTime += Time.deltaTime;
-
+                    Stage2();
                     break;
                 }
             case 3:
                 {
-                    lerpTime = 3f;
-                    transform.position = Vector2.Lerp(checkPoint[1].transform.position, checkPoint[2].transform.position, Perc);
-                    mainCamera.transform.position = Vector3.Lerp(checkPoint[1].transform.position, checkPoint[2].transform.position, Perc);
-                    currentLerpTime += Time.deltaTime;
-
+                    Stage3();
                     break;
                 }
             case 4:
                 {
-                    audioManager.dragonFlapping.Stop();
-                    animator.SetBool("isLanding", true);
-                    lerpTime = 2f;
-                    transform.position = Vector2.Lerp(checkPoint[2].transform.position, checkPoint[3].transform.position, Perc);
-                    mainCamera.transform.position = Vector3.Lerp(checkPoint[2].transform.position, new Vector3(checkPoint[3].transform.position.x, minCameraYPosition, -10), Perc);
-                    mainCamera.orthographicSize = Mathf.Lerp(expectedOrthographicsSize, startOrthographicSize, Perc);
-
-                    if (currentLerpTime > lerpTime * 0.7f)
-                    {
-                        animator.SetBool("isLanding", false);
-                        animator.SetBool("isStopping", true);
-                    }
-                    currentLerpTime += Time.deltaTime;
+                    Stage4();
                     break;
                 }
             case 5:
                 {
-                    animator.SetBool("isStopping", false);
-                    if (!callOnce)
+                    if (delay >= 3f)
                     {
-                        StartCoroutine(StartFireBlow());
-                        callOnce = true;
+                        animator.SetBool("isIdle", true);
+                        lerpTime = 2f;
+                        mainCamera.transform.position = Vector3.Lerp(new Vector3(checkPoint[3].transform.position.x, minCameraYPosition, -10),
+                                                                     new Vector3(enterTerritory.playerAfterEnteringTerritoryPos.x, minCameraYPosition, -10), Perc);
+                        currentLerpTime += Time.deltaTime;
+                        if (currentLerpTime >= 2f)
+                        {
+                            isReady = true;
+                        }
                     }
-                    
-
-                    yield return new WaitForSeconds(4f);
-                    animator.SetBool("isIdle", true);
-                    lerpTime = 2f;
-
-                    mainCamera.transform.position = Vector3.Lerp(new Vector3(checkPoint[3].transform.position.x, minCameraYPosition, -10), 
-                                                                 new Vector3(enterTerritory.playerAfterEnteringTerritoryPos.x, minCameraYPosition, -10), Perc);
-
-                    currentLerpTime += Time.deltaTime;
-                    if(currentLerpTime >= 2f)
+                    else
                     {
-                        isReady = true;
+                        animator.SetBool("isStopping", false);
+                        if (!callOnce)
+                        {
+                            StartFireBlow();
+                            callOnce = true;
+                        }
+                        delay += Time.deltaTime;
                     }
+
                     break;
                 }
         }
@@ -200,85 +199,39 @@ public class DragonController : MonoBehaviour
         {
             if (callOnce)
             {
+                canvas.enabled = true;
+                enemyHealthManager.healthBar.enabled = true;
                 animator.SetBool("isWalking", true);
                 animator.SetBool("isIdle", true);
                 flyStage = -1;
-                Invoke("BackToNormal", 0.1f);
+                Invoke("BackToNormal", 1.5f);
                 callOnce = false;
                 myBody.bodyType = RigidbodyType2D.Dynamic;
             }
+
             Walking();
             StartCoroutine(CheckPlayerPosition());
         }
-    }
-
-    IEnumerator StartFireBlow()
-    {
-        isWalking = true;
-        FireBlow2();
-        yield return new WaitForSeconds(1f);
-        animator.SetBool("isIdle", true);
-
-        Invoke("StartWalk", 2f);
-    }
-
-    private void StartWalk()
-    {
-        isWalking = false; // enable if statement for walking
-        animator.SetBool("isIdle", false);
         return;
     }
-    
-    private void FireBlow2()
-    {
-        audioManager.dragonAttack2.Play();
-        animator.SetTrigger("fireBlow2");
-        return;
-    }
-
-    private void Walking()
-    {
-        if (!isWalking)
-        {
-            transform.position = new Vector2(transform.position.x + (0.2f * Time.fixedDeltaTime * direction), transform.position.y);
-        }
-
-        if (!attack && playerInRange && !hurtEnemyOnContact.isHurt)
-        {
-            int random = Random.Range(0, 2);
-            if (random == 1)
-            {
-                StartCoroutine(FireBlow1(4.5f));
-            }
-            else
-            {
-                StartCoroutine(Stomp(4f));
-            }
-            Debug.Log(random);
-            attack = true;
-        }
-        return;
-    }
-
 
     IEnumerator CheckPlayerPosition()
     {
         yield return new WaitForSeconds(2f);
 
-        if(playerController.transform.position.x > transform.position.x && !isFacingRight)
+        if (playerController.transform.position.x > transform.position.x && !isFacingRight)
         {
             direction = 0;
             StartCoroutine(RotateLeft());
             isFacingRight = true;
         }
-        else if(playerController.transform.position.x < transform.position.x && isFacingRight)
+        else if (playerController.transform.position.x < transform.position.x && isFacingRight)
         {
             direction = 0;
             StartCoroutine(RotateRight());
             isFacingRight = false;
         }
     }
-
 
     IEnumerator RotateRight()
     {
@@ -344,14 +297,110 @@ public class DragonController : MonoBehaviour
         attack = false;
     }
 
+    private void Stage0()
+    {
+        audioManager.dragonFlapping.Play();
+        cameraFollow.stopFollow = true;
+        lerpTime = 3.5f;
+        enterTerritory.mainCamera.transform.position = Vector3.Lerp(new Vector3(enterTerritory.startPosition.x, minCameraYPosition, -10), enterTerritory.dragonStartPosition, Perc);
+        mainCamera.orthographicSize = Mathf.Lerp(startOrthographicSize, expectedOrthographicsSize, Perc);
+        currentLerpTime += Time.deltaTime;
+    }
+
+    private void Stage1()
+    {
+        lerpTime = 2f;
+        transform.position = Vector2.Lerp(enterTerritory.dragonStartPosition, checkPoint[0].transform.position, Perc);
+        mainCamera.transform.position = Vector3.Lerp(enterTerritory.dragonStartPosition, checkPoint[0].transform.position, Perc);
+        currentLerpTime += Time.deltaTime;
+    }
+
+    private void Stage2()
+    {
+        lerpTime = 3f;
+        transform.position = Vector2.Lerp(checkPoint[0].transform.position, checkPoint[1].transform.position, Perc);
+        mainCamera.transform.position = Vector3.Lerp(checkPoint[0].transform.position, checkPoint[1].transform.position, Perc);
+        currentLerpTime += Time.deltaTime;
+    }
+
+    private void Stage3()
+    {
+        lerpTime = 3f;
+        transform.position = Vector2.Lerp(checkPoint[1].transform.position, checkPoint[2].transform.position, Perc);
+        mainCamera.transform.position = Vector3.Lerp(checkPoint[1].transform.position, checkPoint[2].transform.position, Perc);
+        currentLerpTime += Time.deltaTime;
+    }
+
+    private void Stage4()
+    {
+        animator.SetBool("isLanding", true);
+        lerpTime = 2f;
+        transform.position = Vector2.Lerp(checkPoint[2].transform.position, checkPoint[3].transform.position, Perc);
+        mainCamera.transform.position = Vector3.Lerp(checkPoint[2].transform.position, new Vector3(checkPoint[3].transform.position.x, minCameraYPosition, -10), Perc);
+        mainCamera.orthographicSize = Mathf.Lerp(expectedOrthographicsSize, startOrthographicSize, Perc);
+
+        if (currentLerpTime > lerpTime * 0.7f)
+        {
+            audioManager.dragonFlapping.Stop();
+            animator.SetBool("isLanding", false);
+            animator.SetBool("isStopping", true);
+        }
+        currentLerpTime += Time.deltaTime;
+    }
+
+    private void StartFireBlow()
+    {
+        isWalking = true;
+        FireBlow2();
+        animator.SetBool("isIdle", true);
+        Invoke("StartWalk", 2f);
+        return;
+    }
+
+    private void StartWalk()
+    {
+        isWalking = false; // enable if statement for walking
+        animator.SetBool("isIdle", false);
+        return;
+    }
+
+    private void FireBlow2()
+    {
+        audioManager.dragonAttack2.Play();
+        animator.SetTrigger("fireBlow2");
+        return;
+    }
+
+    private void Walking()
+    {
+        if (!isWalking)
+        {
+            transform.position = new Vector2(transform.position.x + (0.2f * Time.fixedDeltaTime * direction), transform.position.y);
+        }
+
+        if (!attack && playerInRange)
+        {
+            var random = Random.Range(0, 2);
+            if (random == 1)
+            {
+                StartCoroutine(FireBlow1(4.5f));
+            }
+            else
+            {
+                StartCoroutine(Stomp(4f));
+            }
+            attack = true;
+        }
+        return;
+    }
+
     private void DragonJump()
     {
         myBody.velocity = new Vector3(0, 4f, 0);
     }
 
-    public void BackToNormal()
+    private void BackToNormal()
     {
-        Debug.Log("ready");
         EnterTerritory.IsCharacterControlEnabled = false;
         cameraFollow.stopFollow = false;
         return;

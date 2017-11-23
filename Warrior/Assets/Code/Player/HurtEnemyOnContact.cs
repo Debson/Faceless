@@ -74,8 +74,6 @@ public class HurtEnemyOnContact : MonoBehaviour
             }
             hitOnlyOnce = true;
 
-
-
             knockbackTimeCount = knockBackLength;
 
             if (collision.transform.position.x > transform.position.x)
@@ -89,14 +87,13 @@ public class HurtEnemyOnContact : MonoBehaviour
         }
     }
 
-    protected void FixedUpdate()
+    protected void Update()
     {
         if (knockbackTimeCount <= 0)
         {
             spriteRenderer.color = startColor;
             hitOnlyOnce = false;
             isHurt = false;
-            //gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         else
         {
@@ -107,7 +104,6 @@ public class HurtEnemyOnContact : MonoBehaviour
                 {
                     spriteRenderer.color = new Color(255, 0, 0);
                 }
-                //gameObject.transform.rotation = Quaternion.Euler(0, 0, -40);
             }
             if (!knockFromRight)
             {
@@ -116,7 +112,6 @@ public class HurtEnemyOnContact : MonoBehaviour
                 {
                     spriteRenderer.color = new Color(255, 0, 0);
                 }
-                //gameObject.transform.rotation = Quaternion.Euler(0, 0, -40);
             }
         }
         knockbackTimeCount -= Time.deltaTime;

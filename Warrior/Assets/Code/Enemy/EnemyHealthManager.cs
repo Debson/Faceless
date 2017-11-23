@@ -10,16 +10,21 @@ public class EnemyHealthManager : MonoBehaviour
 
     [SerializeField]
     private int pointsToAdd;
-    
 
-    private Image healthBar;
+    [SerializeField]
+    private float adjustHealthBarY = 0f;
 
-    private int enemyHealth;
-    //[SerializeField]
-    //public GameObject deathEffect;
+    [SerializeField]
+    private float adjustHealthBarX = 0f;
+
+    [HideInInspector]
+    public Image healthBar;
+
 
     private bool pointsAdded;
+    private int enemyHealth;
     private float enemyHeight;
+
 
     protected void Awake()
     {
@@ -37,7 +42,7 @@ public class EnemyHealthManager : MonoBehaviour
             pointsAdded = true;
         }
         // Enemy must have bottom pivot;
-        healthBar.transform.position = new Vector3(transform.position.x, transform.position.y + enemyHeight, transform.position.z);
+        healthBar.transform.position = new Vector3(transform.position.x + adjustHealthBarX, transform.position.y + enemyHeight + adjustHealthBarY, transform.position.z);
     }
 
     public void GiveDamage(int damageToGive)

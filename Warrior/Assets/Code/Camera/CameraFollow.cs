@@ -4,33 +4,37 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    private Vector2 velocity;
-
-    public float cameraTimeX;
-    public float cameraTimeY;
-
+    [SerializeField]
     public bool cameraBounds;
-
-    public Vector3 minCameraPosition;
-    public Vector3 maxCameraPosition;
 
     [HideInInspector]
     public bool stopFollow;
 
-    private float playerYPositionOnStart;
-    private float playerXPositionOnStart;
-    private float minYCameraPosition = -93f;
 
     GameObject player;
     EnterTerritory enterTerritory;
     DragonController dragonController;
 
+    private Vector2 velocity;
+    private Vector3 minCameraPosition;
+    private Vector3 maxCameraPosition;
 
-    protected void Start()
+    private float playerYPositionOnStart;
+    private float playerXPositionOnStart;
+    private float minYCameraPosition;
+    private float cameraTimeX;
+    private float cameraTimeY;
+
+    protected void Awake()
     {
         dragonController = FindObjectOfType<DragonController>();
         player = GameObject.FindGameObjectWithTag("Player");
         enterTerritory = FindObjectOfType<EnterTerritory>();
+    }
+
+    protected void Start()
+    {
+        minYCameraPosition = -93f;
         playerYPositionOnStart = player.transform.position.y;
         playerXPositionOnStart = player.transform.position.x;
     }
@@ -41,7 +45,6 @@ public class CameraFollow : MonoBehaviour
         {
             if (!stopFollow)
             {
-                Debug.Log("camera");
                 float posX = Mathf.SmoothDamp(transform.position.x, player.transform.position.x, ref velocity.x, cameraTimeX);
                 float posY = Mathf.SmoothDamp(transform.position.y, player.transform.position.y, ref velocity.y, cameraTimeY);
                 transform.position = new Vector3(posX, posY, transform.position.z);
