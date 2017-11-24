@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TrollChampionController : MonoBehaviour
@@ -21,12 +20,16 @@ public class TrollChampionController : MonoBehaviour
     Collider2D myCollider;
     PlayerController playerController;
     Rigidbody2D myBody;
+    AudioManager audioManager;
+
+    private bool isDead;
+    private bool jump;
+    private bool firstJump;
+    private bool callOnceRunning;
+    private bool callOnceAttacking;
+    private bool callOnceHurt;
 
     private float trollYBounds;
-    private float waitTime = 0f;
-    private bool isDead;
-    private bool jump = true;
-    private bool firstJump;
 
     protected void Awake()
     {
@@ -41,6 +44,15 @@ public class TrollChampionController : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         myBody = GetComponent<Rigidbody2D>();
         trollYBounds = GetComponent<Collider2D>().bounds.size.y;
+        audioManager = FindObjectOfType<AudioManager>();
+    }
+
+    protected void Start()
+    {
+        callOnceRunning = true;
+        callOnceAttacking = true;
+        callOnceHurt = true;
+        jump = true;
     }
 
     protected void Update()
@@ -49,39 +61,81 @@ public class TrollChampionController : MonoBehaviour
         {
             if (enemyHealthManager.GetHealth() <= 0)
             {
-                animator.SetTrigger("isDead");
-                isDead = true;
-
-                attackTrigger.gameObject.SetActive(false);
-                hurtEnemyOnContact.enabled = false;
-                wanderWalkController.enabled = false;
-                healthBarCanvas.enabled = false;
-                myCollider.enabled = false;
-                deadCollider.enabled = true;
-
-                Destroy(gameObject, 7f);
+                OnDeath();
             }
             else
             {
-                animator.SetBool("isRunning", wanderWalkController.isRunning);
-                animator.SetBool("isWalking", wanderWalkController.isWalking);
-                animator.SetBool("isHurted", hurtEnemyOnContact.hitOnlyOnce);
-                animator.SetBool("isTouchingFloor", floorDetector.isTouchingFloor);
-                animator.SetBool("isAttacking", hurtPlayerOnContact.attackingAnimation);
-                animator.SetBool("isInTrigger", hurtPlayerOnContact.isInTrigger);
+                SetAnimationLogic();
             }
+        }
+        SetSounds();
+    }
+
+    private void SetSounds()
+    {
+        if (wanderWalkController.playerInRange && callOnceRunning)
+        {
+            audioManager.OrcRoar[2].Play();
+            callOnceRunning = false;
+        }
+        else if (!wanderWalkController.playerInRange)
+        {
+            callOnceRunning = true;
+        }
+
+        if (hurtPlayerOnContact.attackingAnimation && callOnceAttacking)
+        {
+            audioManager.orcWeapon[0].Play();
+            callOnceAttacking = false;
+        }
+        else if (!hurtPlayerOnContact.attackingAnimation)
+        {
+            callOnceAttacking = true;
+        }
+
+        if (hurtEnemyOnContact.isHurt && callOnceHurt)
+        {
+            audioManager.orcPain2[Random.Range(1, 3)].Play();
+            callOnceHurt = false;
+        }
+        else if (!hurtEnemyOnContact.isHurt)
+        {
+            callOnceHurt = true;
         }
     }
 
-   
+    private void OnDeath()
+    {
+        audioManager.orcDeath[2].Play();
+        animator.SetTrigger("isDead");
+        isDead = true;
+
+        attackTrigger.gameObject.SetActive(false);
+        hurtEnemyOnContact.enabled = false;
+        wanderWalkController.enabled = false;
+        healthBarCanvas.enabled = false;
+        myCollider.enabled = false;
+        deadCollider.enabled = true;
+
+        Destroy(gameObject, 7f);
+    }
+
+    private void SetAnimationLogic()
+    {
+        animator.SetBool("isRunning", wanderWalkController.isRunning);
+        animator.SetBool("isWalking", wanderWalkController.isWalking);
+        animator.SetBool("isHurted", hurtEnemyOnContact.hitOnlyOnce);
+        animator.SetBool("isTouchingFloor", floorDetector.isTouchingFloor);
+        animator.SetBool("isAttacking", hurtPlayerOnContact.attackingAnimation);
+        animator.SetBool("isInTrigger", hurtPlayerOnContact.isInTrigger);
+    }
+
     IEnumerator Jump()
     {
-
-
         yield return new WaitForSeconds(2f);
 
-            if (!jump)
-            {
+        if (!jump)
+        {
             myBody.AddForce(new Vector2(0, myBody.mass * 11), ForceMode2D.Impulse);
             jump = true;
             firstJump = true;

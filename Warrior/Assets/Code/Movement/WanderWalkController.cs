@@ -32,14 +32,17 @@ public class WanderWalkController : MonoBehaviour
     [SerializeField]
     float verticalRange = 0;
 
-    [HideInInspector]
-    public bool isRunning;
+    Animator animator;
+    Rigidbody2D myBody;
+    PlayerController playerController;
+    Collider2D myCollider;
+    Canvas healthBarCanvas;
+    OrcController orcController;
 
-    [HideInInspector]
-    public bool playerInRange;
-
-    [HideInInspector]
-    public bool isWalking;
+    public bool isRunning { set; get; }
+    public bool playerInRange { set; get; }
+    public bool isWalking { set; get; }
+    public bool isAttacking { get; set; }
 
     private float enemyYBounds;
     private float desiredWalkDirection;
@@ -50,20 +53,6 @@ public class WanderWalkController : MonoBehaviour
     private bool usingRigid;
     private bool stopWalking;
 
-
-    
-
-    public bool isAttacking
-    {
-        get; set;
-    }
-
-    Animator animator;
-    Rigidbody2D myBody;
-    PlayerController playerController;
-    Collider2D myCollider;
-    Canvas healthBarCanvas;
-
     protected void Awake()
     {
         myBody = GetComponent<Rigidbody2D>();
@@ -73,12 +62,23 @@ public class WanderWalkController : MonoBehaviour
         characterXBounds = playerController.GetComponent<Collider2D>().bounds.size.x + attackRange;
         animator = GetComponentInChildren<Animator>();
         healthBarCanvas = GetComponentInChildren<Canvas>();
+        orcController = GetComponent<OrcController>();
     }
-
 
     protected void Start()
     {
             StartCoroutine(Wander());
+    }
+
+    protected void Update()
+    {
+        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
+
+        RotateEnemy();
+
+        CheckIfCloseToPlayer();
+
+        Move();
     }
 
     IEnumerator Wander()
@@ -101,19 +101,71 @@ public class WanderWalkController : MonoBehaviour
 
     void SelectARandomWalkDirection()
     {
-        desiredWalkDirection = UnityEngine.Random.value <= .5f ? 1 : -1;
+        desiredWalkDirection = Random.value <= .5f ? 1 : -1;
     }
 
     float GetRandomTimeToSleep()
     {
-        return UnityEngine.Random.Range(
-          minTimeBetweenReconsideringDirection,
-          maxTimeBetweenReconsideringDirection);
+        return Random.Range(minTimeBetweenReconsideringDirection, maxTimeBetweenReconsideringDirection);
     }
 
-    protected void FixedUpdate()
+    private void Move()
     {
-        
+        if (!stopWalking)
+        {
+            if (playerInRange && (transform.position.y + enemyYBounds + verticalRange >= playerController.transform.position.y))
+            {
+                transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
+                                                         followSpeed * Time.deltaTime);
+                usingRigid = false;
+                isRunning = true;
+            }
+            else
+            {
+                float desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
+                myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
+                usingRigid = true;
+                isRunning = false;
+            }
+
+
+            //WALKING
+            if (!playerInRange)
+            {
+                isWalking = true;
+            }
+            else
+            {
+                isWalking = false;
+            }
+
+            if (transform.position.y + enemyYBounds + verticalRange >= playerController.transform.position.y)
+            {
+                isWalking = false;
+            }
+            else
+            {
+                isWalking = true;
+            }
+        }
+    }
+
+    private void CheckIfCloseToPlayer()
+    {
+        distanceToPlayer = Vector3.Distance(playerController.transform.position, transform.position);
+        if (distanceToPlayer < characterXBounds)
+        {
+            stopWalking = true;
+            isRunning = false;
+        }
+        else
+        {
+            stopWalking = false;
+        }
+    }
+
+    private void RotateEnemy()
+    {
         //If player is not in range, rotate enemy's body basing on velocity. If player is in range, rotate enemy's body basing on his position relative to enemy's body.
         if (usingRigid)
         {
@@ -156,64 +208,6 @@ public class WanderWalkController : MonoBehaviour
                 myBody.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         }
-
-
-        distanceToPlayer = Vector3.Distance(playerController.transform.position, transform.position);
-        if (distanceToPlayer < characterXBounds)
-        {
-            stopWalking = true;
-            isRunning = false;
-        }
-        else
-        {
-            stopWalking = false;
-        }
-
-        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
-
-        if (!stopWalking)
-        {
-            if (playerInRange && (transform.position.y + enemyYBounds + verticalRange >= playerController.transform.position.y))
-            {
-                transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
-                                                         followSpeed * Time.deltaTime);
-                usingRigid = false;
-                isRunning = true;
-            }
-            else
-            {
-                float desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
-                myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
-                usingRigid = true;
-                isRunning = false;
-            }
-
-
-            //WALKING
-            if(!playerInRange)
-            {
-                isWalking = true;
-            }
-            else
-            {
-                isWalking = false;
-            }
-
-            if(transform.position.y + enemyYBounds + verticalRange >= playerController.transform.position.y)
-            {
-                isWalking = false;
-            }
-            else
-            {
-                isWalking = true;
-            }
-        }
-    }
-
-
-    IEnumerator StopWalking()
-    {
-        yield return 0;
     }
 
     private void OnDrawGizmosSelected()

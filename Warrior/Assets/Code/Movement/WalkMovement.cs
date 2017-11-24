@@ -78,4 +78,19 @@ public class WalkMovement : MonoBehaviour
                 knockbackTimeCount -= Time.deltaTime;
             }
         }
+
+    public void Knockback(GameObject enemy)
+    {
+        knockbackTimeCount = knockBackLength;
+
+        if (transform.position.x < enemy.transform.position.x)
+        {
+            knockFromRight = true;
+        }
+        else
+        {
+            knockFromRight = false;
+        }
+        return;
+    }
 }

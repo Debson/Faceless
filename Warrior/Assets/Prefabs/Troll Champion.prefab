@@ -165,7 +165,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1454352745200106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -51.112705, y: -237.2458, z: 0}
+  m_LocalPosition: {x: 151.92961, y: -235.62878, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4878489458615828}
@@ -369,9 +369,9 @@ MonoBehaviour:
   minDamageToGive: 1
   maxDamageToGive: 2
   attackFreq: 1.5
-  animationDelay: 0.55
+  animationDelay: 0.4
   hitAfterTime: 1
-  hitDelay: 0.25
+  hitDelay: 0.5
   attackingAnimation: 0
   isInTrigger: 0
   isAttacking: 0
@@ -564,6 +564,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMaxHealth: 100
   pointsToAdd: 700
+  adjustHealthBarY: 0
+  adjustHealthBarX: 0
 --- !u!114 &114980840607249046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -601,7 +603,7 @@ MonoBehaviour:
   timeBeforeFirstWander: 1
   minTimeBetweenReconsideringDirection: 4
   maxTimeBetweenReconsideringDirection: 8
-  playerRange: 30
+  playerRange: 10
   playerLayer:
     serializedVersion: 2
     m_Bits: 256

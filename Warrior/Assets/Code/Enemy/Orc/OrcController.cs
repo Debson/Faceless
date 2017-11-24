@@ -18,10 +18,14 @@ public class OrcController : MonoBehaviour
     Animator animator;
     Canvas healthBarCanvas;
     Collider2D myCollider;
+    AudioManager audioManager;
 
-
+    [HideInInspector]
+    public bool callOnceRunning;
 
     private bool isDead;
+    private bool callOnceAttacking;
+    private bool callOnceHurt;
 
     protected void Awake()
     {
@@ -33,46 +37,88 @@ public class OrcController : MonoBehaviour
         healthBarCanvas = GetComponentInChildren<Canvas>();
         animator = GetComponent<Animator>();
         myCollider = GetComponent<Collider2D>();
+        audioManager = FindObjectOfType<AudioManager>();
+    }
+
+    protected void Start()
+    {
+        callOnceRunning = true;
+        callOnceAttacking = true;
+        callOnceHurt = true;
     }
 
     protected void Update()
     {
-
-
         if (!isDead)
         {
             if (enemyHealthManager.GetHealth() <= 0)
             {
-                animator.SetTrigger("isDead");
-                isDead = true;
-
-                attackTrigger.gameObject.SetActive(false);
-
-                wanderWalkController.enabled = false;
-                healthBarCanvas.enabled = false;
-                myCollider.enabled = false;
-                deadCollider.enabled = true;
-
-                Destroy(gameObject, 7f);
+                OnDeath();
             }
             else
             {
-                animator.SetBool("isRunning", wanderWalkController.isRunning);
-                animator.SetBool("isWalking", wanderWalkController.isWalking);
-                animator.SetBool("isHurted", hurtEnemyOnContact.hitOnlyOnce);
-                animator.SetBool("isTouchingFloor", floorDetector.isTouchingFloor);
-                animator.SetBool("isAttacking", hurtPlayerOnContact.attackingAnimation);
-                animator.SetBool("isInTrigger", hurtPlayerOnContact.isInTrigger);
+                SetAnimationLogic();
             }
+        }
+        SetSounds();
+    }
+
+    private void SetSounds()
+    {
+        if (wanderWalkController.playerInRange && callOnceRunning)
+        {
+            audioManager.OrcRoar[0].Play();
+            callOnceRunning = false;
+        }
+        else if (!wanderWalkController.playerInRange)
+        {
+            callOnceRunning = true;
+        }
+
+        if (hurtPlayerOnContact.attackingAnimation && callOnceAttacking)
+        {
+            audioManager.orcWeapon[1].Play();
+            callOnceAttacking = false;
+        }
+        else if (!hurtPlayerOnContact.attackingAnimation)
+        {
+            callOnceAttacking = true;
+        }
+
+        if (hurtEnemyOnContact.isHurt && callOnceHurt)
+        {
+            audioManager.orcPain1[Random.Range(0, 2)].Play();
+            callOnceHurt = false;
+        }
+        else if (!hurtEnemyOnContact.isHurt)
+        {
+            callOnceHurt = true;
         }
     }
 
-    /*private void OnTriggerExit2D(Collider2D collision)
+    private void OnDeath()
     {
-        // On exit from Troll's attack trigger collider reset variables responsible for attack delay on first contact with Troll
-        if (collision.tag == "Player")
-        {
-            hurtPlayerOnContact.isHurted = false;
-        }
-    }*/
+        audioManager.orcDeath[0].Play();
+        animator.SetTrigger("isDead");
+        isDead = true;
+
+        attackTrigger.gameObject.SetActive(false);
+
+        wanderWalkController.enabled = false;
+        healthBarCanvas.enabled = false;
+        myCollider.enabled = false;
+        deadCollider.enabled = true;
+
+        Destroy(gameObject, 7f);
+    }
+
+    private void SetAnimationLogic()
+    {
+        animator.SetBool("isRunning", wanderWalkController.isRunning);
+        animator.SetBool("isWalking", wanderWalkController.isWalking);
+        animator.SetBool("isHurted", hurtEnemyOnContact.hitOnlyOnce);
+        animator.SetBool("isTouchingFloor", floorDetector.isTouchingFloor);
+        animator.SetBool("isAttacking", hurtPlayerOnContact.attackingAnimation);
+        animator.SetBool("isInTrigger", hurtPlayerOnContact.isInTrigger);
+    }
 }

@@ -71,7 +71,7 @@ public class DragonController : MonoBehaviour
     /// <summary>
     /// Time by which camera should stay at dragon after landed
     /// </summary>
-    public float delay { get; private set; }
+    public float Delay { get; private set; }
 
     protected void Awake()
     {
@@ -96,7 +96,7 @@ public class DragonController : MonoBehaviour
         currentLerpTime = 0;
         lerpTime = 0.4f;
         direction = -1;
-        delay = 0f;
+        Delay = 0f;
         dieDelay = 0f;
         flyStage = 4;
     }
@@ -168,7 +168,7 @@ public class DragonController : MonoBehaviour
                 }
             case 5:
                 {
-                    if (delay >= 3f)
+                    if (Delay >= 3f)
                     {
                         animator.SetBool("isIdle", true);
                         lerpTime = 2f;
@@ -188,7 +188,7 @@ public class DragonController : MonoBehaviour
                             StartFireBlow();
                             callOnce = true;
                         }
-                        delay += Time.deltaTime;
+                        Delay += Time.deltaTime;
                     }
 
                     break;

@@ -28,8 +28,6 @@ public class TurnAround : MonoBehaviour
         }
     }
 
-    bool isFacingLeft2;
-
     private bool isFacingRight = true;
 
     protected void Awake()

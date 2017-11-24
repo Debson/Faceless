@@ -17,14 +17,12 @@ public class EnemyHealthManager : MonoBehaviour
     [SerializeField]
     private float adjustHealthBarX = 0f;
 
-    [HideInInspector]
-    public Image healthBar;
-
+    public Image healthBar
+    { set; get; }
 
     private bool pointsAdded;
     private int enemyHealth;
     private float enemyHeight;
-
 
     protected void Awake()
     {
@@ -35,12 +33,7 @@ public class EnemyHealthManager : MonoBehaviour
 
     void Update()
     {
-        if (enemyHealth <= 0 && !pointsAdded)
-        {
-            enemyHealth = -1;
-            ScoreManager.AddPoints(pointsToAdd);
-            pointsAdded = true;
-        }
+        AddPointsOnDeath();
         // Enemy must have bottom pivot;
         healthBar.transform.position = new Vector3(transform.position.x + adjustHealthBarX, transform.position.y + enemyHeight + adjustHealthBarY, transform.position.z);
     }
@@ -49,7 +42,7 @@ public class EnemyHealthManager : MonoBehaviour
     {
         enemyHealth -= damageToGive;
     }
-    
+
     public int GetHealth()
     {
         return enemyHealth;
@@ -58,5 +51,15 @@ public class EnemyHealthManager : MonoBehaviour
     public int GetMaxHealth()
     {
         return enemyMaxHealth;
+    }
+
+    private void AddPointsOnDeath()
+    {
+        if (enemyHealth <= 0 && !pointsAdded)
+        {
+            enemyHealth = -1;
+            ScoreManager.AddPoints(pointsToAdd);
+            pointsAdded = true;
+        }
     }
 }

@@ -22,27 +22,27 @@ public class HurtPlayerOnContact : MonoBehaviour
     [SerializeField]
     private float hitDelay;
 
-    [HideInInspector]
-    public bool attackingAnimation;
-
-    [HideInInspector]
-    public bool isInTrigger;
-
-    [HideInInspector]
-    public bool isAttacking;
-
     Animator animator;
     AudioManager audioManager;
+    WalkMovement walkMovement;
 
-    public bool isHurted
-    { get; set; }
+    public bool attackingAnimation { set; get; }
+
+    public bool isInTrigger { set; get; }
+
+    public bool isAttacking { set; get; }
+
+    public bool isHurted { get; set; }
 
     private bool firstHit = true;
+
+    private float delay;
 
     protected void Awake()
     {
         animator = GetComponentInParent<Animator>();
         audioManager = FindObjectOfType<AudioManager>();
+        walkMovement = FindObjectOfType<WalkMovement>();
     }
 
     protected void Start()
@@ -59,8 +59,8 @@ public class HurtPlayerOnContact : MonoBehaviour
     {
         if (collision.tag == "Player" && !isAttacking)
         {
-                isInTrigger =  true;
-                StartCoroutine(Attack(collision));
+            isInTrigger = true;
+            Attack();
         }
     }
 
@@ -72,45 +72,23 @@ public class HurtPlayerOnContact : MonoBehaviour
         }
     }
 
-    // Not needed for now
-    IEnumerator BeforeAttackDelay(float time)
-    {
-        Debug.Log(isHurted);
-        yield return new WaitForSeconds(time);
-        isHurted = true;
-    }
-
-    IEnumerator Attack(Collider2D collision)
-    {
-        isAttacking = true;
-        StartCoroutine(Animation(collision));
-        yield return null;
-    }
-
-    IEnumerator Animation(Collider2D collision)
+    IEnumerator Animation()
     {
         // On first contact with player don't apply any attack delay
         if (!firstHit)
         {
             yield return new WaitForSeconds(attackFreq);
         }
-        // If player in in attacking collider, start animation, damage player, do knockback, else stop attacking sequence(avoid playing animation when player run out from collider range)
+        if (hitAfterTime)
+        {
+            yield return new WaitForSeconds(hitDelay);
+        }
+
         if (isInTrigger)
         {
-            if (hitAfterTime)
-            {
-                yield return new WaitForSeconds(hitDelay);
-            }
             attackingAnimation = true;
-            audioManager.playerHurt[Random.Range(0, 2)].Play();
             HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
-            StartCoroutine(Knockback(collision));
-
-            yield return new WaitForSeconds(animationDelay);
-            attackingAnimation = false;
-
-            isAttacking = false;
-            firstHit = false;
+            Invoke("AttackAnimation", animationDelay);
         }
         else
         {
@@ -119,20 +97,20 @@ public class HurtPlayerOnContact : MonoBehaviour
         }
     }
 
-    IEnumerator Knockback(Collider2D collision)
+    private void AttackAnimation()
     {
-        var player = collision.GetComponent<WalkMovement>();
-        player.knockbackTimeCount = player.knockBackLength;
-
-        if (collision.transform.position.x < transform.position.x)
-        {
-            player.knockFromRight = true;
-        }
-        else
-        {
-            player.knockFromRight = false;
-        }
-        yield return null;
+        walkMovement.Knockback(this.gameObject);
+        audioManager.playerHurt[Random.Range(0, 2)].Play();
+        attackingAnimation = false;
+        isAttacking = false;
+        firstHit = false;
     }
- }
+
+    private void Attack()
+    {
+        isAttacking = true;
+        StartCoroutine(Animation());
+        return;
+    }
+}
 
