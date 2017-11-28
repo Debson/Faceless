@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(HurtEnemyOnContact))]
 public class HurtPlayerOnContact : MonoBehaviour
 {
     [SerializeField]
@@ -25,6 +26,7 @@ public class HurtPlayerOnContact : MonoBehaviour
     Animator animator;
     AudioManager audioManager;
     WalkMovement walkMovement;
+    HurtEnemyOnContact enemy;
 
     public bool attackingAnimation { set; get; }
 
@@ -43,6 +45,7 @@ public class HurtPlayerOnContact : MonoBehaviour
         animator = GetComponentInParent<Animator>();
         audioManager = FindObjectOfType<AudioManager>();
         walkMovement = FindObjectOfType<WalkMovement>();
+        enemy =  FindObjectOfType<HurtEnemyOnContact>();
     }
 
     protected void Start()
@@ -52,7 +55,11 @@ public class HurtPlayerOnContact : MonoBehaviour
 
     protected void Update()
     {
-
+        if(enemy.isHurt && enemy.comboEnabled)
+        {
+            StopAllCoroutines();
+            Attack(0);
+        }
     }
 
     protected void OnTriggerStay2D(Collider2D collision)
@@ -60,7 +67,7 @@ public class HurtPlayerOnContact : MonoBehaviour
         if (collision.tag == "Player" && !isAttacking)
         {
             isInTrigger = true;
-            Attack();
+            Attack(attackFreq);
         }
     }
 
@@ -72,12 +79,12 @@ public class HurtPlayerOnContact : MonoBehaviour
         }
     }
 
-    IEnumerator Animation()
+    IEnumerator Animation(float delay)
     {
         // On first contact with player don't apply any attack delay
         if (!firstHit)
         {
-            yield return new WaitForSeconds(attackFreq);
+            yield return new WaitForSeconds(delay);
         }
         if (hitAfterTime)
         {
@@ -106,10 +113,10 @@ public class HurtPlayerOnContact : MonoBehaviour
         firstHit = false;
     }
 
-    private void Attack()
+    private void Attack(float delay)
     {
         isAttacking = true;
-        StartCoroutine(Animation());
+        StartCoroutine(Animation(delay));
         return;
     }
 }

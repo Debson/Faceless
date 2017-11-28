@@ -41,11 +41,13 @@ public class WanderWalkController : MonoBehaviour
     Collider2D myCollider;
     Canvas healthBarCanvas;
     OrcController orcController;
+    HurtEnemyOnContact enemy;
 
     public bool isRunning { set; get; }
     public bool playerInRange { set; get; }
     public bool isWalking { set; get; }
     public bool isAttacking { get; set; }
+    public bool stunned { get; set; }
 
     private float enemyYBounds;
     private float desiredWalkDirection;
@@ -55,6 +57,7 @@ public class WanderWalkController : MonoBehaviour
     private bool isFlippedRigid;
     private bool usingRigid;
     private bool stopWalking;
+    private bool callOnce;
 
     protected void Awake()
     {
@@ -66,6 +69,7 @@ public class WanderWalkController : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         healthBarCanvas = GetComponentInChildren<Canvas>();
         orcController = GetComponent<OrcController>();
+        enemy = GetComponent<HurtEnemyOnContact>();
     }
 
     protected void Start()
@@ -81,7 +85,7 @@ public class WanderWalkController : MonoBehaviour
 
         CheckIfCloseToPlayer();
 
-        Move();
+        StartCoroutine(Move());
     }
 
     IEnumerator Wander()
@@ -112,25 +116,40 @@ public class WanderWalkController : MonoBehaviour
         return Random.Range(minTimeBetweenReconsideringDirection, maxTimeBetweenReconsideringDirection);
     }
 
-    private void Move()
+    IEnumerator Move()
     {
         if (!stopWalking)
         {
-            if (playerInRange && (transform.position.y + enemyYBounds + verticalRange >= playerController.transform.position.y))
+            if (enemy.comboEnabled && enemy.isHurt && !callOnce)
             {
-                transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
-                                                         followSpeed * Time.deltaTime);
-                usingRigid = false;
-                isRunning = true;
-            }
-            else
-            {
-                float desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
-                myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
-                usingRigid = true;
-                isRunning = false;
+                stunned = true;
+                callOnce = true;
             }
 
+            if(stunned && callOnce)
+            {
+                callOnce = false;
+                yield return new WaitForSeconds(enemy.stunTime);
+                stunned = false;
+            }
+            else if(!stunned && !callOnce)
+            {
+
+                if (playerInRange && (transform.position.y + enemyYBounds + verticalRange >= playerController.transform.position.y))
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
+                                                             followSpeed * Time.deltaTime);
+                    usingRigid = false;
+                    isRunning = true;
+                }
+                else
+                {
+                    float desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
+                    myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
+                    usingRigid = true;
+                    isRunning = false;
+                }
+            }
 
             //WALKING
             if (!playerInRange)

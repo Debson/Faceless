@@ -10,6 +10,7 @@ public class AttackMovement : MonoBehaviour
 
     AudioManager audioManager;
     TurnAround turnAround;
+    ScreenShake screenShake;
 
 
     private bool currentState;
@@ -32,6 +33,7 @@ public class AttackMovement : MonoBehaviour
     {
         turnAround = GetComponent<TurnAround>();
         audioManager = FindObjectOfType<AudioManager>();
+        screenShake = FindObjectOfType<ScreenShake>();
         attackTrigger.enabled = false;
     }
 
@@ -39,6 +41,7 @@ public class AttackMovement : MonoBehaviour
     {
         if (attackRequest && !isAttacking)
         {
+            screenShake.shakeScreenOnAttack = true;
             audioManager.attackSound[Random.Range(0, 2)].Play();
             isAttacking = true;
             attackTimer = attackCooldown;

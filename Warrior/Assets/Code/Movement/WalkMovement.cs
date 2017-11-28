@@ -30,6 +30,8 @@ public class WalkMovement : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Color startColor;
 
+    public bool knockbackFinished { get; set; }
+
     protected void Awake()
     {
         myBody = GetComponent<Rigidbody2D>();
@@ -40,6 +42,7 @@ public class WalkMovement : MonoBehaviour
     protected void Start()
     {
        startColor = spriteRenderer.color;
+        knockbackFinished = true;
     }
 
     protected void FixedUpdate()
@@ -60,6 +63,7 @@ public class WalkMovement : MonoBehaviour
             {
                 myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
                 spriteRenderer.color = startColor;
+                knockbackFinished = true;
             }
             else
             {
@@ -81,6 +85,7 @@ public class WalkMovement : MonoBehaviour
 
     public void Knockback(GameObject enemy)
     {
+        knockbackFinished = false;
         knockbackTimeCount = knockBackLength;
 
         if (transform.position.x < enemy.transform.position.x)

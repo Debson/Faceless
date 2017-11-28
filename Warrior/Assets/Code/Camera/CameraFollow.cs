@@ -14,6 +14,7 @@ public class CameraFollow : MonoBehaviour
     GameObject player;
     EnterTerritory enterTerritory;
     DragonController dragonController;
+    ScreenShake screenShake;
 
     private Vector2 velocity;
     private Vector3 minCameraPosition;
@@ -30,6 +31,7 @@ public class CameraFollow : MonoBehaviour
         dragonController = FindObjectOfType<DragonController>();
         player = GameObject.FindGameObjectWithTag("Player");
         enterTerritory = FindObjectOfType<EnterTerritory>();
+        screenShake = GetComponent<ScreenShake>();
     }
 
     protected void Start()
@@ -41,7 +43,7 @@ public class CameraFollow : MonoBehaviour
 
     private void Update()
     {
-        if (!dragonController.shakeScreen)
+        if (!screenShake.shakeScreen && !screenShake.shakeScreenOnAttack)
         {
             if (!stopFollow)
             {

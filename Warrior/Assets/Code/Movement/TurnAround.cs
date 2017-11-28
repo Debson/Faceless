@@ -9,31 +9,22 @@ public class TurnAround : MonoBehaviour
 
     Rigidbody2D myBody;
     FloorDetector floorDetector;
+    WalkMovement walkMovement;
 
-    public bool isFacingLeft
-    {
-        set; get;
-    }
+    public bool isFacingLeft { get; set; }
 
-    public bool IsFacingRight
-    {
-        get
-        {
-            return isFacingRight;
-        }
-
-        set
-        {
-            isFacingRight = value;
-        }
-    }
-
-    private bool isFacingRight = true;
+    public bool IsFacingRight { get; set; }
 
     protected void Awake()
     {
         myBody = GetComponent<Rigidbody2D>();
         floorDetector = GetComponent<FloorDetector>();
+        walkMovement = GetComponent<WalkMovement>();
+    }
+
+    protected void Start()
+    {
+        IsFacingRight = true;
     }
 
     protected void Update()
@@ -58,15 +49,17 @@ public class TurnAround : MonoBehaviour
     protected void FixedUpdate()
     {
         float xVelocity = myBody.velocity.x;
-
-        if (Mathf.Abs(xVelocity) > .05f)
+        if (walkMovement.knockbackFinished)
         {
-            bool isTravelingLeft = xVelocity < 0;
-            IsFacingRight = !isTravelingLeft;
-            if(isFacingLeft != isTravelingLeft)
+            if (Mathf.Abs(xVelocity) > 0.05f)
             {
-                isFacingLeft = isTravelingLeft;
-                transform.rotation *= flipRotation;
+                bool isTravelingLeft = xVelocity < 0;
+                IsFacingRight = !isTravelingLeft;
+                if (isFacingLeft != isTravelingLeft)
+                {
+                    isFacingLeft = isTravelingLeft;
+                    transform.rotation *= flipRotation;
+                }
             }
         }
     }

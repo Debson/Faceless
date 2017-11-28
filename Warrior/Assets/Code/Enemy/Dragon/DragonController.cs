@@ -22,11 +22,6 @@ public class DragonController : MonoBehaviour
     [SerializeField]
     private GameObject healthBar;
 
-    [HideInInspector]
-    public float minCameraYPosition;
-
-    [HideInInspector]
-    public bool shakeScreen;
 
     private AudioManager audioManager;
     private Animator animator;
@@ -37,6 +32,9 @@ public class DragonController : MonoBehaviour
     private HurtEnemyOnContact hurtEnemyOnContact;
     private EnemyHealthManager enemyHealthManager;
     private Canvas canvas;
+    private ScreenShake screenShake;
+
+    public float minCameraYPosition { get; set; }
 
     private Vector2 startPosition;
 
@@ -86,6 +84,7 @@ public class DragonController : MonoBehaviour
         hurtEnemyOnContact = GetComponent<HurtEnemyOnContact>();
         enemyHealthManager = GetComponent<EnemyHealthManager>();
         canvas = healthBar.GetComponent<Canvas>();
+        screenShake = FindObjectOfType<ScreenShake>();
     }
 
     protected void Start()
@@ -290,7 +289,7 @@ public class DragonController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         audioManager.dragonStep.Play();
 
-        shakeScreen = true;
+        screenShake.shakeScreen = true;
         isWalking = false;
         animator.SetBool("isIdle", true);
         animator.SetBool("isWalking", true);

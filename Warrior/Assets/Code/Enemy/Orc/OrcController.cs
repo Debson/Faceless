@@ -65,6 +65,15 @@ public class OrcController : MonoBehaviour
 
     private void SetSounds()
     {
+        if(wanderWalkController.stunned)
+        {
+            animator.SetBool("isIdle", true);
+        }
+        else
+        {
+            animator.SetBool("isIdle", false);
+        }
+
         if (wanderWalkController.playerInRange && callOnceRunning)
         {
             audioManager.OrcRoar[0].Play();

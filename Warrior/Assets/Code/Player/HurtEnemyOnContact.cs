@@ -17,6 +17,12 @@ public class HurtEnemyOnContact : MonoBehaviour
     public float knockBackLength;
 
     [SerializeField]
+    public bool comboEnabled;
+
+    [SerializeField]
+    public float stunTime = 0.7f;
+
+    [SerializeField]
     private bool colorRedOnHit;
 
     [SerializeField]
@@ -29,20 +35,27 @@ public class HurtEnemyOnContact : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Color startColor;
     AudioManager audioManager;
+    Shader startShader;
 
-    [HideInInspector]
-    public bool hitOnlyOnce;
 
-    [HideInInspector]
-    public bool isHurt;
+    public bool hitOnlyOnce { get; set; }
+
+    public bool isHurt { get; set; }
 
     private GameObject bloodInstantiate;
     private ParticleSystem bl;
     private float knockbackTimeCount = 0.2f;
     private bool knockFromRight;
     private float enemyYBounds;
-    
-    
+
+
+    /// <summary>
+    /// test
+    /// </summary>
+
+    private Texture damageFlash;
+
+
     protected void Awake()
     {
         enemyHealthManager = GetComponent<EnemyHealthManager>();
@@ -50,11 +63,11 @@ public class HurtEnemyOnContact : MonoBehaviour
         bl = blood.GetComponent<ParticleSystem>();
         enemyYBounds = GetComponent<Collider2D>().bounds.size.y;
         audioManager = FindObjectOfType<AudioManager>();
+        startShader = spriteRenderer.material.shader;
     }
 
     protected void Start()
     {
-
         startColor = spriteRenderer.color;
         var main = bl.main;
         main.startColor = new Color(bloodColor.r, bloodColor.g, bloodColor.b);
@@ -91,7 +104,8 @@ public class HurtEnemyOnContact : MonoBehaviour
     {
         if (knockbackTimeCount <= 0)
         {
-            spriteRenderer.color = startColor;
+            //spriteRenderer.color = startColor;
+            spriteRenderer.material.shader = startShader;
             hitOnlyOnce = false;
             isHurt = false;
         }
@@ -102,7 +116,8 @@ public class HurtEnemyOnContact : MonoBehaviour
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x - (Time.deltaTime * knockbackStrenght) , gameObject.transform.position.y);
                 if (colorRedOnHit)
                 {
-                    spriteRenderer.color = new Color(255, 0, 0);
+                    spriteRenderer.material.shader = Shader.Find("PaintWhite");
+                    //spriteRenderer.color = Color.red;
                 }
             }
             if (!knockFromRight)
@@ -110,7 +125,8 @@ public class HurtEnemyOnContact : MonoBehaviour
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x + (Time.deltaTime * knockbackStrenght), gameObject.transform.position.y);
                 if (colorRedOnHit)
                 {
-                    spriteRenderer.color = new Color(255, 0, 0);
+                    spriteRenderer.material.shader = Shader.Find("PaintWhite");
+                    //spriteRenderer.color = Color.red;
                 }
             }
         }
