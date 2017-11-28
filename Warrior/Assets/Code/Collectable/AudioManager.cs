@@ -42,4 +42,22 @@ public class AudioManager : MonoBehaviour
     public AudioSource[] orcWeapon;
     public AudioSource[] orcAttack;
     public AudioSource[] orcDeath;
+    
+    /// <summary>
+    /// Elf sounds
+    /// </summary>
+
+    public AudioSource bow;
+    public AudioSource bowArrow;
+    public AudioSource[] elfHurt;
+    public AudioSource[] elfDeath;
+
+    public AudioSource spiderAttack;
+    public AudioSource spiderChattering;
+
+    public AudioSource[] reaperAttack;
+    public AudioSource[] reaperHurt;
+    public AudioSource[] reaperAgro;
+    public AudioSource reaperDead;
+
 }

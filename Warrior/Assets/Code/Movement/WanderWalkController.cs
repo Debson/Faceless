@@ -30,6 +30,9 @@ public class WanderWalkController : MonoBehaviour
     float attackRange = 1f;
 
     [SerializeField]
+    private float distanceToRunScaler;
+
+    [SerializeField]
     float verticalRange = 0;
 
     Animator animator;
@@ -158,7 +161,7 @@ public class WanderWalkController : MonoBehaviour
             stopWalking = true;
             isRunning = false;
         }
-        else
+        else if (distanceToPlayer > characterXBounds * distanceToRunScaler)
         {
             stopWalking = false;
         }

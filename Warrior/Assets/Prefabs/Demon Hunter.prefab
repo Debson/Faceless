@@ -11,6 +11,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1510533612181684}
   m_IsPrefabParent: 1
+--- !u!1 &1082124472389512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4822698052494630}
+  - component: {fileID: 70103496794566824}
+  m_Layer: 10
+  m_Name: Leg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1155510813960336
 GameObject:
   m_ObjectHideFlags: 1
@@ -89,7 +105,6 @@ GameObject:
   - component: {fileID: 224557257014966758}
   - component: {fileID: 222822912571386006}
   - component: {fileID: 114621304322761270}
-  - component: {fileID: 114126259377198036}
   m_Layer: 5
   m_Name: EnemyHealthBar
   m_TagString: Untagged
@@ -183,6 +198,19 @@ Transform:
   m_Father: {fileID: 4919282418582030}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4822698052494630
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1082124472389512}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4919282418582030}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4919282418582030
 Transform:
   m_ObjectHideFlags: 1
@@ -190,12 +218,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1510533612181684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -50.12925, y: -240.61487, z: 0}
+  m_LocalPosition: {x: -44.125, y: -239.17519, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 224675554364867300}
   - {fileID: 4325262966796464}
   - {fileID: 4038834032150024}
+  - {fileID: 4822698052494630}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -279,6 +308,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5160885, y: 0.8300419}
   m_EdgeRadius: 0
+--- !u!70 &70103496794566824
+CapsuleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1082124472389512}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.07414402, y: 0.2297591}
+  m_Size: {x: 0.33659282, y: 0.0017589929}
+  m_Direction: 1
 --- !u!95 &95661783074976548
 Animator:
   serializedVersion: 3
@@ -310,26 +354,12 @@ MonoBehaviour:
   minDamageToGive: 1
   maxDamageToGive: 4
   knockbackStrenght: 0.7
-  knockBackLength: 0.25
-  colorRedOnHit: 1
+  knockBackLength: 0.1
+  colorRedOnHit: 0
   blood: {fileID: 1882104490518854, guid: 1aa24812494a9644a994014e5fb94f3d, type: 2}
-  bloodColor: {r: 0, g: 0, b: 0, a: 0}
+  bloodColor: {r: 0.17213935, g: 0.16219722, b: 0.17647058, a: 0}
   hitOnlyOnce: 0
   isHurt: 0
---- !u!114 &114126259377198036
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1476127253647664}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f80e2ed27b263242ac4333916424d4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fillAmount: 1
-  healthDecrementationTime: 4
-  content: {fileID: 114364097367442518}
 --- !u!114 &114157457103808550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -348,7 +378,6 @@ MonoBehaviour:
     m_Bits: 256
   throwPoint: {fileID: 4325262966796464}
   scythe: {fileID: 1160970889733982, guid: dbabaa8714e7c5b45bf23d5ef9423db0, type: 2}
-  throwScytheDirection: 0
 --- !u!114 &114187266213791500
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -517,6 +546,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMaxHealth: 10
   pointsToAdd: 500
+  adjustHealthBarY: 0
+  adjustHealthBarX: 0
 --- !u!114 &114888389495947178
 MonoBehaviour:
   m_ObjectHideFlags: 1

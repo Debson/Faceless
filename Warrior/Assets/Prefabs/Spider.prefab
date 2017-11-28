@@ -11,6 +11,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1359685111122800}
   m_IsPrefabParent: 1
+--- !u!1 &1194978521674042
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4085833746769820}
+  - component: {fileID: 70110713633399532}
+  m_Layer: 17
+  m_Name: Leg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1263724326797944
 GameObject:
   m_ObjectHideFlags: 1
@@ -126,6 +142,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4085833746769820
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1194978521674042}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4739655694278016}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4739655694278016
 Transform:
   m_ObjectHideFlags: 1
@@ -133,10 +162,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1359685111122800}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -44.70405, y: -239.45207, z: 0}
+  m_LocalPosition: {x: -43.55824, y: -239.4341, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 224696821958053676}
+  - {fileID: 4085833746769820}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -151,10 +181,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1000
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -172,7 +202,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.19645125, y: 0.38241234}
+  m_Offset: {x: -0.03791052, y: 0.38241234}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -183,8 +213,23 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2829026, y: 0.5433492}
+  m_Size: {x: 0.96582115, y: 0.5433492}
   m_EdgeRadius: 0
+--- !u!70 &70110713633399532
+CapsuleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1194978521674042}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.102535754, y: 0.27625597}
+  m_Size: {x: 0.47025728, y: 0.0019876962}
+  m_Direction: 1
 --- !u!70 &70904421003876318
 CapsuleCollider2D:
   m_ObjectHideFlags: 1
@@ -231,12 +276,9 @@ MonoBehaviour:
   minDamageToGive: 1
   maxDamageToGive: 15
   attackFreq: 1.5
-  animationDelay: 0.4
+  animationDelay: 0.1
   hitAfterTime: 0
   hitDelay: 0
-  attackingAnimation: 0
-  isInTrigger: 0
-  isAttacking: 0
 --- !u!114 &114090833523183494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -350,8 +392,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083b1c8c8a2b91d4e8e856b5702a28f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyMaxHealth: 10
+  enemyMaxHealth: 3
   pointsToAdd: 500
+  adjustHealthBarY: 0
+  adjustHealthBarX: 0
 --- !u!114 &114361606397714092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -374,9 +418,6 @@ MonoBehaviour:
     m_Bits: 256
   attackRange: 0.3
   verticalRange: 0
-  isRunning: 0
-  playerInRange: 0
-  isWalking: 0
 --- !u!114 &114369800451617468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -539,7 +580,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300018, guid: d1c98d58d5a58f74e9a25c9710399432, type: 3}
   m_Color: {r: 0.7205882, g: 0.7205882, b: 0.7205882, a: 1}
   m_FlipX: 1

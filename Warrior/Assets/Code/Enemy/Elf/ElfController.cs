@@ -32,7 +32,6 @@ public class ElfController : MonoBehaviour
     [SerializeField]
     GameObject deathCollider;
 
-    public float direction = -1;
 
     Animator animator;
     PlayerController playerController;
@@ -40,15 +39,19 @@ public class ElfController : MonoBehaviour
     RightArmMovement rightArmMovement;
     EnemyHealthManager enemyHealthManager;
     HurtEnemyOnContact hurtEnemyOnContact;
+    AudioManager audioManager;
 
+    public float direction { get; set; }
 
     private Vector3 difference;
-    private float rotationZ;
-    private float playerBounds;
+
     private bool playerInRange;
     private bool isFacingRight;
     private bool flipHealthBar;
     private bool shoot;
+
+    private float rotationZ;
+    private float playerBounds;
 
 
     protected void Awake()
@@ -59,31 +62,41 @@ public class ElfController : MonoBehaviour
         rightArmMovement = GetComponent<RightArmMovement>();
         enemyHealthManager = GetComponent<EnemyHealthManager>();
         hurtEnemyOnContact = GetComponent<HurtEnemyOnContact>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     protected void Start()
     {
-
+        direction = -1;
     }
 
     protected void Update()
     {
-        //animator.SetBool("isHurt", hurtEnemyOnContact.isHurt);
+        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
 
-        StartCoroutine(OnDeath());
+        if (hurtEnemyOnContact.isHurt)
+        {
+            animator.SetTrigger("isHurt");
+            audioManager.elfHurt[Random.Range(0, 2)].Play();
+        }
+
+        if (playerInRange)
+        {
+            StartCoroutine(OnDeath());
+        }
     }
 
     IEnumerator OnDeath()
     {
         if (enemyHealthManager.GetHealth() <= 0)
         {
-            animator.SetBool("isDead", true);
+            animator.SetTrigger("isDead");
+            audioManager.elfDeath[0].Play();
             disableOnDeath.SetActive(false);
             gameObject.GetComponent<Collider2D>().enabled = false;
         }
         else
         {
-
             if (transform.position.x < playerController.transform.position.x && !isFacingRight)
             {
                 transform.rotation *= Quaternion.Euler(0, 180, 0);
@@ -113,11 +126,11 @@ public class ElfController : MonoBehaviour
         }
     }
 
-
     IEnumerator ShootArrow()
     {
             StartCoroutine(rightArmMovement.MoveHandBeforeShoot());
             Instantiate(arrow, shootPoint.position, shootPoint.rotation, shootPoint.transform);
+            audioManager.bowArrow.Play();
             yield return new WaitForSeconds(shootingSpeed);
             rightArmMovement.startStretch = true;
     }

@@ -49,6 +49,7 @@ public class ScytheController : MonoBehaviour
             {
                 player.knockFromRight = false;
             }
+            Destroy(gameObject, 10f);
         }
     }
 }

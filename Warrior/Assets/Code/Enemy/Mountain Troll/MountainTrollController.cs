@@ -130,6 +130,4 @@ public class MountainTrollController : MonoBehaviour
         animator.SetBool("isAttacking", hurtPlayerOnContact.attackingAnimation);
         animator.SetBool("isInTrigger", hurtPlayerOnContact.isInTrigger);
     }
-
-
 }

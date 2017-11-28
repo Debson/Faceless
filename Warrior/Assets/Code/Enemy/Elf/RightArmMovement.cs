@@ -14,13 +14,19 @@ public class RightArmMovement : MonoBehaviour
     Transform arrow;
 
     ElfController elfController;
-    
-    [HideInInspector]
-    public bool startStretch = true;
+    AudioManager audioManager;
+
+    public bool startStretch { get; set; }
 
     protected void Awake()
     {
         elfController = GetComponent<ElfController>();
+        audioManager = FindObjectOfType<AudioManager>();
+    }
+
+    protected void Start()
+    {
+        startStretch = true;
     }
 
     protected void Update()
@@ -39,7 +45,7 @@ public class RightArmMovement : MonoBehaviour
                
                 yield return 0;
             }
-
+            audioManager.bow.Play();
 
             for (int i = 0; i < 55; i++)
             {

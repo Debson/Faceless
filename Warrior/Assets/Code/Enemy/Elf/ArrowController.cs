@@ -10,7 +10,15 @@ public class ArrowController : MonoBehaviour
     [SerializeField]
     Transform shootPoint;
 
+    [SerializeField]
+    private int minDamageToGive;
+
+    [SerializeField]
+    private int maxDamageToGive;
+
     PlayerController playerController;
+    WalkMovement walkMovement;
+    AudioManager audioManager;
 
     private Vector2 result;
     private Vector2 extendedPosition;
@@ -21,12 +29,19 @@ public class ArrowController : MonoBehaviour
     private float distance;
     private float multiplier;
     private const float constDist = 15f;
-    private float currentLerpTime = 0;
+    private float currentLerpTime;
     private float lerpTime;
     private float speed;
 
+    protected void Awake()
+    {
+        walkMovement = FindObjectOfType<WalkMovement>();
+        audioManager = FindObjectOfType<AudioManager>();
+    }
+
     protected void Start()
     {
+        currentLerpTime = 0f;
         playerController = FindObjectOfType<PlayerController>();
         playerPositionOnStart = FindObjectOfType<PlayerController>().transform.position;
         arrowPositionOnStart = transform.position;
@@ -64,5 +79,16 @@ public class ArrowController : MonoBehaviour
         currentLerpTime += Time.deltaTime;
 
         Destroy(gameObject, 3f);
+    }
+
+    protected void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.tag == "Player")
+        {
+            HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
+            audioManager.playerHurt[Random.Range(0, 2)].Play();
+            walkMovement.Knockback(gameObject);
+            Destroy(gameObject);
+        }
     }
 }

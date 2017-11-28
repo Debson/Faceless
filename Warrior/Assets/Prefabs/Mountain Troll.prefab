@@ -165,7 +165,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1890064065317466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 153.79367, y: -235.48897, z: 0}
+  m_LocalPosition: {x: -44.43154, y: -239.4821, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4449256791768044}
@@ -328,20 +328,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd6a245b621cd044ea4afba572b61edb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 50
-  followSpeed: 4
+  walkSpeed: 70
+  followSpeed: 6
   timeBeforeFirstWander: 1
   minTimeBetweenReconsideringDirection: 4
   maxTimeBetweenReconsideringDirection: 8
-  playerRange: 10
+  playerRange: 20
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
   attackRange: 1.2
+  distanceToRunScaler: 2
   verticalRange: 0
-  isRunning: 0
-  playerInRange: 0
-  isWalking: 0
 --- !u!114 &114012509910963202
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -386,9 +384,6 @@ MonoBehaviour:
   animationDelay: 0.4
   hitAfterTime: 1
   hitDelay: 0.5
-  attackingAnimation: 0
-  isInTrigger: 0
-  isAttacking: 0
 --- !u!114 &114018776125484146
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -404,7 +399,6 @@ MonoBehaviour:
   pointsToAdd: 700
   adjustHealthBarY: 0
   adjustHealthBarX: 0
-  healthBar: {fileID: 0}
 --- !u!114 &114065382625482574
 MonoBehaviour:
   m_ObjectHideFlags: 1

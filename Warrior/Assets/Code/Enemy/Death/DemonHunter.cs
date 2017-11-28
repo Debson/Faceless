@@ -23,17 +23,27 @@ public class DemonHunter : MonoBehaviour
     Animator animator;
     Rigidbody2D myBody;
     Rigidbody2D playerBody;
+    Transform healthBar;
+    EnemyHealthManager enemyHealthManager;
+    Collider2D collider;
+    AudioManager audioManager;
+    HurtEnemyOnContact hurtEnemyOnContact;
 
-    public float throwScytheDirection;
+    public float throwScytheDirection { get; set; }
+
+    private float desiredXVelocity;
 
     private bool isAttacking;
     private bool isWalking;
-
     private bool playerInRange;
     private bool playerInAttackingRange;
     private bool isCoroutineExecuting;
     private bool isFacingLeft;
     private bool isWalkingLeft;
+    private bool playerEnteredPlayerRange;
+    private bool onlyOnce;
+    private bool isDead;
+    private bool isInPlayerRange;
 
     protected void Awake()
     {
@@ -41,74 +51,44 @@ public class DemonHunter : MonoBehaviour
         animator = GetComponent<Animator>();
         myBody = GetComponent<Rigidbody2D>();
         playerBody = playerController.GetComponent<Rigidbody2D>();
+        healthBar = GetComponentInChildren<Canvas>().transform;
+        enemyHealthManager = GetComponent<EnemyHealthManager>();
+        collider = GetComponent<Collider2D>();
+        audioManager = FindObjectOfType<AudioManager>();
+        hurtEnemyOnContact = GetComponent<HurtEnemyOnContact>();
+    }
+
+    protected void Start()
+    {
+        healthBar.localRotation *= Quaternion.Euler(0, -180, 0);
+        onlyOnce = true;
     }
 
     protected void Update()
     {
-        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
-        playerInAttackingRange = Physics2D.OverlapCircle(transform.position, playerAttackingRange, playerLayer);
-
-        float desiredXVelocity = 1.5f;
-
-        if (playerInAttackingRange && !playerInRange)
+        if(hurtEnemyOnContact.isHurt && onlyOnce)
         {
-            animator.SetBool("isWalking", false);
-
-            if (transform.position.x > playerController.transform.position.x && !isFacingLeft)
-            {
-                    transform.rotation *= Quaternion.Euler(0, -180, 0);
-                    throwScytheDirection = -1;
-                    isFacingLeft = true;
-                    isWalkingLeft = false;
-            }
-            else if (transform.position.x < playerController.transform.position.x && isFacingLeft)
-            {
-                    transform.rotation *= Quaternion.Euler(0, -180, 0);
-                    throwScytheDirection = 1;
-                    isFacingLeft = false;
-                    isWalkingLeft = false;
-            }
-
+            audioManager.reaperHurt[Random.Range(0, 3)].Play();
+        }
+        else if(!hurtEnemyOnContact.isHurt)
+        {
+            onlyOnce = true;
         }
 
-        if (playerInRange)
+        if (enemyHealthManager.GetHealth() <= 0 && !isDead)
         {
-            animator.SetBool("isWalking", true);
-
-            if (transform.position.x > playerController.transform.position.x && isFacingLeft)
-            {
-                transform.rotation *= Quaternion.Euler(0, -180, 0);
-                isFacingLeft = false;
-                isWalkingLeft = false;
-            }
-
-            if(transform.position.x < playerController.transform.position.x && !isFacingLeft)
-            {
-                transform.rotation *= Quaternion.Euler(0, -180, 0);
-                isFacingLeft = true;
-                isWalkingLeft = true;
-            }
-
-            if(!isWalkingLeft)
-            {
-                myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
-            }
-
-            if(isWalkingLeft)
-            {
-                myBody.velocity = new Vector2(-desiredXVelocity, myBody.velocity.y);
-            }
+            audioManager.reaperDead.Play();
+            animator.SetTrigger("isDead");
+            collider.enabled = false;
+            StopAllCoroutines();
+            isDead = true;
+            Destroy(gameObject, 7f);
         }
-
-        if ((Mathf.Abs(playerBody.velocity.x) < 0.1f && playerInRange && !isAttacking))
+        else if(!isDead)
         {
-            StartCoroutine(ThrowScytheAfterTime());
-            isAttacking = true;
-        }
-        else if ((playerInAttackingRange && !playerInRange && !isAttacking))
-        {
-            StartCoroutine(ThrowScythe());
-            isAttacking = true;
+            playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
+            playerInAttackingRange = Physics2D.OverlapCircle(transform.position, playerAttackingRange, playerLayer);
+            InRange();
         }
     }
 
@@ -116,6 +96,7 @@ public class DemonHunter : MonoBehaviour
     {
         animator.SetBool("isAttacking", true);
         yield return new WaitForSeconds(0.4f);
+        audioManager.reaperAttack[Random.Range(0, 3)].Play();
         Instantiate(scythe, throwPoint.position, throwPoint.rotation);
         animator.SetBool("isAttacking", false);
         yield return new WaitForSeconds(2.5f);
@@ -124,7 +105,7 @@ public class DemonHunter : MonoBehaviour
 
     IEnumerator ThrowScytheAfterTime()
     {
-        if(isWalkingLeft)
+        if (isWalkingLeft)
         {
             throwScytheDirection = 1;
         }
@@ -134,14 +115,106 @@ public class DemonHunter : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1f);
+        healthBar.localRotation *= Quaternion.Euler(0, 180, 0);
         transform.rotation *= Quaternion.Euler(0, -180, 0);
         animator.SetBool("isAttacking", true);
         yield return new WaitForSeconds(0.4f);
+        audioManager.reaperAttack[Random.Range(0, 3)].Play();
         Instantiate(scythe, throwPoint.position, throwPoint.rotation);
+        healthBar.localRotation *= Quaternion.Euler(0, 180, 0);
         transform.rotation *= Quaternion.Euler(0, -180, 0);
         animator.SetBool("isAttacking", false);
         yield return new WaitForSeconds(2.5f);
         isAttacking = false;
+    }
+
+    private void InRange()
+    {
+        desiredXVelocity = 1.5f;
+        if (playerInAttackingRange && !playerInRange)
+        {
+            isInPlayerRange = false;
+            animator.SetBool("isWalking", false);
+            if (transform.position.x > playerController.transform.position.x && !isFacingLeft)
+            {
+                if (playerEnteredPlayerRange)
+                {
+                    healthBar.localRotation *= Quaternion.Euler(0, 180, 0);
+                    playerEnteredPlayerRange = false;
+                }
+
+                transform.rotation *= Quaternion.Euler(0, -180, 0);
+                throwScytheDirection = -1;
+                isFacingLeft = true;
+                isWalkingLeft = false;
+            }
+            else if (transform.position.x < playerController.transform.position.x && isFacingLeft)
+            {
+                healthBar.localRotation = Quaternion.Euler(0, 0, 0);
+                transform.rotation *= Quaternion.Euler(0, -180, 0);
+                throwScytheDirection = 1;
+                isFacingLeft = false;
+                isWalkingLeft = false;
+                playerEnteredPlayerRange = true;
+            }
+        }
+
+        if (playerInRange)
+        {
+            if(!isInPlayerRange)
+            {
+                audioManager.reaperAgro[Random.Range(0, 2)].Play();
+                isInPlayerRange = true;
+            }
+            animator.SetBool("isWalking", true);
+            if (transform.position.x > playerController.transform.position.x && (isFacingLeft || !playerEnteredPlayerRange))
+            {
+                if (!playerEnteredPlayerRange)
+                {
+                    healthBar.localRotation *= Quaternion.Euler(0, 180, 0);
+                    playerEnteredPlayerRange = true;
+                }
+                else if (isFacingLeft)
+                {
+                    transform.rotation *= Quaternion.Euler(0, -180, 0);
+                    isFacingLeft = false;
+                    isWalkingLeft = false;
+                }
+            }
+
+            if (transform.position.x < playerController.transform.position.x && !isFacingLeft)
+            {
+                healthBar.localRotation = Quaternion.Euler(0, 180, 0);
+                transform.rotation *= Quaternion.Euler(0, -180, 0);
+                isFacingLeft = true;
+                isWalkingLeft = true;
+                playerEnteredPlayerRange = false;
+            }
+
+            if (!isWalkingLeft)
+            {
+                myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
+            }
+
+            if (isWalkingLeft)
+            {
+                myBody.velocity = new Vector2(-desiredXVelocity, myBody.velocity.y);
+            }
+        }
+
+        if (playerController.transform.position.y <= transform.position.y)
+        {
+            if ((playerInRange && !isAttacking))
+            {
+                StartCoroutine(ThrowScytheAfterTime());
+                isAttacking = true;
+            }
+            else if ((playerInAttackingRange && !playerInRange && !isAttacking))
+            {
+                StartCoroutine(ThrowScythe());
+                isAttacking = true;
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()
@@ -149,5 +222,4 @@ public class DemonHunter : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, playerRange);
         Gizmos.DrawWireSphere(transform.position, playerAttackingRange);
     }
-
 }

@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 212894560687687040}
   - component: {fileID: 61602968635410476}
   - component: {fileID: 114349231111222182}
-  - component: {fileID: 114859495862286748}
   m_Layer: 0
   m_Name: arrow_straight
   m_TagString: Untagged
@@ -102,26 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootSpeed: 5
   shootPoint: {fileID: 0}
---- !u!114 &114859495862286748
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1208142637890292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d067e42a2d80bc41a9e146591b21814, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minDamageToGive: 15
-  maxDamageToGive: 30
-  attackFreq: 0
-  animationDelay: 0.55
-  hitAfterTime: 0
-  hitDelay: 0
-  attackingAnimation: 0
-  isInTrigger: 0
-  isAttacking: 0
+  minDamageToGive: 1
+  maxDamageToGive: 5
 --- !u!212 &212894560687687040
 SpriteRenderer:
   m_ObjectHideFlags: 1

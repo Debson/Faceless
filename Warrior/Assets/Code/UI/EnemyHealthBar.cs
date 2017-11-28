@@ -16,8 +16,13 @@ public class EnemyHealthBar : MonoBehaviour
     private Image content;
 
     EnemyHealthManager enemyHealthManager;
+
+    private bool isFacingLeft;
+    private bool isFacingRight;
+
     private float lastAmount;
     private float currentAmount;
+
 
     protected void Awake()
     {
@@ -31,6 +36,7 @@ public class EnemyHealthBar : MonoBehaviour
 
     protected void Update()
     {
+
         if (enemyHealthManager.GetHealth() <= 0)
         {
             content.fillAmount = 0;
