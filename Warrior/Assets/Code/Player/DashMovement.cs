@@ -19,16 +19,24 @@ public class DashMovement : MonoBehaviour
 
     TurnAround player;
     FloorDetector floorDetector;
+    PlayerController playerController;
+
     private GameObject[] glow;
 
+    /// <summary>
+    /// If dash button pressed, do dash
+    /// </summary>
     public bool dash { get; set; }
+    /// <summary>
+    /// Animation bool setter
+    /// </summary>
     public bool dashActive { get; set; }
 
     private int glowCount;
     private int transparencyCount;
 
     private float time;
-    private float timeStart;
+    private float startingTime = 1.2f;
     
 
     private bool callOnce;
@@ -39,28 +47,28 @@ public class DashMovement : MonoBehaviour
     {
         player = GetComponent<TurnAround>();
         floorDetector = GetComponent<FloorDetector>();
+        playerController = GetComponent<PlayerController>();
     }
 
     protected void Start()
     {
-        transparencyCount = 1;
-        time = 1.2f;
-        glowCount = 1;
-        createGlow = true;
         glow = new GameObject[4];
+        transparencyCount = 1;
+        glowCount = 1;
+        time = startingTime;
+        createGlow = true;
     }
 
     protected void FixedUpdate()
     {
-        //Debug.Log(EasingFunction.EaseOutCubic(0, 1, time));
-        //time += Time.deltaTime;
         if (dash && floorDetector.isTouchingFloor)
         {
+            playerController.CharacterControlEnabled = true;
             StartCoroutine(Dash());
         }
         else
         {
-
+            playerController.CharacterControlEnabled = false;
         }
 
         ChangeTransparencyToZero();
@@ -95,7 +103,7 @@ public class DashMovement : MonoBehaviour
     {
         if (glowCount < 5)
         {
-            if (glowCount > 3 && !callOnce)
+            if ((glowCount > 3 || floorDetector.isTouchingFloor) && !callOnce)
             {
                 active = true;
                 callOnce = true;
@@ -124,15 +132,21 @@ public class DashMovement : MonoBehaviour
     {
         if (active && transparencyCount < 5)
         {
-            Debug.Log("siema");
-            var renderer = glow[transparencyCount - 1].GetComponent<SpriteRenderer>();
-            renderer.color = new Color(1, 1, 1, renderer.color.a - EasingFunction.EaseInQuint(0f, 1f, time) * Time.deltaTime);
-            Debug.Log(EasingFunction.EaseInQuint(0f, 1f, time) * Time.deltaTime);
-            if (renderer.color.a < 0)
+            if (glow[transparencyCount - 1] == null)
             {
-                Destroy(glow[transparencyCount - 1]);
-                transparencyCount++;
-                time += 0.2f;
+                return;
+            }
+            else
+            {
+                var renderer = glow[transparencyCount - 1].GetComponent<SpriteRenderer>();
+
+                renderer.color = new Color(1, 1, 1, renderer.color.a - EasingFunction.EaseInQuint(0f, 1f, time) * Time.deltaTime);
+                if (renderer.color.a < 0)
+                {
+                    Destroy(glow[transparencyCount - 1]);
+                    transparencyCount++;
+                    time += 0.2f;
+                }
             }
         }
 
@@ -142,7 +156,7 @@ public class DashMovement : MonoBehaviour
             glowCount = 1;
             transparencyCount = 1;
             createGlow = true;
-            time = 1.2f;
+            time = startingTime;
             callOnce = false;
         }
     }

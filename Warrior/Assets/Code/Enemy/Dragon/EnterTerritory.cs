@@ -52,8 +52,6 @@ public class EnterTerritory : MonoBehaviour
     private bool enteredTerritory;
     private bool stopFollowVertical;
 
-    public static bool IsCharacterControlEnabled;
-
     protected void Awake()
     {
         myCollider = GetComponent<Collider2D>();
@@ -83,7 +81,7 @@ public class EnterTerritory : MonoBehaviour
     {
         if (collision.CompareTag("Player") && !bossEnabled)
         {
-            IsCharacterControlEnabled = true;
+            playerController.CharacterControlEnabled = true;
             cameraFollow.stopFollow = true;
             bossEnabled = true;
             enteredTerritory = true;

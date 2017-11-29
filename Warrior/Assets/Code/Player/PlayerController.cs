@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D myBody;
     DashMovement dashMovement;
 
+    public bool CharacterControlEnabled { get; set; }
+
 
     protected void Awake()
     {
@@ -31,13 +33,13 @@ public class PlayerController : MonoBehaviour
 
     protected void Update()
     {
-        if (Input.GetKey(KeyCode.LeftControl) && floorDetector.isTouchingFloor || EnterTerritory.IsCharacterControlEnabled && floorDetector.isTouchingFloor)
+        if (Input.GetKey(KeyCode.LeftControl) && floorDetector.isTouchingFloor || CharacterControlEnabled && floorDetector.isTouchingFloor)
         {
             walkMovement.desiredWalkDirection = 0;
         }
 
         if((Input.GetButton("Left") && !Input.GetKey(KeyCode.LeftControl)) && 
-            !EnterTerritory.IsCharacterControlEnabled)
+            !CharacterControlEnabled)
         {
             walkMovement.desiredWalkDirection = Input.GetAxis("Left");
         }
@@ -47,7 +49,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if ((Input.GetButton("Right") && !Input.GetKey(KeyCode.LeftControl)) && 
-            !EnterTerritory.IsCharacterControlEnabled)
+            !CharacterControlEnabled)
         {
             walkMovement.desiredWalkDirection = Input.GetAxis("Right");
         }
@@ -56,7 +58,7 @@ public class PlayerController : MonoBehaviour
             walkMovement.desiredWalkDirection = 0;
         }
 
-        if (Input.GetButtonDown("Attack") && !EnterTerritory.IsCharacterControlEnabled)
+        if (Input.GetButtonDown("Attack") && !CharacterControlEnabled)
         {
             attackMovement.attackRequest = true;
         }

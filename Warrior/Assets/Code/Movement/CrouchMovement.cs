@@ -5,6 +5,7 @@ using UnityEngine;
 public class CrouchMovement : MonoBehaviour
 {
     Collider2D crouchTrigger;
+    PlayerController playerController;
 
     public bool crouchRequest;
 
@@ -20,11 +21,12 @@ public class CrouchMovement : MonoBehaviour
     protected void Awake()
     {
         crouchTrigger = GetComponent<Collider2D>();
+        playerController = GetComponent<PlayerController>();
     }
 
     protected void Update()
     {
-        if (Input.GetButtonDown("Crouch") && !EnterTerritory.IsCharacterControlEnabled)
+        if (Input.GetButtonDown("Crouch") && !playerController.CharacterControlEnabled)
         {
             isCrouching = true;
             crouchTimer = crouchCooldown;
