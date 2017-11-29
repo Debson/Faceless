@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(AttackMovement))]
 [RequireComponent(typeof(TurnAround))]
 [RequireComponent(typeof(FloorDetector))]
+[RequireComponent(typeof(DashMovement))]
 public class PlayerController : MonoBehaviour
 {
     WalkMovement walkMovement;
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     AttackMovement attackMovement;
     FloorDetector floorDetector;
     Rigidbody2D myBody;
+    DashMovement dashMovement;
 
 
     protected void Awake()
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
         attackMovement = GetComponent<AttackMovement>();
         floorDetector = GetComponent<FloorDetector>();
         myBody = GetComponent<Rigidbody2D>();
+        dashMovement = GetComponent<DashMovement>();
 
     }
 
@@ -56,6 +59,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Attack") && !EnterTerritory.IsCharacterControlEnabled)
         {
             attackMovement.attackRequest = true;
+        }
+
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            dashMovement.dash = true;
         }
     }
 }

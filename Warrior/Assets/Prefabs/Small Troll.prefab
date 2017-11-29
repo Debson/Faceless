@@ -178,7 +178,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1720214198102106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -52.723263, y: -239.6496, z: 0}
+  m_LocalPosition: {x: -52.928673, y: -239.61194, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4046238743579860}
@@ -492,13 +492,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDamageToGive: 0
   maxDamageToGive: 0
-  knockbackStrenght: 4
-  knockBackLength: 0.25
-  colorRedOnHit: 0
+  knockbackStrenght: 1
+  knockBackLength: 0.1
+  comboEnabled: 1
+  stunTime: 0.7
+  colorRedOnHit: 1
   blood: {fileID: 1882104490518854, guid: 1aa24812494a9644a994014e5fb94f3d, type: 2}
   bloodColor: {r: 0, g: 0.784, b: 0, a: 0}
-  hitOnlyOnce: 0
-  isHurt: 0
 --- !u!114 &114789962532969786
 MonoBehaviour:
   m_ObjectHideFlags: 1

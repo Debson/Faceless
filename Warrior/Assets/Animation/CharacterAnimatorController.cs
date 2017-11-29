@@ -10,6 +10,7 @@ public class CharacterAnimatorController : MonoBehaviour
     FloorDetector floorDetector;
     AttackMovement attackMovement;
     CrouchMovement crouchMovement;
+    DashMovement dashMovement;
 
     protected void Awake()
     {
@@ -18,6 +19,7 @@ public class CharacterAnimatorController : MonoBehaviour
         floorDetector = GetComponentInChildren<FloorDetector>();
         attackMovement = GetComponent<AttackMovement>();
         crouchMovement = GetComponent<CrouchMovement>();
+        dashMovement = GetComponent<DashMovement>();
     }
 
     protected void LateUpdate()
@@ -26,5 +28,6 @@ public class CharacterAnimatorController : MonoBehaviour
         animator.SetBool("isTouchingFloor", floorDetector.isTouchingFloor);
         animator.SetBool("isAttacking", attackMovement.isAttacking);
         animator.SetBool("isCrouching", crouchMovement.isCrouching);
+        animator.SetBool("dashActive", dashMovement.dashActive);
     }
 }
