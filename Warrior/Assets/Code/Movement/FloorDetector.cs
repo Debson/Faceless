@@ -17,8 +17,10 @@ public class FloorDetector : MonoBehaviour
 
     public Vector2? floorUp
     {
-        get; private set;
+        get; set;
     }
+
+    public Quaternion? floorRotation { get; private set; }
 
     public Collider2D feetCollider
     {
@@ -40,36 +42,28 @@ public class FloorDetector : MonoBehaviour
     {
         Collider2D floorWeAreStandingOn = DetectTheFloorWeAreStandingOn();
         isTouchingFloor = floorWeAreStandingOn != null;
-        /*
+        
         if(floorWeAreStandingOn != null)
         {
-            distanceToFloor = 0;
+            CalculateFloorRotation(floorWeAreStandingOn);
         }
         else
         {
             floorUp = null;
-            RaycastHit2D? floorUnderUs = DetectFloorUnderUs();
-
-            if(floorUnderUs != null)
-            {
-                distanceToFloor = floorUnderUs.Value.distance;
-            }
-            else
-            {
-                distanceToFloor = null;
-            }
-        }*/
-    }
-    /*
-    RaycastHit2D? DetectFloorUnderUs()
-    {
-        if(Physics2D.Raycast(transform.position, Vector2.down, floorFilter, tempHitList) > 0)
-        {
-            return tempHitList[0];
+            floorRotation = null;
         }
+    }
 
-        return null;
-    }*/
+    void CalculateFloorRotation(Collider2D floorWeAreStandingOn)
+    {
+        floorUp = floorWeAreStandingOn.transform.up;
+        floorRotation = floorWeAreStandingOn.transform.rotation;
+        if(Vector2.Dot(Vector2.up, floorUp.Value) < 0)
+        {
+            floorUp = -floorUp;
+            floorRotation *= Quaternion.Euler(0, 0, 180);
+        }
+    }
 
     Collider2D DetectTheFloorWeAreStandingOn()
     {
@@ -88,5 +82,4 @@ public class FloorDetector : MonoBehaviour
 
         return null;
     }
-
 }

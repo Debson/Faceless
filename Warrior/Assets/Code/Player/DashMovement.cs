@@ -11,6 +11,9 @@ public class DashMovement : MonoBehaviour
     private float dashTime = 0.2f;
 
     [SerializeField]
+    private float dashCooldown = 2f;
+
+    [SerializeField]
     private Sprite dashSpriteRight;
 
     [SerializeField]
@@ -37,11 +40,11 @@ public class DashMovement : MonoBehaviour
 
     private float time;
     private float startingTime = 1.2f;
-    
 
     private bool callOnce;
     private bool createGlow;
     private bool active;
+    private bool cooldownIsUp;
 
     protected void Awake()
     {
@@ -57,11 +60,12 @@ public class DashMovement : MonoBehaviour
         glowCount = 1;
         time = startingTime;
         createGlow = true;
+        cooldownIsUp = true;
     }
 
     protected void FixedUpdate()
     {
-        if (dash && floorDetector.isTouchingFloor)
+        if (dash && floorDetector.isTouchingFloor && cooldownIsUp)
         {
             playerController.CharacterControlEnabled = true;
             StartCoroutine(Dash());
@@ -73,7 +77,6 @@ public class DashMovement : MonoBehaviour
 
         ChangeTransparencyToZero();
     }
-
 
     IEnumerator Dash()
     {
@@ -97,6 +100,7 @@ public class DashMovement : MonoBehaviour
         dashActive = false;
         Physics2D.IgnoreLayerCollision(10, 8, false);
         dash = false;
+        cooldownIsUp = false;
     }
 
     IEnumerator CreateGlow()
@@ -126,6 +130,12 @@ public class DashMovement : MonoBehaviour
             yield return new WaitForSeconds(dashTime * speed * 0.002f);
             createGlow = true;
         }
+    }
+
+    IEnumerator DashCooldown()
+    {
+        yield return new WaitForSeconds(dashCooldown);
+        cooldownIsUp = true;
     }
 
     private void ChangeTransparencyToZero()
@@ -158,6 +168,7 @@ public class DashMovement : MonoBehaviour
             createGlow = true;
             time = startingTime;
             callOnce = false;
+            StartCoroutine(DashCooldown());
         }
     }
 }

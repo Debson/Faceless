@@ -61,7 +61,7 @@ public class EnterTerritory : MonoBehaviour
         floorDetector = FindObjectOfType<FloorDetector>();
 
 
-        dragonStartPosition = new Vector3(dragon.transform.position.x, dragon.transform.position.y, -11);
+        //dragonStartPosition = new Vector3(dragon.transform.position.x, dragon.transform.position.y, -11);
     }
 
     protected void Start()
