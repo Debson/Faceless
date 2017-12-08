@@ -23,7 +23,7 @@ public class HurtEnemyOnContact : MonoBehaviour
     public float stunTime = 0.7f;
 
     [SerializeField]
-    private bool colorRedOnHit;
+    private bool paintWhiteOnHit;
 
     [SerializeField]
     private GameObject blood;
@@ -114,19 +114,17 @@ public class HurtEnemyOnContact : MonoBehaviour
             if (knockFromRight)
             {
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x - (Time.deltaTime * knockbackStrenght) , gameObject.transform.position.y);
-                if (colorRedOnHit)
+                if (paintWhiteOnHit)
                 {
                     spriteRenderer.material.shader = Shader.Find("PaintWhite");
-                    //spriteRenderer.color = Color.red;
                 }
             }
             if (!knockFromRight)
             {
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x + (Time.deltaTime * knockbackStrenght), gameObject.transform.position.y);
-                if (colorRedOnHit)
+                if (paintWhiteOnHit)
                 {
                     spriteRenderer.material.shader = Shader.Find("PaintWhite");
-                    //spriteRenderer.color = Color.red;
                 }
             }
         }

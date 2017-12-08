@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
             attackMovement.attackRequest = true;
         }
 
-        if(Input.GetKeyDown(KeyCode.D))
+        if(Input.GetKeyDown(KeyCode.D) && floorDetector.isTouchingFloor)
         {
             dashMovement.dash = true;
         }
