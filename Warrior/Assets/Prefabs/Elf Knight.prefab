@@ -81,9 +81,9 @@ GameObject:
   - component: {fileID: 4760202942784818}
   - component: {fileID: 61610387413196308}
   - component: {fileID: 61176180355084200}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: AttackTrigger
-  m_TagString: Untagged
+  m_TagString: EnemyAttackTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -460,6 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillAmount: 1
   healthDecrementationTime: 4
+  setAutoBarSize: 0
   content: {fileID: 114084067072135040}
 --- !u!114 &114714606654094402
 MonoBehaviour:
@@ -472,8 +473,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd6a245b621cd044ea4afba572b61edb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 50
-  followSpeed: 3
+  walkSpeed: 70
+  followSpeed: 4
   timeBeforeFirstWander: 10
   minTimeBetweenReconsideringDirection: 1
   maxTimeBetweenReconsideringDirection: 10
@@ -482,8 +483,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   attackRange: 0.6
+  verticalAttackRange: 0
   distanceToRunScaler: 1
-  verticalRange: 0
 --- !u!114 &114716602262433620
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -517,6 +518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillAmount: 1
   healthDecrementationTime: 4
+  setAutoBarSize: 0
   content: {fileID: 114084067072135040}
 --- !u!114 &114930667412651030
 MonoBehaviour:

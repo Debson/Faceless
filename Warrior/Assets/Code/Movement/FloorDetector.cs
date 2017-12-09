@@ -54,7 +54,7 @@ public class FloorDetector : MonoBehaviour
         }
     }
 
-    void CalculateFloorRotation(Collider2D floorWeAreStandingOn)
+    private void CalculateFloorRotation(Collider2D floorWeAreStandingOn)
     {
         floorUp = floorWeAreStandingOn.transform.up;
         floorRotation = floorWeAreStandingOn.transform.rotation;
@@ -65,7 +65,7 @@ public class FloorDetector : MonoBehaviour
         }
     }
 
-    Collider2D DetectTheFloorWeAreStandingOn()
+    public Collider2D DetectTheFloorWeAreStandingOn()
     {
         int foundColliderCount = Physics2D.OverlapCollider(feetCollider, floorFilter, tempColliderList);
 

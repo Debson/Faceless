@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class EnemyHealthBar : MonoBehaviour
 {
-
     [SerializeField]
     private float fillAmount;
 
@@ -13,9 +12,15 @@ public class EnemyHealthBar : MonoBehaviour
     private float healthDecrementationTime;
 
     [SerializeField]
+    private bool setAutoBarSize;
+
+    [SerializeField]
     private Image content;
 
     EnemyHealthManager enemyHealthManager;
+    Canvas healthBarCanvas;
+    Collider2D enemyCollider;
+
 
     private bool isFacingLeft;
     private bool isFacingRight;
@@ -27,10 +32,16 @@ public class EnemyHealthBar : MonoBehaviour
     protected void Awake()
     {
         enemyHealthManager = GetComponent<EnemyHealthManager>();
+        healthBarCanvas = GetComponentInChildren<Canvas>();
+        enemyCollider = GetComponent<Collider2D>();
     }
 
     protected void Start()
     {
+        if (setAutoBarSize)
+        {
+            healthBarCanvas.transform.localScale = new Vector2(enemyCollider.bounds.size.x * 0.8f, enemyCollider.bounds.size.x * 1.1f);
+        }
         lastAmount = content.fillAmount;
     }
 
@@ -41,7 +52,6 @@ public class EnemyHealthBar : MonoBehaviour
         {
             content.fillAmount = 0;
         }
-
         HandleBar();
     }
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DashMovement : MonoBehaviour
@@ -23,6 +22,7 @@ public class DashMovement : MonoBehaviour
     TurnAround player;
     FloorDetector floorDetector;
     PlayerController playerController;
+    AudioManager audioManager;
 
     private GameObject[] glow;
 
@@ -42,6 +42,7 @@ public class DashMovement : MonoBehaviour
     private float startingTime = 1.2f;
 
     private bool callOnce;
+    private bool playOnce;
     private bool createGlow;
     private bool active;
     private bool cooldownIsUp;
@@ -51,6 +52,7 @@ public class DashMovement : MonoBehaviour
         player = GetComponent<TurnAround>();
         floorDetector = GetComponent<FloorDetector>();
         playerController = GetComponent<PlayerController>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     protected void Start()
@@ -70,10 +72,6 @@ public class DashMovement : MonoBehaviour
             playerController.CharacterControlEnabled = true;
             StartCoroutine(Dash());
         }
-        else
-        {
-            playerController.CharacterControlEnabled = false;
-        }
 
         ChangeTransparencyToZero();
     }
@@ -85,6 +83,12 @@ public class DashMovement : MonoBehaviour
             StartCoroutine(CreateGlow());
         }
         createGlow = false;
+
+        if(!playOnce)
+        {
+            audioManager.playerDash[Random.Range(0, 3)].Play();
+            playOnce = true;
+        }
 
         if (player.isFacingLeft)
         {
@@ -101,6 +105,8 @@ public class DashMovement : MonoBehaviour
         Physics2D.IgnoreLayerCollision(10, 8, false);
         dash = false;
         cooldownIsUp = false;
+        playOnce = false;
+        playerController.CharacterControlEnabled = false;
     }
 
     IEnumerator CreateGlow()

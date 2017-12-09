@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 114945438147099056}
   m_Layer: 10
   m_Name: Small Troll
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,7 +178,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1720214198102106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 211.30408, y: -289.20786, z: 0}
+  m_LocalPosition: {x: 207.90968, y: -288.80908, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4046238743579860}
@@ -232,7 +232,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.121343434, y: 1.244807}
+  m_Offset: {x: -0.09384078, y: 1.2118196}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -243,7 +243,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.97905993, y: 0.10151684}
+  m_Size: {x: 1.0340654, y: 0.1812439}
   m_EdgeRadius: 0
 --- !u!61 &61854236724345040
 BoxCollider2D:
@@ -395,6 +395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillAmount: 1
   healthDecrementationTime: 3
+  setAutoBarSize: 0
   content: {fileID: 114806549631949742}
 --- !u!114 &114430105711018656
 MonoBehaviour:
@@ -444,8 +445,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   attackRange: 1
+  verticalAttackRange: 0
   distanceToRunScaler: 2
-  verticalRange: 0
 --- !u!114 &114524308487149392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -607,6 +608,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillAmount: 1
   healthDecrementationTime: 4
+  setAutoBarSize: 0
   content: {fileID: 114806549631949742}
 --- !u!212 &212238854072228622
 SpriteRenderer:

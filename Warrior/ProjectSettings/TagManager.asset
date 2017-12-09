@@ -8,6 +8,7 @@ TagManager:
   - Bat
   - AttackTrigger
   - EnemyAttackTrigger
+  - Platform
   layers:
   - Default
   - TransparentFX

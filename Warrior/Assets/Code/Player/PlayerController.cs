@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(WalkMovement))]
 [RequireComponent(typeof(JumpMovement))]
@@ -63,7 +61,7 @@ public class PlayerController : MonoBehaviour
             attackMovement.attackRequest = true;
         }
 
-        if(Input.GetKeyDown(KeyCode.D) && floorDetector.isTouchingFloor)
+        if(Input.GetKeyDown(KeyCode.D) && floorDetector.isTouchingFloor && !CharacterControlEnabled)
         {
             dashMovement.dash = true;
         }

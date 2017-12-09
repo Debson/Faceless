@@ -49,7 +49,7 @@ public class ElfKnightController : MonoBehaviour
         SetAnimationLogic();
     }
 
-    IEnumerator OnDeath()
+   /* IEnumerator OnDeath()
     {
         if (enemyHealthManager.GetHealth() <= 0)
         {
@@ -79,7 +79,7 @@ public class ElfKnightController : MonoBehaviour
                 yield return new WaitForSeconds(0.2f);
             }
         }
-    }
+    }*/
 
     private void SetAnimationLogic()
     {

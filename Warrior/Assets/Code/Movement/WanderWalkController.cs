@@ -9,16 +9,16 @@ public class WanderWalkController : MonoBehaviour
     float walkSpeed = 50f;
 
     [SerializeField]
-    float followSpeed = 0.7f;
+    float followSpeed = 3f;
 
     [SerializeField]
-    float timeBeforeFirstWander = 10;
+    float timeBeforeFirstWander = 2;
 
     [SerializeField]
     float minTimeBetweenReconsideringDirection = 1;
 
     [SerializeField]
-    float maxTimeBetweenReconsideringDirection = 10;
+    float maxTimeBetweenReconsideringDirection = 6;
 
     [SerializeField]
     public float playerRange;
@@ -30,10 +30,10 @@ public class WanderWalkController : MonoBehaviour
     float attackRange = 1f;
 
     [SerializeField]
-    private float distanceToRunScaler;
+    private float verticalAttackRange = 0f;
 
     [SerializeField]
-    float verticalRange = 0;
+    private float distanceToRunScaler;
 
     Animator animator;
     Rigidbody2D myBody;
@@ -42,12 +42,13 @@ public class WanderWalkController : MonoBehaviour
     Canvas healthBarCanvas;
     OrcController orcController;
     HurtEnemyOnContact enemy;
+    FloorDetector floorDetector;
 
     public bool isRunning { set; get; }
     public bool playerInRange { set; get; }
     public bool isWalking { set; get; }
     public bool isAttacking { get; set; }
-    public bool stunned { get; set; }
+    public bool stunned { get; private set; }
 
     private float enemyYBounds;
     private float desiredWalkDirection;
@@ -70,6 +71,7 @@ public class WanderWalkController : MonoBehaviour
         healthBarCanvas = GetComponentInChildren<Canvas>();
         orcController = GetComponent<OrcController>();
         enemy = GetComponent<HurtEnemyOnContact>();
+        floorDetector = FindObjectOfType<FloorDetector>();
     }
 
     protected void Start()
@@ -80,7 +82,6 @@ public class WanderWalkController : MonoBehaviour
     protected void Update()
     {
         playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
-
         RotateEnemy();
 
         CheckIfCloseToPlayer();
@@ -106,16 +107,6 @@ public class WanderWalkController : MonoBehaviour
         }
     }
 
-    void SelectARandomWalkDirection()
-    {
-        desiredWalkDirection = Random.value <= .5f ? 1 : -1;
-    }
-
-    float GetRandomTimeToSleep()
-    {
-        return Random.Range(minTimeBetweenReconsideringDirection, maxTimeBetweenReconsideringDirection);
-    }
-
     IEnumerator Move()
     {
         if (!stopWalking)
@@ -126,16 +117,15 @@ public class WanderWalkController : MonoBehaviour
                 callOnce = true;
             }
 
-            if(stunned && callOnce)
+            if (stunned && callOnce)
             {
                 callOnce = false;
                 yield return new WaitForSeconds(enemy.stunTime);
                 stunned = false;
             }
-            else if(!stunned && !callOnce)
+            else if (!stunned && !callOnce)
             {
-
-                if (playerInRange && (transform.position.y + enemyYBounds + verticalRange >= playerController.transform.position.y))
+                if (playerInRange && (transform.position.y + enemyYBounds + verticalAttackRange >= playerController.transform.position.y))
                 {
                     transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
                                                              followSpeed * Time.deltaTime);
@@ -161,7 +151,8 @@ public class WanderWalkController : MonoBehaviour
                 isWalking = false;
             }
 
-            if (transform.position.y + enemyYBounds + verticalRange >= playerController.transform.position.y)
+            /*
+            if ((transform.position.y + enemyYBounds + verticalAttackRange) > playerController.transform.position.y)
             {
                 isWalking = false;
             }
@@ -169,20 +160,39 @@ public class WanderWalkController : MonoBehaviour
             {
                 isWalking = true;
             }
+            */
         }
+    }
+
+    private float GetRandomTimeToSleep()
+    {
+        return Random.Range(minTimeBetweenReconsideringDirection, maxTimeBetweenReconsideringDirection);
+    }
+
+    private void SelectARandomWalkDirection()
+    {
+        desiredWalkDirection = Random.value <= .5f ? 1 : -1;
     }
 
     private void CheckIfCloseToPlayer()
     {
         distanceToPlayer = Vector3.Distance(playerController.transform.position, transform.position);
-        if (distanceToPlayer < characterXBounds)
+        if (floorDetector.DetectTheFloorWeAreStandingOn() == null)
         {
-            stopWalking = true;
-            isRunning = false;
+            return;
         }
-        else if (distanceToPlayer > characterXBounds * distanceToRunScaler)
+        else
         {
-            stopWalking = false;
+            if (distanceToPlayer < characterXBounds || floorDetector.DetectTheFloorWeAreStandingOn().name == gameObject.name)
+
+            {
+                stopWalking = true;
+                isRunning = false;
+            }
+            else if (distanceToPlayer > characterXBounds * distanceToRunScaler )
+            {
+                stopWalking = false;
+            }
         }
     }
 

@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource[] monsterHurt;
     public AudioSource[] playerJump;
     public AudioSource[] playerHurt;
+    public AudioSource[] playerDash;
 
     /// <summary>
     /// Dragon Sounds
