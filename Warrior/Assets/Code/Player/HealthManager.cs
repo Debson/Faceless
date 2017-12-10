@@ -12,10 +12,12 @@ public class HealthManager : MonoBehaviour
     private static int playerHealth;
 
     LifeManager lifeManager;
+    AudioManager audioManager;
 
     protected void Awake()
     {
         lifeManager = GetComponent<LifeManager>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     protected void Start()
@@ -31,6 +33,7 @@ public class HealthManager : MonoBehaviour
         {
             //Time.timeScale = 0;
             //lifeManager.TakeLife();
+            audioManager.playerDie.Play();
             Destroy(this.gameObject);
         }
     }

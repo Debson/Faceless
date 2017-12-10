@@ -8,7 +8,7 @@ public class WalkMovement : MonoBehaviour
     public static int playerPoints = 0;
 
     [SerializeField]
-    private float knockbackStrength;
+    public float knockbackStrength;
 
     [SerializeField]
     public float knockBackLength;

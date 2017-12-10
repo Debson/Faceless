@@ -49,6 +49,7 @@ public class WanderWalkController : MonoBehaviour
     public bool isWalking { set; get; }
     public bool isAttacking { get; set; }
     public bool stunned { get; private set; }
+    public bool isIdle { get; private set; }
 
     private float enemyYBounds;
     private float desiredWalkDirection;
@@ -81,12 +82,20 @@ public class WanderWalkController : MonoBehaviour
 
     protected void Update()
     {
-        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
-        RotateEnemy();
+        if (playerController == null)
+        {
+            isIdle = true;
+            return;
+        }
+        else
+        {
+            playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
+            RotateEnemy();
 
-        CheckIfCloseToPlayer();
+            CheckIfCloseToPlayer();
 
-        StartCoroutine(Move());
+            StartCoroutine(Move());
+        }
     }
 
     IEnumerator Wander()

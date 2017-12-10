@@ -9,6 +9,7 @@ TagManager:
   - AttackTrigger
   - EnemyAttackTrigger
   - Platform
+  - Obstacle
   layers:
   - Default
   - TransparentFX

@@ -9,6 +9,9 @@ public class OnTriggerLoadLevel : MonoBehaviour
     private float loadDelay = 3f;
 
     [SerializeField]
+    private string level;
+
+    [SerializeField]
     private Image blackout;
 
     PlayerController playerController;
@@ -35,7 +38,7 @@ public class OnTriggerLoadLevel : MonoBehaviour
             yield return 0;
         }
         yield return new WaitForSeconds(delay);
-        EditorSceneManager.LoadScene("Level2");
+        EditorSceneManager.LoadScene("level");
     }
 }
 

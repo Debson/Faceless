@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(HurtEnemyOnContact))]
 public class HurtPlayerOnContact : MonoBehaviour
 {
     [SerializeField]
