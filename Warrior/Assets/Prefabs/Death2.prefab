@@ -46,6 +46,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1434995662585130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4293113547121332}
+  - component: {fileID: 114713625972086262}
+  m_Layer: 0
+  m_Name: LaserShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1465015071886138
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,6 +99,21 @@ GameObject:
   m_Layer: 10
   m_Name: Death2
   m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1698998679435028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4139705064327574}
+  m_Layer: 10
+  m_Name: MinDistToCastLaserPoint
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -141,6 +172,32 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4139705064327574
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1698998679435028}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.85, y: 0.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4735693314414982}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4293113547121332
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1434995662585130}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: -0.87, y: 0.859, z: 3.923169}
+  m_LocalScale: {x: 0.75, y: 0.25, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4735693314414982}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4523650117090006
 Transform:
   m_ObjectHideFlags: 1
@@ -152,7 +209,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4735693314414982}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4735693314414982
 Transform:
@@ -162,10 +219,12 @@ Transform:
   m_GameObject: {fileID: 1557778293842916}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 199.18, y: -102.57, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
   m_Children:
-  - {fileID: 4523650117090006}
+  - {fileID: 4293113547121332}
   - {fileID: 224792846417474420}
+  - {fileID: 4523650117090006}
+  - {fileID: 4139705064327574}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -348,7 +407,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   attackRange: 7
-  verticalAttackRange: 0
+  verticalAttackRange: 10
   distanceToRunScaler: 1
 --- !u!114 &114499105620348010
 MonoBehaviour:
@@ -373,6 +432,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 829839382912ab3408dd3da17f1cd4b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  laser:
+  - {fileID: 1613160977655454, guid: 252049d163740b54eb0ca0f7354287e2, type: 2}
+  - {fileID: 1693511602472462, guid: ec27639eca8253b44a51e6bfe0a95e0f, type: 2}
+  - {fileID: 1125470561120508, guid: 7f1ed22d64a31de439767cf90d9d8e9e, type: 2}
+  - {fileID: 1937399449714964, guid: 64991f440a4eb10499fbf8a5817185a0, type: 2}
+  - {fileID: 1560964865957858, guid: 5ee5245ad9068f94a87bfb35d1bf4c65, type: 2}
+  laserShootPoint: {fileID: 4293113547121332}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  minLaserCastRange: 20
+  maxLaserCastRange: 8
+  laserSpeed: 15
 --- !u!114 &114651335273878238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -393,6 +465,20 @@ MonoBehaviour:
   paintWhiteOnHit: 1
   blood: {fileID: 1882104490518854, guid: 1aa24812494a9644a994014e5fb94f3d, type: 2}
   bloodColor: {r: 0.5993469, g: 0.025410883, b: 0.6911765, a: 0}
+--- !u!114 &114713625972086262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1434995662585130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54a6ea0de080b74488bb06e5e7d7e56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &114726420520614532
 MonoBehaviour:
   m_ObjectHideFlags: 1

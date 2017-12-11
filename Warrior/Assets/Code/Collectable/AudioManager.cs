@@ -54,12 +54,20 @@ public class AudioManager : MonoBehaviour
     public AudioSource[] elfHurt;
     public AudioSource[] elfDeath;
 
+
+    /// <summary>
+    /// Spider sounds
+    /// </summary>
     public AudioSource spiderAttack;
     public AudioSource spiderChattering;
 
+
+    /// <summary>
+    /// Reapers sounds
+    /// </summary>
     public AudioSource[] reaperAttack;
     public AudioSource[] reaperHurt;
     public AudioSource[] reaperAgro;
-    public AudioSource reaperDead;
+    public AudioSource[] reaperDead;
 
 }

@@ -68,7 +68,7 @@ public class DemonHunter : MonoBehaviour
     {
         if(hurtEnemyOnContact.isHurt && onlyOnce)
         {
-            audioManager.reaperHurt[Random.Range(0, 3)].Play();
+            audioManager.reaperHurt[Random.Range(0, 1)].Play();
         }
         else if(!hurtEnemyOnContact.isHurt)
         {
@@ -77,7 +77,7 @@ public class DemonHunter : MonoBehaviour
 
         if (enemyHealthManager.GetHealth() <= 0 && !isDead)
         {
-            audioManager.reaperDead.Play();
+            audioManager.reaperDead[0].Play();
             animator.SetTrigger("isDead");
             collider.enabled = false;
             StopAllCoroutines();
@@ -163,7 +163,7 @@ public class DemonHunter : MonoBehaviour
         {
             if(!isInPlayerRange)
             {
-                audioManager.reaperAgro[Random.Range(0, 2)].Play();
+                audioManager.reaperAgro[1].Play();
                 isInPlayerRange = true;
             }
             animator.SetBool("isWalking", true);

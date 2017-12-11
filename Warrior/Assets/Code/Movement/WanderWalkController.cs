@@ -44,12 +44,14 @@ public class WanderWalkController : MonoBehaviour
     HurtEnemyOnContact enemy;
     FloorDetector floorDetector;
 
+    public bool IgnorePlayerAboveEnemy { get; set; }
     public bool isRunning { set; get; }
     public bool playerInRange { set; get; }
     public bool isWalking { set; get; }
     public bool isAttacking { get; set; }
     public bool stunned { get; private set; }
     public bool isIdle { get; private set; }
+    public bool isFacingLeft { get; private set; }
 
     private float enemyYBounds;
     private float desiredWalkDirection;
@@ -134,7 +136,7 @@ public class WanderWalkController : MonoBehaviour
             }
             else if (!stunned && !callOnce)
             {
-                if (playerInRange && (transform.position.y + enemyYBounds + verticalAttackRange >= playerController.transform.position.y))
+                if (playerInRange && (transform.position.y + enemyYBounds + verticalAttackRange >= playerController.transform.position.y) || !IgnorePlayerAboveEnemy)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
                                                              followSpeed * Time.deltaTime);
@@ -216,6 +218,7 @@ public class WanderWalkController : MonoBehaviour
                 myBody.transform.rotation = Quaternion.Euler(0, -180, 0);
                 //healthBarCanvas.enabled = true;
                 isFlippedRigid = true;
+                isFacingLeft = false;
             }
 
             if (myBody.velocity.x < .1f && isFlippedRigid)
@@ -223,6 +226,7 @@ public class WanderWalkController : MonoBehaviour
                 healthBarCanvas.transform.rotation = Quaternion.Euler(0, 180, 0);
                 myBody.transform.rotation = Quaternion.Euler(0, 0, 0);
                 isFlippedRigid = false;
+                isFacingLeft = true;
             }
         }
         else
@@ -231,6 +235,7 @@ public class WanderWalkController : MonoBehaviour
             {
                 healthBarCanvas.transform.rotation = Quaternion.Euler(0, 0, 0);
                 myBody.transform.rotation = Quaternion.Euler(0, 0, 0);
+                isFacingLeft = true;
             }
             else
             {
@@ -243,6 +248,7 @@ public class WanderWalkController : MonoBehaviour
                 healthBarCanvas.transform.rotation = Quaternion.Euler(0, 180, 0);
                 myBody.transform.rotation = Quaternion.Euler(0, -180, 0);
                 isFlippedRigid = true;
+                isFacingLeft = false;
             }
             else
             {

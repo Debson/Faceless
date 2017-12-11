@@ -16,7 +16,6 @@ public class ScytheController : MonoBehaviour
     Rigidbody2D myBody;
     DemonHunter demonHunter;
 
-
     private float scytheDirection;
 
     protected void Awake()
