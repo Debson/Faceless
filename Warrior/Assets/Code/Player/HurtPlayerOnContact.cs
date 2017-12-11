@@ -93,7 +93,6 @@ public class HurtPlayerOnContact : MonoBehaviour
         if (isInTrigger)
         {
             attackingAnimation = true;
-            HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
             Invoke("AttackAnimation", animationDelay);
         }
         else
@@ -105,6 +104,7 @@ public class HurtPlayerOnContact : MonoBehaviour
 
     private void AttackAnimation()
     {
+        HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
         walkMovement.Knockback(this.gameObject);
         audioManager.playerHurt[Random.Range(0, 2)].Play();
         attackingAnimation = false;
