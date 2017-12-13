@@ -74,12 +74,12 @@ public class OrcController : MonoBehaviour
             animator.SetBool("isIdle", false);
         }
 
-        if (wanderWalkController.playerInRange && callOnceRunning)
+        if (wanderWalkController.isRunning && callOnceRunning)
         {
             audioManager.OrcRoar[0].Play();
             callOnceRunning = false;
         }
-        else if (!wanderWalkController.playerInRange)
+        else if (!wanderWalkController.isRunning)
         {
             callOnceRunning = true;
         }

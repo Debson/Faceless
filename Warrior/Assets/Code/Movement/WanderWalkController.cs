@@ -58,6 +58,7 @@ public class WanderWalkController : MonoBehaviour
     private float characterXBounds;
     private float distanceToPlayer;
 
+    public bool StopWander { get; set; }
     private bool isFlippedRigid;
     private bool usingRigid;
     private bool stopWalking;
@@ -79,7 +80,10 @@ public class WanderWalkController : MonoBehaviour
 
     protected void Start()
     {
+        if (!StopWander)
+        {
             StartCoroutine(Wander());
+        }
     }
 
     protected void Update()
@@ -136,31 +140,33 @@ public class WanderWalkController : MonoBehaviour
             }
             else if (!stunned && !callOnce)
             {
-                if (playerInRange && (transform.position.y + enemyYBounds + verticalAttackRange >= playerController.transform.position.y) || !IgnorePlayerAboveEnemy)
+                if (playerInRange && (transform.position.y + enemyYBounds + verticalAttackRange >= playerController.transform.position.y))
                 {
                     transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
                                                              followSpeed * Time.deltaTime);
                     usingRigid = false;
                     isRunning = true;
+                    isWalking = false;
                 }
-                else
+                else if(playerInRange && !(transform.position.y + enemyYBounds + verticalAttackRange >= playerController.transform.position.y) || !playerInRange)
                 {
                     float desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
                     myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
                     usingRigid = true;
                     isRunning = false;
+                    isWalking = true;
                 }
             }
 
             //WALKING
-            if (!playerInRange)
+            /*if (!playerInRange)
             {
                 isWalking = true;
             }
-            else
+            else if()
             {
                 isWalking = false;
-            }
+            }*/
 
             /*
             if ((transform.position.y + enemyYBounds + verticalAttackRange) > playerController.transform.position.y)

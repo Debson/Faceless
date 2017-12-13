@@ -7,9 +7,6 @@ public class CameraFollow : MonoBehaviour
     [SerializeField]
     public bool cameraBounds;
 
-    [HideInInspector]
-    public bool stopFollow;
-
 
     GameObject player;
     EnterTerritory enterTerritory;
@@ -19,6 +16,8 @@ public class CameraFollow : MonoBehaviour
     private Vector2 velocity;
     private Vector3 minCameraPosition;
     private Vector3 maxCameraPosition;
+
+    public bool stopFollow { set; get; }
 
     private float playerYPositionOnStart;
     private float playerXPositionOnStart;
@@ -31,7 +30,7 @@ public class CameraFollow : MonoBehaviour
         dragonController = FindObjectOfType<DragonController>();
         player = GameObject.FindGameObjectWithTag("Player");
         enterTerritory = FindObjectOfType<EnterTerritory>();
-        screenShake = GetComponent<ScreenShake>();
+        screenShake = GetComponentInChildren<ScreenShake>();
     }
 
     protected void Start()
@@ -49,7 +48,7 @@ public class CameraFollow : MonoBehaviour
         }
         else
         {
-            if (!screenShake.shakeScreen && !screenShake.shakeScreenOnAttack)
+            //if (!screenShake.shakeScreen && !screenShake.shakeScreenOnAttack)
             {
                 if (!stopFollow)
                 {

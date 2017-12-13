@@ -53,7 +53,7 @@ public class ScreenShake : MonoBehaviour
     IEnumerator ShakeCamera()
     {
         Camera camera = Camera.main;
-        Vector3 startingPosition = camera.transform.position;
+        Vector3 startingPosition = camera.transform.localPosition;
 
         float timePassed = 0;
         while(timePassed < timeToShakeFor)
@@ -65,7 +65,7 @@ public class ScreenShake : MonoBehaviour
                 percentComplete = 2 - percentComplete ;
             }
             Vector2 deltaPosition = Random.insideUnitCircle * shakeMagnitude * percentComplete;
-            camera.transform.position = startingPosition + (Vector3)deltaPosition;
+            camera.transform.localPosition = startingPosition + (Vector3)deltaPosition;
 
             float maxTime = maxTimeBetweenShakes * (1 - percentComplete);
             float sleepTime = Random.Range(0, maxTime);
@@ -74,7 +74,7 @@ public class ScreenShake : MonoBehaviour
             timePassed += sleepTime;
         }
 
-        camera.transform.position = startingPosition;
+        camera.transform.localPosition = startingPosition;
 
         shakeScreen = false;
         callOnce = false;

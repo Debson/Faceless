@@ -205,6 +205,12 @@ public class DeathReaperController : MonoBehaviour
             audioManager.reaperDead[1].Play();
             playOnce[2] = false;
         }
+
+        if(hurtPlayerOnContact.hit)
+        {
+            audioManager.reaperAttack[Random.Range(0, 2)].Play();
+            hurtPlayerOnContact.hit = false;
+        }
     }
 
     private void ReturnFromSlash()

@@ -100,7 +100,7 @@ public class HurtEnemyOnContact : MonoBehaviour
         }
     }
 
-    protected void Update()
+    protected void LateUpdate()
     {
         if (knockbackTimeCount <= 0)
         {

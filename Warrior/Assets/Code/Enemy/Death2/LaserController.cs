@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class LaserController : MonoBehaviour
 {
+    [SerializeField]
+    private int minDamageToGive;
+
+    [SerializeField]
+    private int maxDamageToGive;
+
     DeathReaperController deathReaperController;
+    HurtPlayerOnContact hurtPlayerOnContact;
     Rigidbody2D myBody;
 
     private bool callOnce;
@@ -12,6 +19,7 @@ public class LaserController : MonoBehaviour
     protected void Awake()
     {
         deathReaperController = FindObjectOfType<DeathReaperController>();
+        hurtPlayerOnContact = FindObjectOfType<HurtPlayerOnContact>();
         myBody = GetComponent<Rigidbody2D>();
     }
 
@@ -19,9 +27,9 @@ public class LaserController : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            Debug.Log("count");
             for (int i = 4; i >= 0; i--)
             {
+                hurtPlayerOnContact.AttackPlayer(minDamageToGive, maxDamageToGive);
                 Destroy(deathReaperController.laserArray[i]);
             }
         }

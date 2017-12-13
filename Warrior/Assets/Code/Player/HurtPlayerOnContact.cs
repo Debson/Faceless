@@ -35,6 +35,8 @@ public class HurtPlayerOnContact : MonoBehaviour
 
     public bool isHurted { get; set; }
 
+    public bool hit { get; set; }
+
     private bool firstHit = true;
 
     private float delay;
@@ -104,9 +106,8 @@ public class HurtPlayerOnContact : MonoBehaviour
 
     private void AttackAnimation()
     {
-        HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
-        walkMovement.Knockback(this.gameObject);
-        audioManager.playerHurt[Random.Range(0, 2)].Play();
+        AttackPlayer(minDamageToGive, maxDamageToGive);
+
         attackingAnimation = false;
         isAttacking = false;
         firstHit = false;
@@ -117,6 +118,14 @@ public class HurtPlayerOnContact : MonoBehaviour
         isAttacking = true;
         StartCoroutine(Animation(delay));
         return;
+    }
+
+    public void AttackPlayer(int minDamageToGive, int maxDamageToGive)
+    {
+        hit = true;
+        HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
+        walkMovement.Knockback(this.gameObject);
+        audioManager.playerHurt[Random.Range(0, 2)].Play();
     }
 }
 

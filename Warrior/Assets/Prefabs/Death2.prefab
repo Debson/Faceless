@@ -218,7 +218,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1557778293842916}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 199.18, y: -102.57, z: 0}
+  m_LocalPosition: {x: 198.01408, y: -100.950356, z: 0}
   m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
   m_Children:
   - {fileID: 4293113547121332}
@@ -402,12 +402,12 @@ MonoBehaviour:
   timeBeforeFirstWander: 1
   minTimeBetweenReconsideringDirection: 4
   maxTimeBetweenReconsideringDirection: 8
-  playerRange: 30
+  playerRange: 22
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
   attackRange: 7
-  verticalAttackRange: 10
+  verticalAttackRange: 0
   distanceToRunScaler: 1
 --- !u!114 &114499105620348010
 MonoBehaviour:

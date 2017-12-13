@@ -1,0 +1,355 @@
+fileFormatVersion: 2
+guid: 1bde96f1c1f86bf4ca01fc28c3c64f24
+timeCreated: 1513069281
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Mobile - Demon Hunter Legend 4 - Merman_0
+    21300002: Mobile - Demon Hunter Legend 4 - Merman_1
+    21300004: Mobile - Demon Hunter Legend 4 - Merman_2
+    21300006: Mobile - Demon Hunter Legend 4 - Merman_3
+    21300008: Mobile - Demon Hunter Legend 4 - Merman_4
+    21300010: Mobile - Demon Hunter Legend 4 - Merman_5
+    21300012: Mobile - Demon Hunter Legend 4 - Merman_6
+    21300014: Mobile - Demon Hunter Legend 4 - Merman_8
+    21300016: Mobile - Demon Hunter Legend 4 - Merman_11
+    21300018: Mobile - Demon Hunter Legend 4 - Merman_12
+    21300020: Mobile - Demon Hunter Legend 4 - Merman_13
+    21300022: Mobile - Demon Hunter Legend 4 - Merman_16
+    21300024: Mobile - Demon Hunter Legend 4 - Merman_17
+    21300026: Mobile - Demon Hunter Legend 4 - Merman_19
+    21300028: Mobile - Demon Hunter Legend 4 - Merman_20
+    21300030: Mobile - Demon Hunter Legend 4 - Merman_21
+    21300032: Mobile - Demon Hunter Legend 4 - Merman_22
+    21300034: Mobile - Demon Hunter Legend 4 - Merman_23
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 319
+        width: 59
+        height: 40
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_1
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 319
+        width: 59
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_2
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 319
+        width: 59
+        height: 38
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_3
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 265
+        width: 55
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_4
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 265
+        width: 54
+        height: 41
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_5
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 265
+        width: 51
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_6
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 265
+        width: 54
+        height: 41
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_8
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 176
+        width: 55
+        height: 80
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_11
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 176
+        width: 72
+        height: 59
+      alignment: 9
+      pivot: {x: 0.62, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_12
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 176
+        width: 49
+        height: 59
+      alignment: 9
+      pivot: {x: 0.45, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_13
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 176
+        width: 45
+        height: 60
+      alignment: 9
+      pivot: {x: 0.45, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_16
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 106
+        width: 47
+        height: 62
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_17
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 105
+        width: 123
+        height: 49
+      alignment: 9
+      pivot: {x: -0.07, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_19
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 105
+        width: 63
+        height: 49
+      alignment: 9
+      pivot: {x: -0.14, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_20
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 105
+        width: 55
+        height: 49
+      alignment: 9
+      pivot: {x: -0.16, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_21
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 105
+        width: 48
+        height: 49
+      alignment: 9
+      pivot: {x: -0.18, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_22
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 52
+        width: 47
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mobile - Demon Hunter Legend 4 - Merman_23
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 25
+        width: 77
+        height: 17
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

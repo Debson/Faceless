@@ -51,6 +51,7 @@ public class EnemyHealthBar : MonoBehaviour
         if (enemyHealthManager.GetHealth() <= 0)
         {
             content.fillAmount = 0;
+            healthBarCanvas.enabled = false;
         }
         HandleBar();
     }
