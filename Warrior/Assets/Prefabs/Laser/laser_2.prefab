@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 50544005870578240}
   - component: {fileID: 114176247094057698}
   - component: {fileID: 61389481696659686}
+  - component: {fileID: 114994678637806720}
   m_Layer: 13
   m_Name: laser_2
   m_TagString: Obstacle
@@ -99,6 +100,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cce1dcf789122b46bb2617b130d55b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minDamageToGive: 0
+  maxDamageToGive: 0
+--- !u!114 &114994678637806720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1125470561120508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d067e42a2d80bc41a9e146591b21814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDamageToGive: 4
+  maxDamageToGive: 10
+  attackFreq: 0
+  animationDelay: 0
+  hitAfterTime: 0
+  hitDelay: 0
 --- !u!212 &212009278582759366
 SpriteRenderer:
   m_ObjectHideFlags: 1

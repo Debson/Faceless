@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 95691342244566064}
   - component: {fileID: 114681432476866136}
   - component: {fileID: 114507536419822664}
-  - component: {fileID: 114159501066558300}
+  - component: {fileID: 114931838921225392}
   - component: {fileID: 114378308922351630}
   - component: {fileID: 114420256155844582}
   - component: {fileID: 114603486545821074}
@@ -148,7 +148,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1049091565619310}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 188.23, y: -102.19, z: 0}
+  m_LocalPosition: {x: 180.30756, y: -102.21052, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4977071042179502}
@@ -252,23 +252,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114159501066558300
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1049091565619310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d067e42a2d80bc41a9e146591b21814, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minDamageToGive: 0
-  maxDamageToGive: 0
-  attackFreq: 0
-  animationDelay: 0.55
-  hitAfterTime: 0
-  hitDelay: 0
 --- !u!114 &114226535386932102
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -462,8 +445,6 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
-  minDamageToGive: 5
-  maxDamageToGive: 5
   deathCollider: {fileID: 1979256804600424}
 --- !u!114 &114697028309792146
 MonoBehaviour:
@@ -497,6 +478,23 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114931838921225392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1049091565619310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d067e42a2d80bc41a9e146591b21814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDamageToGive: 10
+  maxDamageToGive: 20
+  attackFreq: 0
+  animationDelay: 0
+  hitAfterTime: 0
+  hitDelay: 0
 --- !u!114 &114973028984626764
 MonoBehaviour:
   m_ObjectHideFlags: 1

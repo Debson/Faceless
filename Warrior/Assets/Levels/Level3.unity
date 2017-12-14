@@ -1634,7 +1634,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.42887583, y: 0.31559068}
+  m_Offset: {x: 0.5569136, y: 0.3283826}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1645,7 +1645,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8090287, y: 0.6342443}
+  m_Size: {x: 0.7903137, y: 0.5841116}
   m_EdgeRadius: 0
 --- !u!1 &375157457
 GameObject:
@@ -3857,6 +3857,9 @@ GameObject:
   - component: {fileID: 759369053}
   - component: {fileID: 759369054}
   - component: {fileID: 759369055}
+  - component: {fileID: 759369056}
+  - component: {fileID: 759369057}
+  - component: {fileID: 759369058}
   m_Layer: 8
   m_Name: Faceless
   m_TagString: Player
@@ -3947,7 +3950,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 759369041}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9091250668c4e8a4aa3b10269b68e72e, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -3968,7 +3971,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 7
   m_Material: {fileID: 6200000, guid: 9091250668c4e8a4aa3b10269b68e72e, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -3985,9 +3988,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f8dac58f0f582a43ba2ed12eaa0f3df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackStrength: 0
-  knockBackLength: 0
-  walkSpeed: 400
+  knockbackStrength: 1
+  knockBackLength: 0.2
+  walkSpeed: 550
   knockbackTimeCount: 0
   knockFromRight: 0
   desiredWalkDirection: 0
@@ -4002,10 +4005,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291950c39ea729443840aaeb212e9dcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doubleJump: 0
-  jumpRequest: 0
-  jumpSpeed: 25
+  jumpSpeed: 35
   secondJumpSpeed: 10
+  doubleJumpDuration: 0.5
 --- !u!114 &759369049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4018,6 +4020,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackTrigger: {fileID: 339354702}
+  delayToDeactivateCombo: 2
 --- !u!114 &759369050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4099,6 +4102,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce32743cee3a1646819f32b79457ccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &759369056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 759369041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b16281551207e4dbcdca2ab77f26ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 40
+  dashTime: 0.2
+  dashCooldown: 0.5
+  dashSpriteRight: {fileID: 21300000, guid: 3a5f9759f5c3c2046a0611db5a468b05, type: 3}
+  dashSpriteLeft: {fileID: 21300000, guid: 4b342c6f8f821184b9b248ecb326add5, type: 3}
+--- !u!114 &759369057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 759369041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdc0cffd9cee52f41b9751661ff7bf95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &759369058
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 759369041}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.002932638, y: 0.018865712}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.802, y: 0.33}
+    oldSize: {x: 0.94, y: 0.79}
+    newSize: {x: 0.93, y: 0.79}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.15676117, y: 0.05884044}
+  m_EdgeRadius: 0
 --- !u!1 &761828958
 GameObject:
   m_ObjectHideFlags: 0
@@ -6451,10 +6506,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291950c39ea729443840aaeb212e9dcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doubleJump: 0
-  jumpRequest: 0
   jumpSpeed: 30
   secondJumpSpeed: 15
+  doubleJumpDuration: 2
 --- !u!114 &1206489084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6478,6 +6532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackTrigger: {fileID: 618652247}
+  delayToDeactivateCombo: 2
 --- !u!114 &1206489086
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -48,7 +48,6 @@ public class CameraFollow : MonoBehaviour
         }
         else
         {
-            //if (!screenShake.shakeScreen && !screenShake.shakeScreenOnAttack)
             {
                 if (!stopFollow)
                 {

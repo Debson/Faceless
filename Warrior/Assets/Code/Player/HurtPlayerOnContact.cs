@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,10 +23,14 @@ public class HurtPlayerOnContact : MonoBehaviour
     [SerializeField]
     private float hitDelay;
 
+    public delegate void OnAttackDamage(GameObject enemy, int minDamageToGive, int MaxDamageToGive);
+    public static event OnAttackDamage onAttackDamage;
+
     Animator animator;
     AudioManager audioManager;
     WalkMovement walkMovement;
     HurtEnemyOnContact enemy;
+    HealthManager healthManager;
 
     public bool attackingAnimation { set; get; }
 
@@ -43,10 +48,10 @@ public class HurtPlayerOnContact : MonoBehaviour
 
     protected void Awake()
     {
-        animator = GetComponentInParent<Animator>();
         audioManager = FindObjectOfType<AudioManager>();
         walkMovement = FindObjectOfType<WalkMovement>();
         enemy =  FindObjectOfType<HurtEnemyOnContact>();
+        healthManager = FindObjectOfType<HealthManager>();
     }
 
     protected void Start()
@@ -60,6 +65,12 @@ public class HurtPlayerOnContact : MonoBehaviour
         {
             StopAllCoroutines();
             Attack(0);
+        }
+
+        if (onAttackDamage != null)
+        {
+            walkMovement.GetComponent<Animator>().SetTrigger("Hurt");
+            onAttackDamage(this.gameObject, minDamageToGive, maxDamageToGive);
         }
     }
 
@@ -106,8 +117,8 @@ public class HurtPlayerOnContact : MonoBehaviour
 
     private void AttackAnimation()
     {
-        AttackPlayer(minDamageToGive, maxDamageToGive);
-
+        onAttackDamage += healthManager.AttackPlayer;
+        hit = true;
         attackingAnimation = false;
         isAttacking = false;
         firstHit = false;
@@ -118,14 +129,6 @@ public class HurtPlayerOnContact : MonoBehaviour
         isAttacking = true;
         StartCoroutine(Animation(delay));
         return;
-    }
-
-    public void AttackPlayer(int minDamageToGive, int maxDamageToGive)
-    {
-        hit = true;
-        HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
-        walkMovement.Knockback(this.gameObject);
-        audioManager.playerHurt[Random.Range(0, 2)].Play();
     }
 }
 

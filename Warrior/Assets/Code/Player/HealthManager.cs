@@ -8,16 +8,21 @@ public class HealthManager : MonoBehaviour
     [SerializeField]
     private int maxPlayerHealth;
 
+    public delegate void OnPlayerHurtKnockback(GameObject enemy);
+    public static event OnPlayerHurtKnockback onPlayerHurtKnockback;
+
     private static int maxHealth;
     private static int playerHealth;
 
     LifeManager lifeManager;
     AudioManager audioManager;
+    WalkMovement walkMovement;
 
     protected void Awake()
     {
         lifeManager = GetComponent<LifeManager>();
         audioManager = FindObjectOfType<AudioManager>();
+        walkMovement = FindObjectOfType<WalkMovement>();
     }
 
     protected void Start()
@@ -36,6 +41,19 @@ public class HealthManager : MonoBehaviour
             audioManager.playerDie.Play();
             Destroy(this.gameObject);
         }
+    }
+
+    public void AttackPlayer(GameObject enemy, int minDamageToGive, int maxDamageToGive)
+    {
+        HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);
+        HurtPlayerOnContact.onAttackDamage -= AttackPlayer;
+
+        onPlayerHurtKnockback += walkMovement.Knockback;
+        if (onPlayerHurtKnockback != null)
+        {
+            onPlayerHurtKnockback(enemy);
+        }
+        //audioManager.playerHurt[Random.Range(0, 2)].Play();
     }
 
     public static void AddHealth(int health)

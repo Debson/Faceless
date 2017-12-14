@@ -22,7 +22,6 @@ public class DeathReaperController : MonoBehaviour
     [SerializeField]
     public float laserSpeed = 10f;
 
-
     WanderWalkController wanderWalkController;
     HurtPlayerOnContact hurtPlayerOnContact;
     Animator animator;
@@ -206,7 +205,8 @@ public class DeathReaperController : MonoBehaviour
             playOnce[2] = false;
         }
 
-        if(hurtPlayerOnContact.hit)
+        
+        if (hurtPlayerOnContact.hit)
         {
             audioManager.reaperAttack[Random.Range(0, 2)].Play();
             hurtPlayerOnContact.hit = false;

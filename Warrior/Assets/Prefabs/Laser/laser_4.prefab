@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 50673905077036836}
   - component: {fileID: 114472088021839824}
   - component: {fileID: 61965145346521312}
+  - component: {fileID: 114019331106617094}
   m_Layer: 13
   m_Name: laser_4
   m_TagString: Obstacle
@@ -88,6 +89,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.11, y: 0.14}
   m_EdgeRadius: 0
+--- !u!114 &114019331106617094
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1560964865957858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d067e42a2d80bc41a9e146591b21814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDamageToGive: 4
+  maxDamageToGive: 10
+  attackFreq: 0
+  animationDelay: 0
+  hitAfterTime: 0
+  hitDelay: 0
 --- !u!114 &114472088021839824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -99,6 +117,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cce1dcf789122b46bb2617b130d55b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minDamageToGive: 0
+  maxDamageToGive: 0
 --- !u!212 &212879715078270388
 SpriteRenderer:
   m_ObjectHideFlags: 1

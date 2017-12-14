@@ -13,6 +13,7 @@ public class LaserController : MonoBehaviour
     DeathReaperController deathReaperController;
     HurtPlayerOnContact hurtPlayerOnContact;
     Rigidbody2D myBody;
+    HealthManager healthManager;
 
     private bool callOnce;
 
@@ -21,6 +22,7 @@ public class LaserController : MonoBehaviour
         deathReaperController = FindObjectOfType<DeathReaperController>();
         hurtPlayerOnContact = FindObjectOfType<HurtPlayerOnContact>();
         myBody = GetComponent<Rigidbody2D>();
+        healthManager = FindObjectOfType<HealthManager>();
     }
 
     protected void OnTriggerEnter2D(Collider2D collision)
@@ -29,7 +31,7 @@ public class LaserController : MonoBehaviour
         {
             for (int i = 4; i >= 0; i--)
             {
-                hurtPlayerOnContact.AttackPlayer(minDamageToGive, maxDamageToGive);
+                HurtPlayerOnContact.onAttackDamage += healthManager.AttackPlayer;
                 Destroy(deathReaperController.laserArray[i]);
             }
         }

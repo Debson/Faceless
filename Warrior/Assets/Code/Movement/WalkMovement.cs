@@ -16,6 +16,10 @@ public class WalkMovement : MonoBehaviour
     [SerializeField]
     float walkSpeed = 50;
 
+    public delegate void OnPlayerAttackKnockback(GameObject enemy);
+    public static event OnPlayerAttackKnockback onPlayerAttackKnockback;
+
+
     [HideInInspector]
     public float knockbackTimeCount;
 
@@ -95,6 +99,6 @@ public class WalkMovement : MonoBehaviour
         {
             knockFromRight = false;
         }
-        return;
+        HealthManager.onPlayerHurtKnockback -= Knockback;
     }
 }

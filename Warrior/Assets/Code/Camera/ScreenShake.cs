@@ -42,12 +42,23 @@ public class ScreenShake : MonoBehaviour
             StartCoroutine(ShakeCamera());
             callOnce = true;
         }
+    }
 
-        if(shakeScreenOnAttack && !callOnce)
-        {
-            StartCoroutine(ShakeCameraOnAttack());
-            callOnce = true;
-        }
+    public void ShakeOnFirstAtack()
+    {
+        StartCoroutine(ShakeCameraOnFirstAttack());
+        AttackMovement.onFirstAttack -= ShakeOnFirstAtack;
+    }
+    public void ShakeOnSecondAttack()
+    {
+        StartCoroutine(ShakeCameraOnSecondAttack());
+        AttackMovement.onSecondAttack -= ShakeOnSecondAttack;
+    }
+
+    public void ShakeOnThirdAttack()
+    {
+        StartCoroutine(ShakeCameraOnThirdAttack());
+        AttackMovement.onThirdAttack -= ShakeOnThirdAttack;
     }
 
     IEnumerator ShakeCamera()
@@ -80,10 +91,10 @@ public class ScreenShake : MonoBehaviour
         callOnce = false;
     }
 
-    IEnumerator ShakeCameraOnAttack()
+    IEnumerator ShakeCameraOnFirstAttack()
     {
         Camera camera = Camera.main;
-        Vector3 startingPosition = camera.transform.position;
+        Vector3 startingPosition = camera.transform.localPosition;
 
         float timePassed = 0;
         float x = 0;
@@ -97,9 +108,9 @@ public class ScreenShake : MonoBehaviour
         }
         while(timePassed < timeToShakeForAttack)
         {
-            Vector2 deltaPosition = new Vector2((Mathf.Pow(2, -16 * x) * Mathf.Sin((x - 0.05f / 16f) * (0.2f * Mathf.PI) / 0.6f) * 15f) * direction,
-                                                Random.insideUnitCircle.y / 15f);
-            camera.transform.position = startingPosition + (Vector3)deltaPosition;
+            Vector2 deltaPosition = new Vector2((Mathf.Pow(2, -16 * x) * Mathf.Sin((x - 0.05f / 16f) * (0.2f * Mathf.PI) / 0.6f) * 30f) * direction,
+                                                Random.insideUnitCircle.y / 10f);
+            camera.transform.localPosition = startingPosition + (Vector3)deltaPosition;
 
             float maxTime = maxTimeBetweenShakesAttack * Time.deltaTime;
             float sleepTime = Random.Range(0, maxTime);
@@ -107,11 +118,67 @@ public class ScreenShake : MonoBehaviour
             timePassed += Time.deltaTime;
             x += Time.fixedDeltaTime * 2.1f;
         }
-        camera.transform.position = startingPosition;
-
-        shakeScreenOnAttack = false;
-        callOnce = false;
-
+        camera.transform.localPosition = startingPosition;
     }
 
+    IEnumerator ShakeCameraOnSecondAttack()
+    {
+        Camera camera = Camera.main;
+        Vector3 startingPosition = camera.transform.localPosition;
+
+        float timePassed = 0;
+        float x = 0;
+        if (player.isFacingLeft)
+        {
+            direction = -1;
+        }
+        else
+        {
+            direction = 1;
+        }
+        while (timePassed < timeToShakeForAttack)
+        {
+            Vector2 deltaPosition = new Vector2(EasingFunction.EaseOutCirc(0.01f, 0.7f, x) * direction,
+                                                EasingFunction.EaseInBack(0.01f, 0.4f, x));
+
+            camera.transform.localPosition = startingPosition + (Vector3)deltaPosition;
+
+            float maxTime = maxTimeBetweenShakesAttack * Time.deltaTime;
+            float sleepTime = Random.Range(0, maxTime);
+            yield return new WaitForSeconds(sleepTime);
+            timePassed += Time.deltaTime;
+            x += Time.fixedDeltaTime * 2.1f;
+        }
+        camera.transform.localPosition = startingPosition;
+    }
+
+    IEnumerator ShakeCameraOnThirdAttack()
+    {
+        Camera camera = Camera.main;
+        Vector3 startingPosition = camera.transform.localPosition;
+
+        float timePassed = 0;
+        float x = 0;
+        if (player.isFacingLeft)
+        {
+            direction = -1;
+        }
+        else
+        {
+            direction = 1;
+        }
+        while (timePassed < timeToShakeForAttack)
+        {
+            Vector2 deltaPosition = new Vector2(0f, EasingFunction.SpringD(0.01f, -0.3f, x));
+
+            camera.transform.localPosition = startingPosition + (Vector3)deltaPosition;
+
+            //float maxTime = maxTimeBetweenShakesAttack * Time.deltaTime;
+            //float sleepTime = Random.Range(0, maxTime);
+            timePassed += Time.deltaTime;
+            x += Time.fixedDeltaTime * 2.1f;
+            yield return null;
+        }
+        camera.transform.localPosition = startingPosition;
+    }
 }

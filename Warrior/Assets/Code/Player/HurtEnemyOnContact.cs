@@ -48,11 +48,6 @@ public class HurtEnemyOnContact : MonoBehaviour
     private bool knockFromRight;
     private float enemyYBounds;
 
-
-    /// <summary>
-    /// test
-    /// </summary>
-
     private Texture damageFlash;
 
 

@@ -14,12 +14,6 @@ public class GolemController : MonoBehaviour
     LayerMask playerLayer;
 
     [SerializeField]
-    private int minDamageToGive;
-
-    [SerializeField]
-    private int maxDamageToGive;
-
-    [SerializeField]
     private GameObject deathCollider;
 
     AudioManager audioManager;
@@ -31,6 +25,7 @@ public class GolemController : MonoBehaviour
     RotateEnemy rotateEnemy;
     EnemyHealthManager enemyHealthManager;
     Collider2D myCollider;
+    HealthManager healthManager;
 
     private bool playerInRange;
     private bool _callOnce;
@@ -43,10 +38,11 @@ public class GolemController : MonoBehaviour
         hurtEnemyOnContact = GetComponent<HurtEnemyOnContact>();
         screenShake = FindObjectOfType<ScreenShake>();
         floorDetector = FindObjectOfType<FloorDetector>();
-        hurtPlayerOnContact = GetComponent<HurtPlayerOnContact>();
+        hurtPlayerOnContact = FindObjectOfType<HurtPlayerOnContact>();
         rotateEnemy = GetComponent<RotateEnemy>();
         enemyHealthManager = GetComponent<EnemyHealthManager>();
         myCollider = GetComponent<Collider2D>();
+        healthManager = FindObjectOfType<HealthManager>();
     }
 
     protected void LateUpdate()
@@ -71,9 +67,10 @@ public class GolemController : MonoBehaviour
             animator.SetTrigger("Attack");
             yield return new WaitForSeconds(0.35f);
             screenShake.shakeScreen = true;
+
             if (floorDetector.isTouchingFloor)
             {
-                hurtPlayerOnContact.AttackPlayer(minDamageToGive, maxDamageToGive);
+                HurtPlayerOnContact.onAttackDamage += healthManager.AttackPlayer;
             }
             yield return new WaitForSeconds(1f);
         }

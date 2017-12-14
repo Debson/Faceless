@@ -5,18 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class JumpMovement : MonoBehaviour
 {
-    public bool doubleJump;
-    public bool jumpRequest;
-    public bool isDoubleJump
-    {
-        get; private set;
-    }
+    [SerializeField]
+    private float jumpSpeed = 7f;
 
     [SerializeField]
-    float jumpSpeed = 7f;
+    private float secondJumpSpeed = 10f;
 
     [SerializeField]
-    float secondJumpSpeed = 10f;
+    private float doubleJumpDuration = 0.5f;
+
+    public bool isDoubleJump { get; private set; }
 
     PlayerController playerController;
     Rigidbody2D myBody;
@@ -50,6 +48,9 @@ public class JumpMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && !floorDetector.isTouchingFloor && !isDoubleJump)
         {
+            animator.SetBool("Double_Jump", true);
+            StartCoroutine(DoubleJumpDuration());
+
             if (myBody.velocity.y > 0)
             {
                 Jump(secondJumpSpeed);
@@ -57,18 +58,22 @@ public class JumpMovement : MonoBehaviour
 
             if (myBody.velocity.y < 0)
             {
-                Jump(secondJumpSpeed * 3.14159f);
-                doubleJump = true;
+                Jump(secondJumpSpeed * 3.3f);
             }
 
             isDoubleJump = true;
         }
-
     }
 
     public void Jump(float speed)
     {
         //audioManager.playerJump[Random.Range(0, 4)].Play();
         myBody.AddForce(new Vector2(0, speed), ForceMode2D.Impulse);
+    }
+
+    IEnumerator DoubleJumpDuration()
+    {
+        yield return new WaitForSeconds(doubleJumpDuration);
+        animator.SetBool("Double_Jump", false);
     }
 }

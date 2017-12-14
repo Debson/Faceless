@@ -1,13 +1,9 @@
 fileFormatVersion: 2
-guid: 71e86a2eccf13064eb6f1129c9f58180
-timeCreated: 1513260608
+guid: 3a5f9759f5c3c2046a0611db5a468b05
+timeCreated: 1513256048
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Attack6_0
-    21300002: Attack6_1
-    21300004: Attack6_3
-    21300006: Attack6_4
+  fileIDToRecycleName: {}
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -44,11 +40,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  alignment: 9
+  spritePivot: {x: 0.77, y: 0.38}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaUsage: 1
@@ -80,63 +76,7 @@ TextureImporter:
     overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Attack6_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 3
-        width: 75
-        height: 72
-      alignment: 9
-      pivot: {x: 0.85, y: 0.07}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Attack6_1
-      rect:
-        serializedVersion: 2
-        x: 87
-        y: 9
-        width: 100
-        height: 85
-      alignment: 9
-      pivot: {x: 0.78, y: -0.01}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Attack6_3
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 0
-        width: 160
-        height: 95
-      alignment: 9
-      pivot: {x: 0.49, y: 0.09}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Attack6_4
-      rect:
-        serializedVersion: 2
-        x: 374
-        y: 0
-        width: 116
-        height: 65
-      alignment: 9
-      pivot: {x: 0.297, y: 0.131}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
+    sprites: []
     outline: []
     physicsShape: []
   spritePackingTag: 
