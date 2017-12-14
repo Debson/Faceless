@@ -1,0 +1,220 @@
+fileFormatVersion: 2
+guid: 5c4637d1a4d3f0c43af9c843ec379f44
+timeCreated: 1513186794
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Attack9_0
+    21300002: Attack9_1
+    21300004: Attack9_2
+    21300006: Attack9_3
+    21300008: Attack9_4
+    21300010: Attack9_5
+    21300012: Attack9_14
+    21300014: Attack9_17
+    21300016: Attack9_18
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Attack9_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8
+        width: 75
+        height: 72
+      alignment: 9
+      pivot: {x: 0.82, y: 0.09}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Attack9_1
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 14
+        width: 100
+        height: 85
+      alignment: 9
+      pivot: {x: 0.755, y: 0.008}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Attack9_2
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 0
+        width: 121
+        height: 97
+      alignment: 9
+      pivot: {x: 0.19, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Attack9_3
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 0
+        width: 121
+        height: 123
+      alignment: 9
+      pivot: {x: 0.19, y: 0.118}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Attack9_4
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 5
+        width: 173
+        height: 119
+      alignment: 9
+      pivot: {x: 0.11, y: 0.08}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Attack9_5
+      rect:
+        serializedVersion: 2
+        x: 645
+        y: 6
+        width: 189
+        height: 91
+      alignment: 9
+      pivot: {x: 0.122, y: 0.095}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Attack9_14
+      rect:
+        serializedVersion: 2
+        x: 846
+        y: 7
+        width: 199
+        height: 52
+      alignment: 9
+      pivot: {x: 0.115, y: 0.147}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Attack9_17
+      rect:
+        serializedVersion: 2
+        x: 1054
+        y: 7
+        width: 131
+        height: 39
+      alignment: 9
+      pivot: {x: 0.175, y: 0.195}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Attack9_18
+      rect:
+        serializedVersion: 2
+        x: 1198
+        y: 7
+        width: 125
+        height: 39
+      alignment: 9
+      pivot: {x: 0.183, y: 0.194}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

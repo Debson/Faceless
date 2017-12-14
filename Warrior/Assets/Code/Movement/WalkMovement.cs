@@ -41,7 +41,7 @@ public class WalkMovement : MonoBehaviour
 
     protected void Start()
     {
-       startColor = spriteRenderer.color;
+        startColor = spriteRenderer.color;
         knockbackFinished = true;
     }
 
@@ -67,7 +67,6 @@ public class WalkMovement : MonoBehaviour
             }
             else
             {
-
                 if (knockFromRight)
                 {
                     myBody.velocity = new Vector2(-knockbackStrength, knockbackStrength / 3);

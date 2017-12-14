@@ -8,7 +8,7 @@ public class CameraFollow : MonoBehaviour
     public bool cameraBounds;
 
 
-    GameObject player;
+    PlayerController player;
     EnterTerritory enterTerritory;
     DragonController dragonController;
     ScreenShake screenShake;
@@ -28,7 +28,7 @@ public class CameraFollow : MonoBehaviour
     protected void Awake()
     {
         dragonController = FindObjectOfType<DragonController>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = FindObjectOfType<PlayerController>();
         enterTerritory = FindObjectOfType<EnterTerritory>();
         screenShake = GetComponentInChildren<ScreenShake>();
     }

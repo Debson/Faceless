@@ -25,9 +25,9 @@ public class CharacterAnimatorController : MonoBehaviour
     protected void LateUpdate()
     {
         animator.SetFloat("Speed", myBody.velocity.magnitude);
-        animator.SetBool("isTouchingFloor", floorDetector.isTouchingFloor);
-        animator.SetBool("isAttacking", attackMovement.isAttacking);
-        animator.SetBool("isCrouching", crouchMovement.isCrouching);
-        animator.SetBool("dashActive", dashMovement.dashActive);
+        animator.SetBool("Jump", !floorDetector.isTouchingFloor);
+        //animator.SetTrigger("Attack", attackMovement.isAttacking);
+        //animator.SetBool("isCrouching", crouchMovement.isCrouching);
+        //animator.SetBool("dashActive", dashMovement.dashActive);
     }
 }

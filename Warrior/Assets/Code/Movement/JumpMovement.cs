@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class JumpMovement : MonoBehaviour
 {
+    public bool doubleJump;
     public bool jumpRequest;
     public bool isDoubleJump
     {
@@ -23,6 +24,7 @@ public class JumpMovement : MonoBehaviour
     CrouchMovement crouchMovement;
     Physics2D gravity;
     AudioManager audioManager;
+    Animator animator;
 
     protected void Awake()
     {
@@ -31,6 +33,7 @@ public class JumpMovement : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         crouchMovement = GetComponent<CrouchMovement>();
         audioManager = FindObjectOfType<AudioManager>();
+        animator = GetComponent<Animator>();
     }
 
     protected void Update()
@@ -47,14 +50,15 @@ public class JumpMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && !floorDetector.isTouchingFloor && !isDoubleJump)
         {
-            if(myBody.velocity.y > 0)
-            { 
-            Jump(secondJumpSpeed);
+            if (myBody.velocity.y > 0)
+            {
+                Jump(secondJumpSpeed);
             }
 
             if (myBody.velocity.y < 0)
             {
                 Jump(secondJumpSpeed * 3.14159f);
+                doubleJump = true;
             }
 
             isDoubleJump = true;
@@ -64,7 +68,7 @@ public class JumpMovement : MonoBehaviour
 
     public void Jump(float speed)
     {
-        audioManager.playerJump[Random.Range(0, 4)].Play();
+        //audioManager.playerJump[Random.Range(0, 4)].Play();
         myBody.AddForce(new Vector2(0, speed), ForceMode2D.Impulse);
     }
 }

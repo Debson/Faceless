@@ -8,21 +8,29 @@ public class AttackMovement : MonoBehaviour
     [SerializeField]
     private Collider2D attackTrigger;
 
+    [SerializeField]
+    private float delayToDeactivateCombo = 2f;
+
     AudioManager audioManager;
     TurnAround turnAround;
     ScreenShake screenShake;
+    Animator animator;
 
 
+    public bool attackRequest { get; set; }
     private bool currentState;
+    private bool isAttackOnColldown;
 
-    public bool attackRequest
-    {
-        get; set;
-    }
+    private float timer = 0;
+    private float attackCooldown = 0.35f;
+    private int attackCount = 0;
+    private bool attackPressed;
+    private bool nextComboStageEnabled;
 
-    private float attackTimer = 0;
-    private float attackCooldown = 0.25f;
-
+    /// <summary>
+    /// Waits for next frame in case to avoid checking if statement for same frame when button was pressed
+    /// </summary>
+    private bool waitForOneFrame;
 
     public bool isAttacking
     {
@@ -34,38 +42,107 @@ public class AttackMovement : MonoBehaviour
         turnAround = GetComponent<TurnAround>();
         audioManager = FindObjectOfType<AudioManager>();
         screenShake = FindObjectOfType<ScreenShake>();
+        animator = GetComponent<Animator>();
         attackTrigger.enabled = false;
     }
 
     protected void Update()
     {
-        if (attackRequest && !isAttacking)
+        if (Input.GetButtonDown("Attack") && !isAttacking)
         {
+            switch (attackCount)
+            {
+                case 0:
+                    {
+                        animator.SetBool("Attack", true);
+                        StartCoroutine(ResetAnimationLogic("Attack"));
+                        attackCount++;
+
+                        StartCoroutine(CheckIfContinueComboHit(0f));
+                        break;
+                    }
+                case 1:
+                    {
+                        animator.SetBool("Attack2", true);
+                        StartCoroutine(ResetAnimationLogic("Attack2"));
+                        attackCount++;
+
+                        StartCoroutine(CheckIfContinueComboHit(0f));
+                        break;
+                    }
+                case 2:
+                    {
+                        animator.SetBool("Attack3", true);
+                        StartCoroutine(ResetAnimationLogic("Attack3"));
+                        attackCount = 0;
+                        break;
+                    }
+            }
             screenShake.shakeScreenOnAttack = true;
             audioManager.attackSound[Random.Range(0, 2)].Play();
             isAttacking = true;
-            attackTimer = attackCooldown;
             attackTrigger.enabled = true;
             currentState = turnAround.isFacingLeft;
-        }
-        attackRequest = false;
 
-        if (isAttacking && (currentState == turnAround.isFacingLeft))
+            //if (isAttacking && (currentState == turnAround.isFacingLeft))
+            {
+                if (!isAttackOnColldown)
+                {
+                    StartCoroutine(AttackColldown());
+                    isAttackOnColldown = true;
+                }
+            }
+            //else
+            {
+                //isAttacking = false;
+                //attackTrigger.enabled = false;
+            }
+        }
+    }
+
+    IEnumerator AttackColldown()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        isAttackOnColldown = false;
+        isAttacking = false;
+        attackTrigger.enabled = false;
+    }
+
+    IEnumerator CheckIfContinueComboHit(float timer)
+    {
+        while (timer < delayToDeactivateCombo && !nextComboStageEnabled)
         {
-            if (attackTimer > 0)
+            timer += Time.deltaTime;
+
+            if (!waitForOneFrame)
             {
-                attackTimer -= Time.deltaTime;
+                waitForOneFrame = true;
+                yield return null;
             }
-            else
+            if (Input.GetButtonDown("Attack"))
             {
-                isAttacking = false;
-                attackTrigger.enabled = false;
+                nextComboStageEnabled = true;
+                waitForOneFrame = false;
             }
+
+            yield return null;
+        }
+
+        if (timer > delayToDeactivateCombo - 0.1f)
+        {
+            attackCount = 0;
+            waitForOneFrame = false;
         }
         else
         {
-            isAttacking = false;
-            attackTrigger.enabled = false;
+            Debug.Log("pressed in time");
+            nextComboStageEnabled = false;
         }
+    }
+
+    IEnumerator ResetAnimationLogic(string parameter)
+    {
+        yield return new WaitForSeconds(0.3f);
+        animator.SetBool(parameter, false);
     }
 }

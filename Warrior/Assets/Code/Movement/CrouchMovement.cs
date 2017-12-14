@@ -7,7 +7,7 @@ public class CrouchMovement : MonoBehaviour
     Collider2D crouchTrigger;
     PlayerController playerController;
 
-    public bool crouchRequest;
+    public bool crouchRequest { get; set; }
 
     private float crouchTimer = 0;
     private float crouchCooldown = 0.25f;

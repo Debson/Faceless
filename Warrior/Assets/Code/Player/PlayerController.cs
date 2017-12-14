@@ -5,7 +5,6 @@
 [RequireComponent(typeof(AttackMovement))]
 [RequireComponent(typeof(TurnAround))]
 [RequireComponent(typeof(FloorDetector))]
-[RequireComponent(typeof(DashMovement))]
 public class PlayerController : MonoBehaviour
 {
     WalkMovement walkMovement;
@@ -56,10 +55,10 @@ public class PlayerController : MonoBehaviour
             walkMovement.desiredWalkDirection = 0;
         }
 
-        if (Input.GetButtonDown("Attack") && !CharacterControlEnabled)
+        /*if (Input.GetButtonDown("Attack") && !CharacterControlEnabled)
         {
             attackMovement.attackRequest = true;
-        }
+        }*/
 
         if(Input.GetKeyDown(KeyCode.D) && floorDetector.isTouchingFloor && !CharacterControlEnabled)
         {
