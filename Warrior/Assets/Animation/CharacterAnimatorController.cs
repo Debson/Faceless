@@ -24,7 +24,9 @@ public class CharacterAnimatorController : MonoBehaviour
 
     protected void LateUpdate()
     {
-        animator.SetFloat("Speed", myBody.velocity.magnitude);
+        animator.SetFloat("Speed", Mathf.Abs(myBody.velocity.x));
+        animator.SetFloat("JumpSpeed", Mathf.Abs(myBody.velocity.y));
+        animator.SetFloat("JumpSpeedRaw", myBody.velocity.y);
         animator.SetBool("Jump", !floorDetector.isTouchingFloor);
         //animator.SetBool("isCrouching", crouchMovement.isCrouching);
         animator.SetBool("Dash", dashMovement.dashActive);

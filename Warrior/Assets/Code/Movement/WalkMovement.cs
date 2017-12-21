@@ -16,23 +16,23 @@ public class WalkMovement : MonoBehaviour
     [SerializeField]
     float walkSpeed = 50;
 
+    [SerializeField]
+    LayerMask layerMask;
+
     public delegate void OnPlayerAttackKnockback(GameObject enemy);
     public static event OnPlayerAttackKnockback onPlayerAttackKnockback;
 
+    public float knockbackTimeCount { get; set; }
 
-    [HideInInspector]
-    public float knockbackTimeCount;
+    public bool knockFromRight { get; set; }
 
-    [HideInInspector]
-    public bool knockFromRight;
-
-    [HideInInspector]
-    public float desiredWalkDirection;
+    public float desiredWalkDirection { get; set; }
 
     Rigidbody2D myBody;
     CrouchMovement crouchMovement;
     SpriteRenderer spriteRenderer;
     Color startColor;
+    FloorDetector floorDetector;
 
     public bool knockbackFinished { get; set; }
 
@@ -41,6 +41,7 @@ public class WalkMovement : MonoBehaviour
         myBody = GetComponent<Rigidbody2D>();
         crouchMovement = GetComponent<CrouchMovement>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        floorDetector = GetComponent<FloorDetector>();
     }
 
     protected void Start()
@@ -51,7 +52,6 @@ public class WalkMovement : MonoBehaviour
 
     protected void FixedUpdate()
     {
-
             float desiredXVelocity;
             if (crouchMovement.isCrouching)
             {

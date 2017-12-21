@@ -11,6 +11,9 @@ public class HealthManager : MonoBehaviour
     public delegate void OnPlayerHurtKnockback(GameObject enemy);
     public static event OnPlayerHurtKnockback onPlayerHurtKnockback;
 
+    public delegate void OnPlayerDeath();
+    public static event OnPlayerDeath onDeath;
+
     private static int maxHealth;
     private static int playerHealth;
 
@@ -31,15 +34,18 @@ public class HealthManager : MonoBehaviour
         maxHealth = maxPlayerHealth;
     }
 
-    protected void Update()
+    protected void LateUpdate()
     {
         //Debug.Log(playerHealth);
         if(playerHealth <= 0)
         {
-            //Time.timeScale = 0;
-            //lifeManager.TakeLife();
             audioManager.playerDie.Play();
             Destroy(this.gameObject);
+        }
+
+        if (onDeath != null)
+        {
+            onDeath();
         }
     }
 
@@ -84,5 +90,11 @@ public class HealthManager : MonoBehaviour
     public void FullHealth()
     {
         playerHealth = maxPlayerHealth;
+    }
+
+    public void Death()
+    {
+        Destroy(this, 3f);
+        onDeath -= Death;
     }
 }

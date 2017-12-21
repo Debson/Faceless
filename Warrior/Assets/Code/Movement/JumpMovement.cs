@@ -14,7 +14,7 @@ public class JumpMovement : MonoBehaviour
     [SerializeField]
     private float doubleJumpDuration = 0.5f;
 
-    public bool isDoubleJump { get; private set; }
+    public bool canDoubleJump { get; private set; }
 
     PlayerController playerController;
     Rigidbody2D myBody;
@@ -23,6 +23,8 @@ public class JumpMovement : MonoBehaviour
     Physics2D gravity;
     AudioManager audioManager;
     Animator animator;
+
+    private int jumps = 0;
 
     protected void Awake()
     {
@@ -36,17 +38,15 @@ public class JumpMovement : MonoBehaviour
 
     protected void Update()
     {
-        if (floorDetector.isTouchingFloor)
-        {
-            isDoubleJump = false;
-        }
-
-        if (Input.GetButtonDown("Jump") && floorDetector.isTouchingFloor && !crouchMovement.isCrouching && !playerController.CharacterControlEnabled)
+        if (Input.GetButtonDown("Jump") && floorDetector.isTouchingFloor 
+            && !crouchMovement.isCrouching && !playerController.CharacterControlEnabled)
         {
             Jump(jumpSpeed);
+            canDoubleJump = true;
+            return;
         }
 
-        if (Input.GetButtonDown("Jump") && !floorDetector.isTouchingFloor && !isDoubleJump)
+        if (Input.GetButtonDown("Jump") && canDoubleJump)
         {
             animator.SetBool("Double_Jump", true);
             StartCoroutine(DoubleJumpDuration());
@@ -60,11 +60,17 @@ public class JumpMovement : MonoBehaviour
             {
                 Jump(secondJumpSpeed * 3.3f);
             }
-
-            isDoubleJump = true;
+            canDoubleJump = false;
         }
     }
 
+    protected void LateUpdate()
+    {
+        if (floorDetector.isTouchingFloor)
+        {
+            canDoubleJump = false;
+        }
+    }
     public void Jump(float speed)
     {
         //audioManager.playerJump[Random.Range(0, 4)].Play();

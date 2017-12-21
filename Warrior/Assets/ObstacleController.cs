@@ -25,7 +25,7 @@ public class ObstacleController : MonoBehaviour
     {
         if(collision.transform.tag == "Player")
         {
-            Debug.Log("hit");
+            Debug.Log("dead");
             walkMovement.Knockback(collision.gameObject);
             walkMovement.knockbackStrength = 8f;
             HealthManager.HurtPlayer(minDamageToGive, maxDamageToGive);

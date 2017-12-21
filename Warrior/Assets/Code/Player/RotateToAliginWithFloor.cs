@@ -41,6 +41,16 @@ public class RotateToAliginWithFloor : MonoBehaviour
             rotation *= flipRotation;
         }
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, speed * Time.deltaTime);
+        if (floorDetector.DetectTheFloorWeAreStandingOn() == null)
+        {
+            return;
+        }
+        else
+        {
+            if (floorDetector.DetectTheFloorWeAreStandingOn().tag != "Enemy")
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, speed * Time.deltaTime);
+            }
+        }
     }
 }

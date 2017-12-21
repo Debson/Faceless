@@ -86,7 +86,7 @@ public class DashMovement : MonoBehaviour
 
         if(!playOnce)
         {
-            audioManager.playerDash[Random.Range(0, 3)].Play();
+            //audioManager.playerDash[Random.Range(0, 3)].Play();
             playOnce = true;
         }
 

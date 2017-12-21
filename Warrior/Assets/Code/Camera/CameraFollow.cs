@@ -7,6 +7,8 @@ public class CameraFollow : MonoBehaviour
     [SerializeField]
     public bool cameraBounds;
 
+    public delegate void OnFall();
+    public static event OnFall onPlayerFall;
 
     PlayerController player;
     EnterTerritory enterTerritory;
@@ -42,6 +44,11 @@ public class CameraFollow : MonoBehaviour
 
     private void Update()
     {
+        if(onPlayerFall != null)
+        {
+            onPlayerFall();
+        }
+
         if (player == null)
         {
             return;
@@ -64,5 +71,11 @@ public class CameraFollow : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void PlayerFall()
+    {
+        this.enabled = false;
+        onPlayerFall -= PlayerFall;
     }
 }
