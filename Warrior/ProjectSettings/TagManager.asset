@@ -10,6 +10,7 @@ TagManager:
   - EnemyAttackTrigger
   - Platform
   - Obstacle
+  - Edge
   layers:
   - Default
   - TransparentFX
@@ -29,8 +30,8 @@ TagManager:
   - EnemyAttackTrigger
   - Collectable
   - Leg
-  - 
-  - 
+  - Edge
+  - Wall
   - 
   - 
   - 

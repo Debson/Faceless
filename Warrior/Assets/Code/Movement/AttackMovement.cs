@@ -20,7 +20,8 @@ public class AttackMovement : MonoBehaviour
     public static event OnAttackShake onSecondAttack;
     public static event OnAttackShake onThirdAttack;
 
-    public bool attackRequest { get; set; }
+    public bool AttackMovementEnabled { get; set; }
+
     private bool currentState;
     private bool isAttackOnColldown;
 
@@ -48,13 +49,13 @@ public class AttackMovement : MonoBehaviour
         screenShake = FindObjectOfType<ScreenShake>();
         animator = GetComponent<Animator>();
         floorDetector = GetComponent<FloorDetector>();
-
+        AttackMovementEnabled = true;
         attackTrigger.enabled = false;
     }
 
     protected void Update()
     {
-        if (Input.GetButtonDown("Attack") && !isAttacking)
+        if (Input.GetButtonDown("Attack") && !isAttacking && AttackMovementEnabled)
         {
             if (Input.GetKey(KeyCode.UpArrow) && !floorDetector.isTouchingFloor)
             {
@@ -158,6 +159,11 @@ public class AttackMovement : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    public static void PlayerCaughtEdge()
+    {
+
     }
 
     IEnumerator AttackColldown()

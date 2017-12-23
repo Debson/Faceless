@@ -15,6 +15,8 @@ public class TurnAround : MonoBehaviour
 
     public bool IsFacingRight { get; set; }
 
+    public float direction { get; private set; }
+
     protected void Awake()
     {
         myBody = GetComponent<Rigidbody2D>();
@@ -29,6 +31,8 @@ public class TurnAround : MonoBehaviour
 
     protected void Update()
     {
+        direction = isFacingLeft ? -1: 1;
+
         if (Input.GetKey(KeyCode.LeftControl) && (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && 
             !Input.GetKey(KeyCode.LeftArrow) && isFacingLeft)
         {

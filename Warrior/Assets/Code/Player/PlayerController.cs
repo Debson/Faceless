@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
 
     public bool CharacterControlEnabled { get; set; }
 
-
     protected void Awake()
     {
         walkMovement = GetComponent<WalkMovement>();

@@ -24,10 +24,12 @@ public class CharacterAnimatorController : MonoBehaviour
 
     protected void LateUpdate()
     {
+
+        animator.SetBool("Idle", Mathf.Abs(myBody.velocity.x) == 0 ? true: false);
         animator.SetFloat("Speed", Mathf.Abs(myBody.velocity.x));
+        animator.SetBool("Jump", !floorDetector.isTouchingFloor);
         animator.SetFloat("JumpSpeed", Mathf.Abs(myBody.velocity.y));
         animator.SetFloat("JumpSpeedRaw", myBody.velocity.y);
-        animator.SetBool("Jump", !floorDetector.isTouchingFloor);
         //animator.SetBool("isCrouching", crouchMovement.isCrouching);
         animator.SetBool("Dash", dashMovement.dashActive);
     }

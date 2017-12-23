@@ -40,6 +40,7 @@ public class FloorDetector : MonoBehaviour
 
     protected void FixedUpdate()
     {
+
         Collider2D floorWeAreStandingOn = DetectTheFloorWeAreStandingOn();
         isTouchingFloor = floorWeAreStandingOn != null;
         

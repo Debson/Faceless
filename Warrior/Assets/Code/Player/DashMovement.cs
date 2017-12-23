@@ -23,6 +23,8 @@ public class DashMovement : MonoBehaviour
     FloorDetector floorDetector;
     PlayerController playerController;
     AudioManager audioManager;
+    Rigidbody2D rBody;
+    TurnAround turnAround;
 
     private GameObject[] glow;
 
@@ -50,9 +52,11 @@ public class DashMovement : MonoBehaviour
     protected void Awake()
     {
         player = GetComponent<TurnAround>();
+        rBody = GetComponent<Rigidbody2D>();
         floorDetector = GetComponent<FloorDetector>();
         playerController = GetComponent<PlayerController>();
         audioManager = FindObjectOfType<AudioManager>();
+        turnAround = GetComponent<TurnAround>();
     }
 
     protected void Start()
@@ -90,28 +94,23 @@ public class DashMovement : MonoBehaviour
             playOnce = true;
         }
 
-        if (player.isFacingLeft)
-        {
-            transform.position = new Vector2(transform.position.x - Time.fixedDeltaTime * speed, transform.position.y);
-        }
-        else
-        {
-            transform.position = new Vector2(transform.position.x + Time.fixedDeltaTime * speed, transform.position.y);
-        }
+        rBody.AddForce(Vector2.right * 2200f * turnAround.direction);
+        //transform.position = new Vector2(transform.position.x + Time.fixedDeltaTime * speed * turnAround.direction, transform.position.y);
+
         dashActive = true;
         Physics2D.IgnoreLayerCollision(10, 8, true);
         yield return new WaitForSeconds(dashTime);
         dashActive = false;
         Physics2D.IgnoreLayerCollision(10, 8, false);
         dash = false;
-        cooldownIsUp = false;
+        cooldownIsUp = true;
         playOnce = false;
         playerController.CharacterControlEnabled = false;
     }
 
     IEnumerator CreateGlow()
     {
-        if (glowCount < 5)
+        if (glowCount < 5 && floorDetector.isTouchingFloor)
         {
             if ((glowCount > 3 || floorDetector.isTouchingFloor) && !callOnce)
             {
@@ -131,7 +130,7 @@ public class DashMovement : MonoBehaviour
             {
                 renderer.sprite = dashSpriteRight;
             }
-            renderer.color = new Color(1, 1, 1, (1f / (2 * Mathf.PI)) * (float)glowCount);
+            renderer.color = new Color(1, 1, 1, EasingFunction.EaseOutQuint(0f, 1f, glowCount / 10f));
             glowCount++;
             yield return new WaitForSeconds(dashTime * speed * 0.002f);
             createGlow = true;
@@ -156,7 +155,7 @@ public class DashMovement : MonoBehaviour
             {
                 var renderer = glow[transparencyCount - 1].GetComponent<SpriteRenderer>();
 
-                renderer.color = new Color(1, 1, 1, renderer.color.a - EasingFunction.EaseInQuint(0f, 1f, time) * Time.deltaTime);
+                renderer.color = new Color(1, 1, 1, renderer.color.a - EasingFunction.EaseInQuint(0f, 2f, time) * Time.deltaTime);
                 if (renderer.color.a < 0)
                 {
                     Destroy(glow[transparencyCount - 1]);

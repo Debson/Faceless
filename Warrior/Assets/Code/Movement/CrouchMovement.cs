@@ -30,7 +30,7 @@ public class CrouchMovement : MonoBehaviour
         {
             isCrouching = true;
             crouchTimer = crouchCooldown;
-            crouchTrigger.enabled = false;
+            //crouchTrigger.enabled = false;
         }
 
         if (isCrouching)
@@ -42,7 +42,7 @@ public class CrouchMovement : MonoBehaviour
             else
             {
                 isCrouching = false;
-                crouchTrigger.enabled = true;
+                //crouchTrigger.enabled = true;
             }
         }
     }

@@ -5,7 +5,10 @@ using UnityEngine;
 public class FallingPlatform : MonoBehaviour
 {
     [SerializeField]
-    public float fallDelay;
+    private float freeFallDelay;
+
+    [SerializeField]
+    private bool freeFall;
 
     private Rigidbody2D myBody;
     private Collider2D myCollider;
@@ -19,16 +22,24 @@ public class FallingPlatform : MonoBehaviour
     {
         myBody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        startShader = spriteRenderer.material.shader;
-        time = 0f;
+        if (!freeFall)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            startShader = spriteRenderer.material.shader;
+            time = 0f;
+        }
     }
 
     protected void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.CompareTag("Player"))
+        if(collision.collider.CompareTag("Player") && !freeFall)
         {
             StartCoroutine(Fall());
+        }
+
+        if(collision.collider.CompareTag("Player") && freeFall)
+        {
+            StartCoroutine(FreeFall());
         }
     }
 
@@ -47,6 +58,14 @@ public class FallingPlatform : MonoBehaviour
         Destroy(gameObject, 2f);
 
         yield return 0;
+    }
+
+    IEnumerator FreeFall()
+    {
+        yield return new WaitForSeconds(freeFallDelay);
+        myBody.isKinematic = false;
+        myCollider.isTrigger = true;
+        Destroy(gameObject, 2f);
     }
 
 }
