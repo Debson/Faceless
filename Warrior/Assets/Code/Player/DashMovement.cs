@@ -73,7 +73,7 @@ public class DashMovement : MonoBehaviour
     {
         if (dash && floorDetector.isTouchingFloor && cooldownIsUp)
         {
-            playerController.CharacterControlEnabled = true;
+            playerController.CharacterControlDisabled = true;
             StartCoroutine(Dash());
         }
 
@@ -90,7 +90,7 @@ public class DashMovement : MonoBehaviour
 
         if(!playOnce)
         {
-            //audioManager.playerDash[Random.Range(0, 3)].Play();
+            audioManager.playerDash[Random.Range(0, 3)].Play();
             playOnce = true;
         }
 
@@ -105,7 +105,7 @@ public class DashMovement : MonoBehaviour
         dash = false;
         cooldownIsUp = true;
         playOnce = false;
-        playerController.CharacterControlEnabled = false;
+        playerController.CharacterControlDisabled = false;
     }
 
     IEnumerator CreateGlow()

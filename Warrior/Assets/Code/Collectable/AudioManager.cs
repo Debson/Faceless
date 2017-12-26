@@ -16,6 +16,7 @@ public class AudioManager : MonoBehaviour
     /// Player Sounds
     /// </summary>
 
+    public AudioSource[] comboSound;
     public AudioSource[] attackSound;
     public AudioSource[] monsterHurt;
     public AudioSource[] playerJump;

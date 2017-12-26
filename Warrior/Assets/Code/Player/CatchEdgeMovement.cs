@@ -21,6 +21,8 @@ public class CatchEdgeMovement : MonoBehaviour
     FloorDetector floorDetector;
     Animator animator;
     AttackMovement attackMovement;
+    WalkMovement walkMovement;
+    AudioManager audioManager;
 
     private Coroutine lastRoutine = null;
     private Vector2 startPos;
@@ -30,7 +32,7 @@ public class CatchEdgeMovement : MonoBehaviour
     private bool enableCatchMovement;
     private bool isHoldingEdge;
     private bool climbingInProgress;
-
+    private bool playonce;
 
     protected void Awake()
     {
@@ -40,13 +42,14 @@ public class CatchEdgeMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         startPos = catchCollider.transform.localPosition;
         attackMovement = GetComponent<AttackMovement>();
+        walkMovement = GetComponent<WalkMovement>();
+        audioManager = FindObjectOfType<AudioManager>();
         enableCatchMovement = true;
     }
 
     protected void Update()
     {
         CatchingEdge();
-
         animator.SetBool("Edge_Catch", isHoldingEdge);
     }
 
@@ -78,6 +81,12 @@ public class CatchEdgeMovement : MonoBehaviour
                 if (objectUnder.collider != null && enableCatchMovement && !climbingInProgress)
                 {
                     attackMovement.AttackMovementEnabled = false;
+                    if (!playonce)
+                    {
+                        //audioManager.playerDash[3].Play();
+                        playonce = true;
+                    }
+
                     catchCollider.GetComponent<Collider2D>().enabled = true;
                     animator.SetBool("Edge_Catch", true);
                     isHoldingEdge = true;
@@ -92,7 +101,6 @@ public class CatchEdgeMovement : MonoBehaviour
                     if (Input.GetKeyDown(KeyCode.LeftArrow) && turnAround.isFacingLeft || Input.GetKeyDown(KeyCode.RightArrow) && !turnAround.isFacingLeft)
                     {
                         animator.SetBool("Climb_Up", true);
-                        Debug.Log("climb");
                         climbingInProgress = true;
                         lastRoutine = StartCoroutine(ClimbUp());
                     }
@@ -111,6 +119,7 @@ public class CatchEdgeMovement : MonoBehaviour
         }
         else
         {
+            playonce = false;
             enableCatchMovement = true;
             isHoldingEdge = false;
             animator.SetBool("Climb_Up", false);
@@ -119,7 +128,6 @@ public class CatchEdgeMovement : MonoBehaviour
 
     IEnumerator ClimbUp()
     {
-        //player.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 35f), ForceMode2D.Impulse);
         for (float time = 0; time < 0.3f; time += Time.deltaTime)
         {
             var climbY = Mathf.Lerp(catchCollider.transform.position.y, player.transform.position.y - 0.2f, time);
@@ -133,6 +141,7 @@ public class CatchEdgeMovement : MonoBehaviour
         }
         catchCollider.transform.localPosition = startPos;
         climbingInProgress = false;
+
         attackMovement.AttackMovementEnabled = true;
     }
 }

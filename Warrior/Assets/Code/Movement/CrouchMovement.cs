@@ -26,7 +26,7 @@ public class CrouchMovement : MonoBehaviour
 
     protected void Update()
     {
-        if (Input.GetButtonDown("Crouch") && !playerController.CharacterControlEnabled)
+        if (Input.GetButtonDown("Crouch") && !playerController.CharacterControlDisabled)
         {
             isCrouching = true;
             crouchTimer = crouchCooldown;

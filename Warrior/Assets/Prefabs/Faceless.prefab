@@ -137,7 +137,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1940321579033084}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 271.3, y: -367.9, z: 0}
+  m_LocalPosition: {x: 488.4, y: -53.9, z: 0}
   m_LocalScale: {x: 6, y: 6, z: 6}
   m_Children:
   - {fileID: 4540885616501184}
@@ -201,7 +201,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1438340186478228}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 4b79e0a79cae3d94d8d9cab6c6c40a8b, type: 2}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -226,7 +226,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1515214938265346}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 88c3a6334a34d4a4bb3544c61a429736, type: 2}
+  m_Material: {fileID: 6200000, guid: b674bd7f4ee0c164f883d112bc06a29f, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -313,7 +313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockbackStrength: 1
   knockBackLength: 0.2
-  walkSpeed: 550
+  walkSpeed: 650
   layerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -421,6 +421,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackTrigger: {fileID: 61041080575063114}
   delayToDeactivateCombo: 2
+  attackCount: 0
 --- !u!114 &114787021383441894
 MonoBehaviour:
   m_ObjectHideFlags: 1

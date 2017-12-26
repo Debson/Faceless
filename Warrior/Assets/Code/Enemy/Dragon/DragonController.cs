@@ -400,7 +400,7 @@ public class DragonController : MonoBehaviour
 
     private void BackToNormal()
     {
-        playerController.CharacterControlEnabled = false;
+        playerController.CharacterControlDisabled = false;
         cameraFollow.stopFollow = false;
         return;
     }

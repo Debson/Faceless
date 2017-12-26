@@ -20,8 +20,7 @@ public class OrcController : MonoBehaviour
     Collider2D myCollider;
     AudioManager audioManager;
 
-    [HideInInspector]
-    public bool callOnceRunning;
+    public bool callOnceRunning { get; private set; }
 
     private bool isDead;
     private bool callOnceAttacking;
@@ -47,7 +46,7 @@ public class OrcController : MonoBehaviour
         callOnceHurt = true;
     }
 
-    protected void Update()
+    protected void LateUpdate()
     {
         if (!isDead)
         {
@@ -74,12 +73,13 @@ public class OrcController : MonoBehaviour
             animator.SetBool("isIdle", false);
         }
 
-        if (wanderWalkController.isRunning && callOnceRunning)
+
+        if (wanderWalkController.playerInRange && callOnceRunning)
         {
             audioManager.OrcRoar[0].Play();
             callOnceRunning = false;
         }
-        else if (!wanderWalkController.isRunning)
+        else if (!wanderWalkController.playerInRange)
         {
             callOnceRunning = true;
         }

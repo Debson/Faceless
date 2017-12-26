@@ -81,7 +81,7 @@ public class EnterTerritory : MonoBehaviour
     {
         if (collision.CompareTag("Player") && !bossEnabled)
         {
-            playerController.CharacterControlEnabled = true;
+            playerController.CharacterControlDisabled = true;
             cameraFollow.stopFollow = true;
             bossEnabled = true;
             enteredTerritory = true;

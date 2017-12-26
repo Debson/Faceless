@@ -59,7 +59,7 @@ public class HealthManager : MonoBehaviour
         {
             onPlayerHurtKnockback(enemy);
         }
-        //audioManager.playerHurt[Random.Range(0, 2)].Play();
+        audioManager.playerHurt[Random.Range(0, 3)].Play();
     }
 
     public static void AddHealth(int health)

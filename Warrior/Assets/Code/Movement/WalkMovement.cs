@@ -33,6 +33,7 @@ public class WalkMovement : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Color startColor;
     FloorDetector floorDetector;
+    Animator animator;
 
     public bool knockbackFinished { get; set; }
 
@@ -42,6 +43,7 @@ public class WalkMovement : MonoBehaviour
         crouchMovement = GetComponent<CrouchMovement>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         floorDetector = GetComponent<FloorDetector>();
+        animator = GetComponent<Animator>();
     }
 
     protected void Start()
@@ -52,39 +54,39 @@ public class WalkMovement : MonoBehaviour
 
     protected void FixedUpdate()
     {
-            float desiredXVelocity;
-            if (crouchMovement.isCrouching)
-            {
-                desiredXVelocity = desiredWalkDirection * walkSpeed * 0.4f * Time.fixedDeltaTime;
-            }
-            else
-            {
-                desiredXVelocity = desiredWalkDirection * walkSpeed * Time.fixedDeltaTime;
-            }
+        float desiredXVelocity;
 
-            // TODO it in cooroutine
-            if (knockbackTimeCount <= 0)
-            {
-                myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
-                spriteRenderer.color = startColor;
-                knockbackFinished = true;
-            }
-            else
-            {
-                if (knockFromRight)
-                {
-                    myBody.velocity = new Vector2(-knockbackStrength, knockbackStrength / 3);
-                    spriteRenderer.color = new Color(1, 0, 0);
-
-                }
-                if (!knockFromRight)
-                {
-                    myBody.velocity = new Vector2(knockbackStrength, knockbackStrength / 3);
-                    spriteRenderer.color = new Color(1, 0, 0);
-                }
-                knockbackTimeCount -= Time.deltaTime;
-            }
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1"))
+        {
+            desiredXVelocity = desiredWalkDirection * walkSpeed * 0.2f * Time.fixedDeltaTime;
         }
+        else
+        {
+            desiredXVelocity = desiredWalkDirection * walkSpeed * Time.fixedDeltaTime;
+        }
+
+        // TODO it in cooroutine
+        if (knockbackTimeCount <= 0)
+        {
+            myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
+            spriteRenderer.color = startColor;
+            knockbackFinished = true;
+        }
+        else
+        {
+            if (knockFromRight)
+            {
+                myBody.velocity = new Vector2(-knockbackStrength, knockbackStrength / 3);
+                spriteRenderer.color = new Color(1, 0, 0);
+            }
+            if (!knockFromRight)
+            {
+                myBody.velocity = new Vector2(knockbackStrength, knockbackStrength / 3);
+                spriteRenderer.color = new Color(1, 0, 0);
+            }
+            knockbackTimeCount -= Time.deltaTime;
+        }
+    }
 
     public void Knockback(GameObject enemy)
     {
@@ -100,5 +102,10 @@ public class WalkMovement : MonoBehaviour
             knockFromRight = false;
         }
         HealthManager.onPlayerHurtKnockback -= Knockback;
+    }
+
+    public int GetKnockbackDirection()
+    {
+        return knockFromRight ? -1 : 1;
     }
 }

@@ -24,13 +24,18 @@ public class HurtPlayerOnContact : MonoBehaviour
     private float hitDelay;
 
     public delegate void OnAttackDamage(GameObject enemy, int minDamageToGive, int MaxDamageToGive);
+    public delegate void OnHurtPlayer();
     public static event OnAttackDamage onAttackDamage;
+    public static event OnHurtPlayer onHurt;
 
     Animator animator;
     AudioManager audioManager;
     WalkMovement walkMovement;
     HurtEnemyOnContact enemy;
     HealthManager healthManager;
+    AttackMovement attackMovement;
+    ScreenShake screenShake;
+    Coroutine coroutine;
 
     public bool attackingAnimation { set; get; }
 
@@ -52,25 +57,31 @@ public class HurtPlayerOnContact : MonoBehaviour
         walkMovement = FindObjectOfType<WalkMovement>();
         enemy =  FindObjectOfType<HurtEnemyOnContact>();
         healthManager = FindObjectOfType<HealthManager>();
+        attackMovement = FindObjectOfType<AttackMovement>();
+        screenShake = FindObjectOfType<ScreenShake>();
     }
 
-    protected void Start()
-    {
-
-    }
-
-    protected void Update()
+    protected void LateUpdate()
     {
         if(enemy.isHurt && enemy.comboEnabled)
         {
-            StopAllCoroutines();
-            Attack(0);
+            // Making sure that enemy won't attack player after being hit
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+            }
+            Attack(0f);
         }
 
         if (onAttackDamage != null)
         {
             walkMovement.GetComponent<Animator>().SetTrigger("Hurt");
             onAttackDamage(this.gameObject, minDamageToGive, maxDamageToGive);
+            attackMovement.SetStopAttack(true);
+        }
+        if(onHurt != null)
+        {
+            onHurt();
         }
     }
 
@@ -100,7 +111,7 @@ public class HurtPlayerOnContact : MonoBehaviour
         }
         if (hitAfterTime)
         {
-            yield return new WaitForSeconds(hitDelay);
+           yield return new WaitForSeconds(hitDelay);
         }
 
         if (isInTrigger)
@@ -117,7 +128,11 @@ public class HurtPlayerOnContact : MonoBehaviour
 
     private void AttackAnimation()
     {
-        onAttackDamage += healthManager.AttackPlayer;
+        if (isInTrigger)
+        {
+            onAttackDamage += healthManager.AttackPlayer;
+            onHurt += screenShake.ShakeOnHurt;
+        }
         hit = true;
         attackingAnimation = false;
         isAttacking = false;
@@ -127,7 +142,7 @@ public class HurtPlayerOnContact : MonoBehaviour
     private void Attack(float delay)
     {
         isAttacking = true;
-        StartCoroutine(Animation(delay));
+        coroutine =  StartCoroutine(Animation(delay));
         return;
     }
 }

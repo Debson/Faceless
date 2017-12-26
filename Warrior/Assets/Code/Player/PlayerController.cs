@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D myBody;
     DashMovement dashMovement;
 
-    public bool CharacterControlEnabled { get; set; }
+    public bool CharacterControlDisabled { get; set; }
 
     protected void Awake()
     {
@@ -24,18 +24,18 @@ public class PlayerController : MonoBehaviour
         floorDetector = GetComponent<FloorDetector>();
         myBody = GetComponent<Rigidbody2D>();
         dashMovement = GetComponent<DashMovement>();
-
+        CharacterControlDisabled = false;
     }
 
     protected void Update()
     {
-        if (Input.GetKey(KeyCode.LeftControl) && floorDetector.isTouchingFloor || CharacterControlEnabled && floorDetector.isTouchingFloor)
+        if (Input.GetKey(KeyCode.LeftControl) && floorDetector.isTouchingFloor || CharacterControlDisabled && floorDetector.isTouchingFloor)
         {
             walkMovement.desiredWalkDirection = 0;
         }
 
         if((Input.GetButton("Left") && !Input.GetKey(KeyCode.LeftControl)) && 
-            !CharacterControlEnabled)
+            !CharacterControlDisabled)
         {
             walkMovement.desiredWalkDirection = Input.GetAxis("Left");
         }
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if ((Input.GetButton("Right") && !Input.GetKey(KeyCode.LeftControl)) && 
-            !CharacterControlEnabled)
+            !CharacterControlDisabled)
         {
             walkMovement.desiredWalkDirection = Input.GetAxis("Right");
         }
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
             attackMovement.attackRequest = true;
         }*/
 
-        if(Input.GetKeyDown(KeyCode.D) && floorDetector.isTouchingFloor && !CharacterControlEnabled)
+        if(Input.GetKeyDown(KeyCode.D) && floorDetector.isTouchingFloor && !CharacterControlDisabled)
         {
             dashMovement.dash = true;
         }

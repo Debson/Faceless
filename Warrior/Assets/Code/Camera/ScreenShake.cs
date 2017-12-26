@@ -21,6 +21,7 @@ public class ScreenShake : MonoBehaviour
 
     private DragonController dragonController;
     private TurnAround player;
+    private WalkMovement walkMovement;
 
     public bool shakeScreen { get; set; }
     public bool shakeScreenOnAttack { get; set; }
@@ -33,6 +34,7 @@ public class ScreenShake : MonoBehaviour
     {
         dragonController = FindObjectOfType<DragonController>();
         player = FindObjectOfType<TurnAround>();
+        walkMovement = FindObjectOfType<WalkMovement>();
     }
 
     protected void LateUpdate()
@@ -59,6 +61,12 @@ public class ScreenShake : MonoBehaviour
     {
         StartCoroutine(ShakeCameraOnThirdAttack());
         AttackMovement.onThirdAttack -= ShakeOnThirdAttack;
+    }
+
+    public void ShakeOnHurt()
+    {
+        StartCoroutine(ShakeCameraOnHurt());
+        HurtPlayerOnContact.onHurt -= ShakeOnHurt;
     }
 
     IEnumerator ShakeCamera()
@@ -170,6 +178,36 @@ public class ScreenShake : MonoBehaviour
         while (timePassed < timeToShakeForAttack)
         {
             Vector2 deltaPosition = new Vector2(0f, EasingFunction.SpringD(0.01f, -0.3f, x));
+
+            camera.transform.localPosition = startingPosition + (Vector3)deltaPosition;
+
+            //float maxTime = maxTimeBetweenShakesAttack * Time.deltaTime;
+            //float sleepTime = Random.Range(0, maxTime);
+            timePassed += Time.deltaTime;
+            x += Time.fixedDeltaTime * 2.1f;
+            yield return null;
+        }
+        camera.transform.localPosition = startingPosition;
+    }
+
+    IEnumerator ShakeCameraOnHurt()
+    {
+        Camera camera = Camera.main;
+        Vector3 startingPosition = camera.transform.localPosition;
+
+        float timePassed = 0;
+        float x = 0;
+        if (player.isFacingLeft)
+        {
+            direction = -1;
+        }
+        else
+        {
+            direction = 1;
+        }
+        while (timePassed < timeToShakeForAttack)
+        {
+            Vector2 deltaPosition = new Vector2(EasingFunction.EaseOutBack(0.01f, 0.6f * walkMovement.GetKnockbackDirection(), x), 0f);
 
             camera.transform.localPosition = startingPosition + (Vector3)deltaPosition;
 

@@ -16,6 +16,6 @@ public class BackgroundFollowsPlayer : MonoBehaviour
 
     protected void LateUpdate ()
     {
-        background.transform.position = player.transform.position;
+        background.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, background.transform.position.z);
 	}
 }

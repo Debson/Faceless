@@ -14,6 +14,9 @@ public class OnTriggerLoadLevel : MonoBehaviour
     [SerializeField]
     private Image blackout;
 
+    [SerializeField]
+    private bool offSpriteRenderer;
+
     PlayerController playerController;
 
     protected void Awake()
@@ -31,14 +34,18 @@ public class OnTriggerLoadLevel : MonoBehaviour
 
     IEnumerator LoadLevel(float delay)
     {
-        playerController.CharacterControlEnabled = true;
+        playerController.CharacterControlDisabled = true;
+        if(offSpriteRenderer)
+        {
+            playerController.GetComponent<SpriteRenderer>().enabled = false;
+        }
         while (blackout.color.a <= 1f)
         {
             blackout.color = new Color(0, 0, 0, blackout.color.a + Time.deltaTime);
             yield return 0;
         }
         yield return new WaitForSeconds(delay);
-        EditorSceneManager.LoadScene("level");
+        EditorSceneManager.LoadScene(level);
     }
 }
 

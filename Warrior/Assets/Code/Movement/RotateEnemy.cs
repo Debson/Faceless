@@ -16,6 +16,7 @@ public class RotateEnemy : MonoBehaviour {
     PlayerController player;
 
     public bool stopRotate { get; set; }
+    public bool rotationCompleted { get; set; }
 
     protected void Awake()
     {
@@ -35,13 +36,20 @@ public class RotateEnemy : MonoBehaviour {
         StopAllCoroutines();
     }
 
+    private void Update()
+    {
+        Debug.Log(rotationCompleted);
+    }
+
     IEnumerator Rotate()
     {
         if (!stopRotate)
         {
             while (true)
             {
+                rotationCompleted = false;
                 yield return new WaitForSeconds(rotateDelay);
+                rotationCompleted = true;
                 float xPosition = player.transform.position.x;
 
                 if (xPosition > transform.position.x)

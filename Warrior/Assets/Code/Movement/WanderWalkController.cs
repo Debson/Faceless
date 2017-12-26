@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO still bugged!!
 public class WanderWalkController : MonoBehaviour
 {
     [SerializeField]
@@ -43,6 +42,8 @@ public class WanderWalkController : MonoBehaviour
     OrcController orcController;
     HurtEnemyOnContact enemy;
     FloorDetector floorDetector;
+    RotateEnemy rotateEnemy;
+    HurtPlayerOnContact hurtPlayerOnContact;
 
     public bool IgnorePlayerAboveEnemy { get; set; }
     public bool isRunning { set; get; }
@@ -52,17 +53,18 @@ public class WanderWalkController : MonoBehaviour
     public bool stunned { get; private set; }
     public bool isIdle { get; private set; }
     public bool isFacingLeft { get; private set; }
+    public bool StopWander { get; set; }
 
     private float enemyYBounds;
     private float desiredWalkDirection;
     private float characterXBounds;
     private float distanceToPlayer;
 
-    public bool StopWander { get; set; }
     private bool isFlippedRigid;
     private bool usingRigid;
     private bool stopWalking;
     private bool callOnce;
+    private bool stopRotate;
 
     protected void Awake()
     {
@@ -76,6 +78,8 @@ public class WanderWalkController : MonoBehaviour
         orcController = GetComponent<OrcController>();
         enemy = GetComponent<HurtEnemyOnContact>();
         floorDetector = FindObjectOfType<FloorDetector>();
+        rotateEnemy = GetComponent<RotateEnemy>();
+        hurtPlayerOnContact = GetComponent<HurtPlayerOnContact>();
     }
 
     protected void Start()
@@ -86,7 +90,7 @@ public class WanderWalkController : MonoBehaviour
         }
     }
 
-    protected void Update()
+    protected void LateUpdate()
     {
         if (playerController == null)
         {
@@ -96,9 +100,6 @@ public class WanderWalkController : MonoBehaviour
         else
         {
             playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
-            RotateEnemy();
-
-            CheckIfCloseToPlayer();
 
             StartCoroutine(Move());
         }
@@ -124,61 +125,67 @@ public class WanderWalkController : MonoBehaviour
 
     IEnumerator Move()
     {
-        if (!stopWalking)
+        if (hurtPlayerOnContact.attackingAnimation && !stopRotate)
         {
-            if (enemy.comboEnabled && enemy.isHurt && !callOnce)
-            {
-                stunned = true;
-                callOnce = true;
-            }
-
-            if (stunned && callOnce)
-            {
-                callOnce = false;
-                yield return new WaitForSeconds(enemy.stunTime);
-                stunned = false;
-            }
-            else if (!stunned && !callOnce)
-            {
-                if (playerInRange && (transform.position.y + enemyYBounds + verticalAttackRange >= playerController.transform.position.y))
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
-                                                             followSpeed * Time.deltaTime);
-                    usingRigid = false;
-                    isRunning = true;
-                    isWalking = false;
-                }
-                else if(playerInRange && !(transform.position.y + enemyYBounds + verticalAttackRange >= playerController.transform.position.y) || !playerInRange)
-                {
-                    float desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
-                    myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
-                    usingRigid = true;
-                    isRunning = false;
-                    isWalking = true;
-                }
-            }
-
-            //WALKING
-            /*if (!playerInRange)
-            {
-                isWalking = true;
-            }
-            else if()
-            {
-                isWalking = false;
-            }*/
-
-            /*
-            if ((transform.position.y + enemyYBounds + verticalAttackRange) > playerController.transform.position.y)
-            {
-                isWalking = false;
-            }
-            else
-            {
-                isWalking = true;
-            }
-            */
+            stopRotate = true;
+            isRunning = false;
+            yield return new WaitForSeconds(2f);
+            stopRotate = false;
         }
+
+        if (!stopRotate)
+        {
+            RotateEnemy();
+            CheckIfCloseToPlayer();
+
+            if (!stopWalking)
+            {
+                if (enemy.comboEnabled && enemy.isHurt && !callOnce)
+                {
+                    stunned = true;
+                    callOnce = true;
+                }
+
+                if (stunned && callOnce)
+                {
+                    callOnce = false;
+                    yield return new WaitForSeconds(enemy.stunTime);
+                    stunned = false;
+                }
+                else if (!stunned && !callOnce)
+                {
+                    if (playerInRange && (transform.position.y + enemyYBounds + verticalAttackRange >= playerController.transform.position.y))
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, playerController.transform.position,
+                                                                 followSpeed * Time.deltaTime);
+                        usingRigid = false;
+                        isRunning = true;
+                        isWalking = false;
+                    }
+                    else if (playerInRange && !(transform.position.y + enemyYBounds + verticalAttackRange >= playerController.transform.position.y) || !playerInRange)
+                    {
+                        float desiredXVelocity = desiredWalkDirection * walkSpeed * Time.deltaTime;
+                        myBody.velocity = new Vector2(desiredXVelocity, myBody.velocity.y);
+                        usingRigid = true;
+                        isRunning = false;
+                        isWalking = true;
+                    }
+                }
+            }
+        }
+    }
+
+    IEnumerator EnemyStunned(float time)
+    {
+        isRunning = false;
+        stopRotate = true;
+        yield return new WaitForSeconds(time);
+        stopRotate = false;
+    }
+    
+    public void StunEnemy(float time)
+    {
+        StartCoroutine(EnemyStunned(time));
     }
 
     private float GetRandomTimeToSleep()
@@ -201,12 +208,11 @@ public class WanderWalkController : MonoBehaviour
         else
         {
             if (distanceToPlayer < characterXBounds || floorDetector.DetectTheFloorWeAreStandingOn().name == gameObject.name)
-
             {
                 stopWalking = true;
                 isRunning = false;
             }
-            else if (distanceToPlayer > characterXBounds * distanceToRunScaler )
+            else if (distanceToPlayer > characterXBounds * distanceToRunScaler)
             {
                 stopWalking = false;
             }

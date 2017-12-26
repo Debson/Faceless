@@ -31,6 +31,6 @@ public class LevelInitialization : MonoBehaviour
             blackout.color = new Color(0, 0, 0, blackout.color.a - Time.deltaTime);
             yield return 0;
         }
-        playerController.CharacterControlEnabled = false;
+        playerController.CharacterControlDisabled = false;
     }
 }

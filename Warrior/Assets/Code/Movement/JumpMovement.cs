@@ -39,7 +39,7 @@ public class JumpMovement : MonoBehaviour
     protected void Update()
     {
         if (Input.GetButtonDown("Jump") && floorDetector.isTouchingFloor 
-            && !crouchMovement.isCrouching && !playerController.CharacterControlEnabled)
+            && !crouchMovement.isCrouching && !playerController.CharacterControlDisabled)
         {
             Jump(jumpSpeed);
             canDoubleJump = true;
@@ -73,7 +73,7 @@ public class JumpMovement : MonoBehaviour
     }
     public void Jump(float speed)
     {
-        //audioManager.playerJump[Random.Range(0, 4)].Play();
+        audioManager.playerJump[Random.Range(0, 4)].Play();
         myBody.AddForce(new Vector2(0, speed), ForceMode2D.Impulse);
     }
 
