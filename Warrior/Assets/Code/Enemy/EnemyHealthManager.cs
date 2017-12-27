@@ -38,6 +38,11 @@ public class EnemyHealthManager : MonoBehaviour
         healthBar.transform.position = new Vector3(transform.position.x + adjustHealthBarX, transform.position.y + enemyHeight + adjustHealthBarY, transform.position.z);
     }
 
+    public void GiveDamage(int minDamageToGive, int maxDamageToGive)
+    {
+        enemyHealth -= Random.Range(minDamageToGive, maxDamageToGive);
+    }
+
     public void GiveDamage(int damageToGive)
     {
         enemyHealth -= damageToGive;

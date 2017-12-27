@@ -56,7 +56,8 @@ public class WalkMovement : MonoBehaviour
     {
         float desiredXVelocity;
 
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1") ||
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Attack+Up"))
         {
             desiredXVelocity = desiredWalkDirection * walkSpeed * 0.2f * Time.fixedDeltaTime;
         }

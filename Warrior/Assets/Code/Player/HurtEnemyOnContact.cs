@@ -11,6 +11,9 @@ public class HurtEnemyOnContact : MonoBehaviour
     public int maxDamageToGive;
 
     [SerializeField]
+    private float shortenSpecialAttackCooldownBy = 0.5f;
+
+    [SerializeField]
     public float knockbackStrenght;
 
     [SerializeField]
@@ -39,6 +42,7 @@ public class HurtEnemyOnContact : MonoBehaviour
     AttackMovement attackMovement;
     WanderWalkController wanderWalkController;
     HurtPlayerOnContact hurtPlayerOnContact;
+    PlayerController player;
 
     public delegate void OnHitStun(float time);
     public static event OnHitStun onStun;
@@ -69,6 +73,7 @@ public class HurtEnemyOnContact : MonoBehaviour
         attackMovement = FindObjectOfType<AttackMovement>();
         wanderWalkController = FindObjectOfType<WanderWalkController>();
         hurtPlayerOnContact = FindObjectOfType<HurtPlayerOnContact>();
+        player = FindObjectOfType<PlayerController>();
         startShader = spriteRenderer.material.shader;
     }
 
@@ -83,6 +88,8 @@ public class HurtEnemyOnContact : MonoBehaviour
     {
         if (collision.tag == "AttackTrigger")
         {
+            attackMovement.ShortenSpecialAttackTimeLeft(shortenSpecialAttackCooldownBy);
+
             onStun += wanderWalkController.StunEnemy;
 
             if (!hitOnlyOnce)
@@ -91,19 +98,41 @@ public class HurtEnemyOnContact : MonoBehaviour
                 {
                     case 0:
                         {
+                            enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.2));
                             audioManager.monsterHurt[0].Play();
                             break;
                         }
                     case 1:
                         {
+                            enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.2));
                             audioManager.monsterHurt[1].Play();
                             break;
                         }
                     case 2:
                         {
+                            enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.3));
                             audioManager.monsterHurt[2].Play();
                             break;
                         }
+                    case 3:
+                        {
+                            enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.5));
+                            audioManager.monsterHurt[2].Play();
+                            break;
+                        }
+                    case 4:
+                        {
+                            enemyHealthManager.GiveDamage(enemyHealthManager.GetMaxHealth());
+                            audioManager.monsterHurt[2].Play();
+                            break;
+                        }
+                    case 5:
+                        {
+                            enemyHealthManager.GiveDamage(enemyHealthManager.GetMaxHealth());
+                            audioManager.monsterHurt[2].Play();
+                            break;
+                        }
+
                 }
 
                 enemyHealthManager.GiveDamage(Random.Range(minDamageToGive, maxDamageToGive));

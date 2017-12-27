@@ -9,6 +9,9 @@ public class AttackMovement : MonoBehaviour
     [SerializeField]
     private float delayToDeactivateCombo = 2f;
 
+    [SerializeField]
+    private Transform raycastPoint;
+
     AudioManager audioManager;
     TurnAround turnAround;
     ScreenShake screenShake;
@@ -16,21 +19,22 @@ public class AttackMovement : MonoBehaviour
     FloorDetector floorDetector;
     HurtEnemyOnContact hurtEnemyOnContact;
     WalkMovement walkMovement;
+    PlayerController player;
 
     public delegate void OnAttackShake();
     public static event OnAttackShake onFirstAttack;
     public static event OnAttackShake onSecondAttack;
     public static event OnAttackShake onThirdAttack;
 
+    public bool isAttacking { get; private set; }
     public bool AttackMovementEnabled { get; set; }
     public int attackCount = 0;
 
-    private bool currentState;
-    private bool isAttackOnColldown;
-
-    private float timer = 0;
-    private float attackCooldown = 0.35f;
+    private float timeLeft;
+    private float attackCooldown = 0.45f;
     private float firstAttackCooldown = 0.5f;
+
+    private float specialAttackCooldown = 10f;
     private bool attackPressed;
     private bool nextComboStageEnabled;
 
@@ -38,17 +42,15 @@ public class AttackMovement : MonoBehaviour
     /// Waits for next frame in case to avoid checking if statement for same frame when button was pressed
     /// </summary>
     private bool waitForOneFrame;
+    private bool currentState;
+    private bool isAttackOnColldown;
     private bool firstAttackInJump;
     private bool startCombo;
+    private bool specialAttackActivated;
     /// <summary>
     /// Prevent player from attacking after he got hurted
     /// </summary>
     private bool stopAttack;
-
-    public bool isAttacking
-    {
-        get; private set;
-    }
 
     protected void Awake()
     {
@@ -59,24 +61,39 @@ public class AttackMovement : MonoBehaviour
         floorDetector = GetComponent<FloorDetector>();
         hurtEnemyOnContact = FindObjectOfType<HurtEnemyOnContact>();
         walkMovement = GetComponent<WalkMovement>();
+        player = GetComponent<PlayerController>();
         AttackMovementEnabled = true;
         attackTrigger.enabled = false;
     }
 
+    protected void Start()
+    {
+        timeLeft = specialAttackCooldown;
+    }
+
     protected void Update()
     {
+        if(startCombo && 
+            (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1") ||
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Attack2") ||
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3")))
+        {
+            player.CharacterControlDisabled = true;
+        }
+        else if(startCombo)
+        {
+            player.CharacterControlDisabled = false;
+        }
+
         if (Input.GetButtonDown("Attack") && !isAttacking && AttackMovementEnabled && !stopAttack)
         {
             if (Input.GetKey(KeyCode.UpArrow) && !floorDetector.isTouchingFloor)
             {
-                CheckComboStage("AttackInAir+Up");
-                audioManager.comboSound[3].Play();
-
+                SpecialAttackFromAir();
             }
-            else if(Input.GetKey(KeyCode.UpArrow))
+            else if (Input.GetKey(KeyCode.UpArrow))
             {
-                CheckComboStage("Attack+Up");
-                audioManager.comboSound[4].Play();
+                SpecialAttackFromGround();
             }
             else
             {
@@ -114,35 +131,23 @@ public class AttackMovement : MonoBehaviour
                         CheckComboStage("Attack_In_Air");
                     }
                 }
-            }
 
-            isAttacking = true;
-            attackTrigger.enabled = true;
-            currentState = turnAround.isFacingLeft;
+                currentState = turnAround.isFacingLeft;
+                StartAttackColldown();
+            }
+            // Animation have to be played in same direction as on start
 
-            if (isAttacking && (currentState == turnAround.isFacingLeft))
-            {
-                if (!isAttackOnColldown)
-                {
-                    StartCoroutine(AttackColldown());
-                    isAttackOnColldown = true;
-                }
-            }
-            else
-            {
-                isAttacking = false;
-                attackTrigger.enabled = false;
-            }
         }
-        else if(stopAttack)
+        else if (stopAttack)
         {
+            //Cant attack when knockback
             StartCoroutine(StopAttackDelay());
         }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "EnemyAttackTrigger" || collision.tag == "Enemy")
+        if (collision.tag == "Enemy")
         {
             startCombo = true;
         }
@@ -153,20 +158,72 @@ public class AttackMovement : MonoBehaviour
         startCombo = false;
     }
 
+    private void StartAttackColldown()
+    {
+        if (isAttacking && (currentState == turnAround.isFacingLeft))
+        {
+            if (!isAttackOnColldown)
+            {
+                StartCoroutine(AttackColldown());
+                isAttackOnColldown = true;
+            }
+        }
+        else
+        {
+            isAttacking = false;
+            attackTrigger.enabled = false;
+            //player.CharacterControlDisabled = false;
+        }
+    }
+
+    private void SpecialAttackFromGround()
+    {
+        if (!specialAttackActivated)
+        {
+            attackCount = 4;
+            specialAttackActivated = true;
+            StartCoroutine(SpecialAttackCooldown());
+
+            CheckComboStage("Attack+Up");
+            audioManager.comboSound[4].Play();
+        }
+    }
+
+    private void SpecialAttackFromAir()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Fall") && !specialAttackActivated)
+        {
+            attackCount = 5;
+            specialAttackActivated = true;
+            StartCoroutine(SpecialAttackCooldown());
+
+            player.CharacterControlDisabled = true;
+            CheckComboStage("AttackInAir+Up");
+            audioManager.comboSound[3].Play();
+        }
+    }
+
     public void CheckComboStage(string animation)
     {
+        isAttacking = true;
+        attackTrigger.enabled = true;
+
         animator.SetBool(animation, true);
         StartCoroutine(ResetAnimationLogic(animation));
     }
 
     private void CheckComboStage(string animation1, string animation2, string animation3)
     {
+        isAttacking = true;
+        attackTrigger.enabled = true;
+
         switch (attackCount)
         {
             case 0:
                 {
                     animator.SetBool(animation1, true);
                     StartCoroutine(ResetAnimationLogic(animation1));
+                    attackCount = 0;
                     attackCount++;
 
                     onFirstAttack += screenShake.ShakeOnFirstAtack;
@@ -186,7 +243,7 @@ public class AttackMovement : MonoBehaviour
                     attackCount++;
 
                     onSecondAttack += screenShake.ShakeOnSecondAttack;
-                    if(onSecondAttack != null)
+                    if (onSecondAttack != null)
                     {
                         onSecondAttack();
                     }
@@ -198,16 +255,14 @@ public class AttackMovement : MonoBehaviour
                 {
                     animator.SetBool(animation3, true);
                     StartCoroutine(ResetAnimationLogic(animation3));
-                    attackCount = 0;
+                    attackCount++;
 
                     onThirdAttack += screenShake.ShakeOnThirdAttack;
-                    audioManager.comboSound[2].Play();
-
                     if (onThirdAttack != null)
                     {
                         onThirdAttack();
                     }
-
+                    audioManager.comboSound[2].Play();
                     break;
                 }
         }
@@ -216,6 +271,36 @@ public class AttackMovement : MonoBehaviour
     public void SetStopAttack(bool value)
     {
         stopAttack = value;
+    }
+
+    public float GetSpecialAttackCooldown()
+    {
+        return specialAttackCooldown;
+    }
+
+    public float GetSpecialAttackCooldownLeft()
+    {
+        return timeLeft;
+    }
+
+    public void ShortenSpecialAttackTimeLeft(float time)
+    {
+        timeLeft += time;
+    }
+
+    IEnumerator SpecialAttackCooldown()
+    {
+        yield return new WaitForSeconds(0.8f);
+        isAttacking = false;
+        attackTrigger.enabled = false;
+        player.CharacterControlDisabled = false;
+        attackCount = 0;
+
+        for (timeLeft = 0f; timeLeft < specialAttackCooldown; timeLeft += Time.deltaTime)
+        {
+            yield return null;
+        }
+        specialAttackActivated = false;
     }
 
     IEnumerator StopAttackDelay()
@@ -227,7 +312,7 @@ public class AttackMovement : MonoBehaviour
     IEnumerator AttackColldown()
     {
         var time = attackCooldown;
-        switch(attackCount)
+        switch (attackCount)
         {
             case 1:
                 {
@@ -241,6 +326,11 @@ public class AttackMovement : MonoBehaviour
                 }
         }
         yield return new WaitForSeconds(time);
+        if(attackCount > 2)
+        {//reset attackCount after 3rd attack
+            attackCount = 0;
+        }
+        player.CharacterControlDisabled = false;
         isAttackOnColldown = false;
         isAttacking = false;
         attackTrigger.enabled = false;
@@ -257,6 +347,7 @@ public class AttackMovement : MonoBehaviour
                 waitForOneFrame = true;
                 yield return null;
             }
+
             if (Input.GetButtonDown("Attack"))
             {
                 nextComboStageEnabled = true;
@@ -279,7 +370,13 @@ public class AttackMovement : MonoBehaviour
 
     IEnumerator ResetAnimationLogic(string parameter)
     {
-        yield return new WaitForSeconds(attackCooldown - 0.05f);
+        yield return new WaitForSeconds(attackCooldown - 0.25f);
+        animator.SetBool(parameter, false);
+    }
+
+    IEnumerable ResetAnimationLogic(string parameter, float time)
+    {
+        yield return new WaitForSeconds(time);
         animator.SetBool(parameter, false);
     }
 }

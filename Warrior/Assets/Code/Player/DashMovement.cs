@@ -25,6 +25,7 @@ public class DashMovement : MonoBehaviour
     AudioManager audioManager;
     Rigidbody2D rBody;
     TurnAround turnAround;
+    AttackMovement attackMovement;
 
     private GameObject[] glow;
 
@@ -48,6 +49,7 @@ public class DashMovement : MonoBehaviour
     private bool createGlow;
     private bool active;
     private bool cooldownIsUp;
+    private bool glowFinished;
 
     protected void Awake()
     {
@@ -57,11 +59,12 @@ public class DashMovement : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         audioManager = FindObjectOfType<AudioManager>();
         turnAround = GetComponent<TurnAround>();
+        attackMovement = GetComponent<AttackMovement>();
     }
 
     protected void Start()
     {
-        glow = new GameObject[4];
+        glow = new GameObject[5];
         transparencyCount = 1;
         glowCount = 1;
         time = startingTime;
@@ -74,9 +77,9 @@ public class DashMovement : MonoBehaviour
         if (dash && floorDetector.isTouchingFloor && cooldownIsUp)
         {
             playerController.CharacterControlDisabled = true;
+            attackMovement.AttackMovementEnabled = false;
             StartCoroutine(Dash());
         }
-
         ChangeTransparencyToZero();
     }
 
@@ -94,46 +97,49 @@ public class DashMovement : MonoBehaviour
             playOnce = true;
         }
 
-        rBody.AddForce(Vector2.right * 2200f * turnAround.direction);
         //transform.position = new Vector2(transform.position.x + Time.fixedDeltaTime * speed * turnAround.direction, transform.position.y);
-
         dashActive = true;
+
         Physics2D.IgnoreLayerCollision(10, 8, true);
+        rBody.AddForce(Vector2.right * 2200f * turnAround.direction);
         yield return new WaitForSeconds(dashTime);
-        dashActive = false;
         Physics2D.IgnoreLayerCollision(10, 8, false);
+
+        dashActive = false;
         dash = false;
-        cooldownIsUp = true;
+        cooldownIsUp = false;
         playOnce = false;
         playerController.CharacterControlDisabled = false;
     }
 
     IEnumerator CreateGlow()
     {
-        if (glowCount < 5 && floorDetector.isTouchingFloor)
+        for (glowCount = 1; glowCount < 5; glowCount++)
         {
-            if ((glowCount > 3 || floorDetector.isTouchingFloor) && !callOnce)
+            if (floorDetector.isTouchingFloor)
             {
-                active = true;
-                callOnce = true;
+                if ((glowCount > 1 || floorDetector.isTouchingFloor) && !callOnce)
+                {
+                    //When glowcount is greater than 2, start process of decreasing color.a value
+                    active = true;
+                    callOnce = true;
+                }
+                glow[glowCount - 1] = new GameObject();
+                glow[glowCount - 1].transform.position = transform.position;
+                glow[glowCount - 1].transform.localScale = new Vector2(glow[glowCount - 1].transform.localScale.x * 6f, glow[glowCount - 1].transform.localScale.y * 6f);
+                glow[glowCount - 1].AddComponent<SpriteRenderer>();
+                var renderer = glow[glowCount - 1].GetComponent<SpriteRenderer>();
+                if (player.isFacingLeft)
+                {
+                    renderer.sprite = dashSpriteLeft;
+                }
+                else
+                {
+                    renderer.sprite = dashSpriteRight;
+                }
+                renderer.color = new Color(1, 1, 1, EasingFunction.EaseOutExpo(0.5f, 0.55f, glowCount / 20f));
+                yield return new WaitForSeconds(dashTime * speed * 0.004f);
             }
-            glow[glowCount - 1] = new GameObject();
-            glow[glowCount - 1].transform.position = transform.position;
-            glow[glowCount - 1].transform.localScale = new Vector2(glow[glowCount - 1].transform.localScale.x * 6f, glow[glowCount - 1].transform.localScale.y * 6f);
-            glow[glowCount - 1].AddComponent<SpriteRenderer>();
-            var renderer = glow[glowCount - 1].GetComponent<SpriteRenderer>();
-            if (player.isFacingLeft)
-            {
-                renderer.sprite = dashSpriteLeft;
-            }
-            else
-            {
-                renderer.sprite = dashSpriteRight;
-            }
-            renderer.color = new Color(1, 1, 1, EasingFunction.EaseOutQuint(0f, 1f, glowCount / 10f));
-            glowCount++;
-            yield return new WaitForSeconds(dashTime * speed * 0.002f);
-            createGlow = true;
         }
     }
 
@@ -155,7 +161,7 @@ public class DashMovement : MonoBehaviour
             {
                 var renderer = glow[transparencyCount - 1].GetComponent<SpriteRenderer>();
 
-                renderer.color = new Color(1, 1, 1, renderer.color.a - EasingFunction.EaseInQuint(0f, 2f, time) * Time.deltaTime);
+                renderer.color = new Color(1, 1, 1, renderer.color.a - EasingFunction.EaseInQuint(-1f, 0.4f, time) * Time.deltaTime);
                 if (renderer.color.a < 0)
                 {
                     Destroy(glow[transparencyCount - 1]);
@@ -173,6 +179,7 @@ public class DashMovement : MonoBehaviour
             createGlow = true;
             time = startingTime;
             callOnce = false;
+            attackMovement.AttackMovementEnabled = true;
             StartCoroutine(DashCooldown());
         }
     }
