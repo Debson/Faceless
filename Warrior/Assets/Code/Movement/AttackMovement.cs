@@ -34,7 +34,7 @@ public class AttackMovement : MonoBehaviour
     private float attackCooldown = 0.45f;
     private float firstAttackCooldown = 0.5f;
 
-    private float specialAttackCooldown = 10f;
+    private float specialAttackCooldown = 2f;
     private bool attackPressed;
     private bool nextComboStageEnabled;
 
@@ -82,7 +82,7 @@ public class AttackMovement : MonoBehaviour
         }
         else if(startCombo)
         {
-            player.CharacterControlDisabled = false;
+            //player.CharacterControlDisabled = false;
         }
 
         if (Input.GetButtonDown("Attack") && !isAttacking && AttackMovementEnabled && !stopAttack)
@@ -182,10 +182,10 @@ public class AttackMovement : MonoBehaviour
         {
             attackCount = 4;
             specialAttackActivated = true;
-            StartCoroutine(SpecialAttackCooldown());
-
             CheckComboStage("Attack+Up");
             audioManager.comboSound[4].Play();
+
+            StartCoroutine(SpecialAttackCooldown(0.1f));
         }
     }
 
@@ -195,11 +195,11 @@ public class AttackMovement : MonoBehaviour
         {
             attackCount = 5;
             specialAttackActivated = true;
-            StartCoroutine(SpecialAttackCooldown());
-
             player.CharacterControlDisabled = true;
             CheckComboStage("AttackInAir+Up");
             audioManager.comboSound[3].Play();
+
+            StartCoroutine(SpecialAttackCooldown(0.8f));
         }
     }
 
@@ -288,9 +288,9 @@ public class AttackMovement : MonoBehaviour
         timeLeft += time;
     }
 
-    IEnumerator SpecialAttackCooldown()
+    IEnumerator SpecialAttackCooldown(float time)
     {
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(time);
         isAttacking = false;
         attackTrigger.enabled = false;
         player.CharacterControlDisabled = false;

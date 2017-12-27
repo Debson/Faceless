@@ -17,6 +17,9 @@ public class HurtEnemyOnContact : MonoBehaviour
     public float knockbackStrenght;
 
     [SerializeField]
+    public float knockbackStrenghtOnSpecialAttack;
+
+    [SerializeField]
     public float knockBackLength;
 
     [SerializeField]
@@ -48,15 +51,14 @@ public class HurtEnemyOnContact : MonoBehaviour
     public static event OnHitStun onStun;
     public static event OnHitStun onStunStop;
 
+    public bool knockbackFinished { get; private set; }
     public bool hitOnlyOnce { get; set; }
-
     public bool isHurt { get; set; }
 
     private GameObject bloodInstantiate;
     private ParticleSystem bl;
     private Texture damageFlash;
 
-    private float knockbackTimeCount = 0.2f;
     private float enemyYBounds;
 
     private bool knockFromRight;
@@ -84,113 +86,140 @@ public class HurtEnemyOnContact : MonoBehaviour
         main.startColor = new Color(bloodColor.r, bloodColor.g, bloodColor.b);
     }
 
+    protected void LateUpdate()
+    {
+        if (onStun != null)
+        {
+            onStun(stunTime);
+            onStun -= wanderWalkController.StunEnemy;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "AttackTrigger")
         {
             attackMovement.ShortenSpecialAttackTimeLeft(shortenSpecialAttackCooldownBy);
-
             onStun += wanderWalkController.StunEnemy;
-
-            if (!hitOnlyOnce)
-            {
-                switch (attackMovement.attackCount)
-                {
-                    case 0:
-                        {
-                            enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.2));
-                            audioManager.monsterHurt[0].Play();
-                            break;
-                        }
-                    case 1:
-                        {
-                            enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.2));
-                            audioManager.monsterHurt[1].Play();
-                            break;
-                        }
-                    case 2:
-                        {
-                            enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.3));
-                            audioManager.monsterHurt[2].Play();
-                            break;
-                        }
-                    case 3:
-                        {
-                            enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.5));
-                            audioManager.monsterHurt[2].Play();
-                            break;
-                        }
-                    case 4:
-                        {
-                            enemyHealthManager.GiveDamage(enemyHealthManager.GetMaxHealth());
-                            audioManager.monsterHurt[2].Play();
-                            break;
-                        }
-                    case 5:
-                        {
-                            enemyHealthManager.GiveDamage(enemyHealthManager.GetMaxHealth());
-                            audioManager.monsterHurt[2].Play();
-                            break;
-                        }
-
-                }
-
-                enemyHealthManager.GiveDamage(Random.Range(minDamageToGive, maxDamageToGive));
-
-                StartCoroutine(EnemyStunDelay());
-
-                bloodInstantiate = Instantiate(blood, new Vector2(transform.position.x, transform.position.y + enemyYBounds * 0.7f), Quaternion.identity);
-                Destroy(bloodInstantiate, 2f);
-            }
-            hitOnlyOnce = true;
-
-            knockbackTimeCount = knockBackLength;
-
-            if (collision.transform.position.x > transform.position.x)
-            {
-                knockFromRight = true;
-            }
-            else
-            {
-                knockFromRight = false;
-            }
+            CheckPlayerState(collision);
         }
     }
 
-    protected void LateUpdate()
+    private void CheckPlayerState(Collider2D collision)
     {
-        if(onStun != null)
+        if (!hitOnlyOnce)
         {
-            onStun(stunTime);
-            onStun -= wanderWalkController.StunEnemy;
-        }
+            switch (attackMovement.attackCount)
+            {
+                case 0:
+                    {//Normal attack
+                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.2));
+                        audioManager.monsterHurt[0].Play();
+                        StartCoroutine(Knockback(knockBackLength, knockbackStrenght, false));
+                        break;
+                    }
+                case 1:
+                    {//Normal first combo attack
+                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.2));
+                        audioManager.monsterHurt[1].Play();
+                        StartCoroutine(Knockback(knockBackLength, knockbackStrenght, false));
+                        break;
+                    }
+                case 2:
+                    {//Normal second combo attack
+                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.3));
+                        audioManager.monsterHurt[2].Play();
+                        StartCoroutine(Knockback(knockBackLength, knockbackStrenght, false));
+                        break;
+                    }
+                case 3:
+                    {//Normal third combo attack
+                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.5));
+                        audioManager.monsterHurt[2].Play();
+                        StartCoroutine(Knockback(knockBackLength + 0.1f, knockbackStrenght * 5f, false));
+                        break;
+                    }
+                case 4:
+                    {//Special attack form ground
+                        enemyHealthManager.GiveDamage(enemyHealthManager.GetMaxHealth());
+                        audioManager.monsterHurt[2].Play();
+                        StartCoroutine(Knockback(knockBackLength + 0.1f, knockbackStrenght, true));
+                        break;
+                    }
+                case 5:
+                    {//Special attack from air
+                        StartCoroutine(Knockback(knockBackLength + 0.2f, knockbackStrenghtOnSpecialAttack, false));
+                        enemyHealthManager.GiveDamage(enemyHealthManager.GetMaxHealth());
+                        audioManager.monsterHurt[2].Play();
+                        break;
+                    }
+            }
+            StartCoroutine(EnemyStunDelay());
 
-        if (knockbackTimeCount <= 0)
+            bloodInstantiate = Instantiate(blood, new Vector2(transform.position.x, transform.position.y + enemyYBounds * 0.7f), Quaternion.identity);
+            Destroy(bloodInstantiate, 2f);
+        }
+        hitOnlyOnce = true;
+        if (collision.transform.position.x > transform.position.x)
         {
-            //spriteRenderer.color = startColor;
-            spriteRenderer.material.shader = startShader;
-            hitOnlyOnce = false;
+            knockFromRight = true;
         }
         else
         {
+            knockFromRight = false;
+        }
+    }
+
+    IEnumerator Knockback(float time, float strength, bool specialAttack)
+    {
+        var startTime = time;
+        while (time >= 0)
+        {
+            knockbackFinished = false;
             if (knockFromRight)
             {
-                gameObject.transform.position = new Vector2(gameObject.transform.position.x - (Time.deltaTime * knockbackStrenght), gameObject.transform.position.y);
-                if (paintWhiteOnHit)
+                if (specialAttack)
+                {
+                    gameObject.transform.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + (Time.deltaTime * strength * 14f));
+                }
+                else
+                {
+                    gameObject.transform.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
+                }
+                if (paintWhiteOnHit && (time > (startTime - 0.1f)))
                 {
                     spriteRenderer.material.shader = Shader.Find("PaintWhite");
                 }
+                time -= Time.deltaTime;
+                yield return null;
             }
+
             if (!knockFromRight)
             {
-                gameObject.transform.position = new Vector2(gameObject.transform.position.x + (Time.deltaTime * knockbackStrenght), gameObject.transform.position.y);
-                if (paintWhiteOnHit)
+                if (specialAttack)
+                {
+                    gameObject.transform.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + (Time.deltaTime * strength * 14f));
+                }
+                else
+                {
+                    gameObject.transform.position = new Vector2(gameObject.transform.position.x + (Time.deltaTime * strength), gameObject.transform.position.y);
+                }
+                if (paintWhiteOnHit && (time > (startTime - 0.1f)))
                 {
                     spriteRenderer.material.shader = Shader.Find("PaintWhite");
                 }
+                time -= Time.deltaTime;
+                yield return null;
+            }
+
+            if(time < (startTime - 0.1f))
+            {//Sprite should only blink with white
+                spriteRenderer.material.shader = startShader;
             }
         }
-        knockbackTimeCount -= Time.deltaTime;
+        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
+        hitOnlyOnce = false;
+        knockbackFinished = true;
     }
 
     IEnumerator EnemyStunDelay()

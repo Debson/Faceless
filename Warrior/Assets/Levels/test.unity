@@ -6628,7 +6628,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1299705993}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 88c3a6334a34d4a4bb3544c61a429736, type: 2}
+  m_Material: {fileID: 6200000, guid: 495f91c0de900344e9c2824daa2d9779, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -9788,11 +9788,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4769240674959646, guid: 5d382bee2c29a9c48bcfa35c0946dde6, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -17.69
+      value: -6.67
       objectReference: {fileID: 0}
     - target: {fileID: 4769240674959646, guid: 5d382bee2c29a9c48bcfa35c0946dde6, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -262.94
+      value: -263.99
       objectReference: {fileID: 0}
     - target: {fileID: 4769240674959646, guid: 5d382bee2c29a9c48bcfa35c0946dde6, type: 2}
       propertyPath: m_LocalPosition.z
@@ -9817,21 +9817,6 @@ Prefab:
     - target: {fileID: 4769240674959646, guid: 5d382bee2c29a9c48bcfa35c0946dde6, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 61041080575063114, guid: 5d382bee2c29a9c48bcfa35c0946dde6,
-        type: 2}
-      propertyPath: m_Offset.x
-      value: 0.6422005
-      objectReference: {fileID: 0}
-    - target: {fileID: 61041080575063114, guid: 5d382bee2c29a9c48bcfa35c0946dde6,
-        type: 2}
-      propertyPath: m_Size.x
-      value: 0.96088755
-      objectReference: {fileID: 0}
-    - target: {fileID: 61253690506507726, guid: 5d382bee2c29a9c48bcfa35c0946dde6,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d382bee2c29a9c48bcfa35c0946dde6, type: 2}

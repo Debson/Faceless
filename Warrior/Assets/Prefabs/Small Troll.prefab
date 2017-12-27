@@ -178,7 +178,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1720214198102106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.703907, y: -263.43024, z: 0}
+  m_LocalPosition: {x: 18.286198, y: -264.72073, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4046238743579860}
@@ -214,7 +214,7 @@ Rigidbody2D:
   m_Mass: 100
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 6
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -293,7 +293,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1720214198102106}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 495f91c0de900344e9c2824daa2d9779, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -493,7 +493,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDamageToGive: 0
   maxDamageToGive: 0
-  knockbackStrenght: 1
+  shortenSpecialAttackCooldownBy: 0.5
+  knockbackStrenght: 4
+  knockbackStrenghtOnSpecialAttack: 40
   knockBackLength: 0.1
   comboEnabled: 1
   stunTime: 2
