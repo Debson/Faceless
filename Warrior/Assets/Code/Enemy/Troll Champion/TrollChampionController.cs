@@ -5,10 +5,7 @@ public class TrollChampionController : MonoBehaviour
 {
 
     [SerializeField]
-    Collider2D deadCollider;
-
-    [SerializeField]
-    Collider2D attackTrigger;
+    Collider2D deathCollider;
 
     WanderWalkController wanderWalkController;
     HurtEnemyOnContact hurtEnemyOnContact;
@@ -16,11 +13,11 @@ public class TrollChampionController : MonoBehaviour
     FloorDetector floorDetector;
     EnemyHealthManager enemyHealthManager;
     Animator animator;
-    Canvas healthBarCanvas;
     Collider2D myCollider;
     PlayerController playerController;
     Rigidbody2D myBody;
     AudioManager audioManager;
+    EnemyHealthBar enemyHealthBar;
 
     private bool isDead;
     private bool jump;
@@ -38,13 +35,14 @@ public class TrollChampionController : MonoBehaviour
         hurtPlayerOnContact = GetComponentInChildren<HurtPlayerOnContact>();
         enemyHealthManager = GetComponent<EnemyHealthManager>();
         floorDetector = FindObjectOfType<FloorDetector>();
-        healthBarCanvas = GetComponentInChildren<Canvas>();
         animator = GetComponent<Animator>();
         myCollider = GetComponent<Collider2D>();
         playerController = FindObjectOfType<PlayerController>();
         myBody = GetComponent<Rigidbody2D>();
         trollYBounds = GetComponent<Collider2D>().bounds.size.y;
         audioManager = FindObjectOfType<AudioManager>();
+        enemyHealthBar = GetComponent<EnemyHealthBar>();
+        deathCollider.enabled = false;
     }
 
     protected void Start()
@@ -55,20 +53,18 @@ public class TrollChampionController : MonoBehaviour
         jump = true;
     }
 
-    protected void Update()
+    protected void LateUpdate()
     {
-        if (!isDead)
+        if (enemyHealthManager.GetHealth() <= 0 && !isDead)
         {
-            if (enemyHealthManager.GetHealth() <= 0)
-            {
-                OnDeath();
-            }
-            else
-            {
-                SetAnimationLogic();
-            }
+            OnDeath();
+            SetSounds();
         }
-        SetSounds();
+        else if (!isDead)
+        {
+            SetAnimationLogic();
+            SetSounds();
+        }
     }
 
     private void SetSounds()
@@ -107,16 +103,16 @@ public class TrollChampionController : MonoBehaviour
     private void OnDeath()
     {
         audioManager.orcDeath[2].Play();
+
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        deathCollider.enabled = true;
+        wanderWalkController.enabled = false;
+        hurtPlayerOnContact.enabled = false;
+        hurtEnemyOnContact.enabled = false;
+        enemyHealthBar.enabled = false;
+        myCollider.enabled = false;
         animator.SetTrigger("isDead");
         isDead = true;
-
-        attackTrigger.gameObject.SetActive(false);
-
-        wanderWalkController.enabled = false;
-        healthBarCanvas.enabled = false;
-        myCollider.enabled = false;
-        deadCollider.enabled = true;
-
         Destroy(gameObject, 7f);
     }
 

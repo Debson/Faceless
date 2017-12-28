@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4085833746769820}
   - component: {fileID: 70110713633399532}
-  m_Layer: 17
-  m_Name: Leg
+  m_Layer: 10
+  m_Name: DeathCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,10 +37,9 @@ GameObject:
   - component: {fileID: 224543881910532568}
   - component: {fileID: 222472523969361790}
   - component: {fileID: 114131852434958856}
-  - component: {fileID: 114276812877015994}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: EnemyHealthBar
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,17 +55,16 @@ GameObject:
   - component: {fileID: 212069397988512096}
   - component: {fileID: 95170622260711394}
   - component: {fileID: 50634602797873466}
-  - component: {fileID: 61436707387629904}
   - component: {fileID: 70904421003876318}
   - component: {fileID: 114796690230249040}
+  - component: {fileID: 114327590886171826}
+  - component: {fileID: 114291198406463648}
   - component: {fileID: 114361606397714092}
   - component: {fileID: 114176762626397484}
   - component: {fileID: 114078566515432482}
-  - component: {fileID: 114327590886171826}
-  - component: {fileID: 114291198406463648}
   m_Layer: 10
   m_Name: Spider
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,6 +83,22 @@ GameObject:
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1683910127008214
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4245328026999486}
+  - component: {fileID: 61476384413457192}
+  m_Layer: 15
+  m_Name: AttackTrigger
+  m_TagString: EnemyAttackTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,6 +169,19 @@ Transform:
   m_Father: {fileID: 4739655694278016}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4245328026999486
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1683910127008214}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.09, y: 0.234, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4739655694278016}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4739655694278016
 Transform:
   m_ObjectHideFlags: 1
@@ -162,11 +189,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1359685111122800}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -43.55824, y: -239.4341, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalPosition: {x: 7.98, y: -264.50214, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 224696821958053676}
   - {fileID: 4085833746769820}
+  - {fileID: 4245328026999486}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -181,39 +209,39 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1000
+  m_Mass: 100
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 5
+  m_GravityScale: 10
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61436707387629904
+--- !u!61 &61476384413457192
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1359685111122800}
+  m_GameObject: {fileID: 1683910127008214}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03791052, y: 0.38241234}
+  m_Offset: {x: -0.12514105, y: 0.2260147}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.89, y: 0.62}
-    newSize: {x: 0.71, y: 0.59}
-    adaptiveTilingThreshold: 0.5
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.96582115, y: 0.5433492}
+  m_Size: {x: 1.245872, y: 0.57175905}
   m_EdgeRadius: 0
 --- !u!70 &70110713633399532
 CapsuleCollider2D:
@@ -221,7 +249,7 @@ CapsuleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1194978521674042}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -238,7 +266,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1359685111122800}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 6929b2efb5434fe42b0767438cabdbeb, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -273,12 +301,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d067e42a2d80bc41a9e146591b21814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamageToGive: 1
-  maxDamageToGive: 15
+  minDamageToGive: 0
+  maxDamageToGive: 0
   attackFreq: 1.5
   animationDelay: 0.1
-  hitAfterTime: 0
-  hitDelay: 0
+  hitAfterTime: 1
+  hitDelay: 0.3
 --- !u!114 &114090833523183494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -344,29 +372,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c932fafef85afe04781d43d55b332819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamageToGive: 1
-  maxDamageToGive: 1
+  firstAttackMultiplier: 0.7
+  secondAttackMultiplier: 1
+  thirdAttackMultiplier: 1
+  specialAttackMultiplier: 1
+  shortenSpecialAttackCooldownBy: 0.5
   knockbackStrenght: 4
-  knockBackLength: 0.2
-  colorRedOnHit: 1
+  knockbackStrenghtOnSpecialAttack: 20
+  knockBackLength: 0.1
+  comboEnabled: 1
+  stunTime: 1.2
+  paintWhiteOnHit: 1
   blood: {fileID: 1882104490518854, guid: 1aa24812494a9644a994014e5fb94f3d, type: 2}
   bloodColor: {r: 0.22142956, g: 0.875, b: 0.12867649, a: 0}
-  hitOnlyOnce: 0
-  isHurt: 0
---- !u!114 &114276812877015994
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1263724326797944}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f80e2ed27b263242ac4333916424d4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fillAmount: 1
-  healthDecrementationTime: 4
-  content: {fileID: 114517952978793394}
 --- !u!114 &114291198406463648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -378,8 +396,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f80e2ed27b263242ac4333916424d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fillAmount: 0.49
+  fillAmount: 1
   healthDecrementationTime: 4
+  setAutoBarSize: 0
   content: {fileID: 114517952978793394}
 --- !u!114 &114327590886171826
 MonoBehaviour:
@@ -392,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083b1c8c8a2b91d4e8e856b5702a28f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyMaxHealth: 3
+  enemyMaxHealth: 10
   pointsToAdd: 500
   adjustHealthBarY: 0
   adjustHealthBarX: 0
@@ -407,17 +426,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd6a245b621cd044ea4afba572b61edb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 70
-  followSpeed: 5
-  timeBeforeFirstWander: 1
+  walkSpeed: 80
+  followSpeed: 7
+  timeBeforeFirstWander: 2
   minTimeBetweenReconsideringDirection: 1
   maxTimeBetweenReconsideringDirection: 6
-  playerRange: 10
+  playerRange: 20
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
-  attackRange: 0.3
-  verticalRange: 0
+  attackRange: 1
+  verticalAttackRange: 6
+  distanceToRunScaler: 1
 --- !u!114 &114369800451617468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -516,6 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a0a6b22dc46a245a49c6f9f0d32893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathCollider: {fileID: 70110713633399532}
 --- !u!114 &114920033756607256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -558,6 +579,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -573,6 +595,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -580,9 +603,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 11
   m_Sprite: {fileID: 21300018, guid: d1c98d58d5a58f74e9a25c9710399432, type: 3}
-  m_Color: {r: 0.7205882, g: 0.7205882, b: 0.7205882, a: 1}
+  m_Color: {r: 0.5735294, g: 0.5735294, b: 0.5735294, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
@@ -590,6 +613,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!222 &222322814538131698
 CanvasRenderer:
   m_ObjectHideFlags: 1

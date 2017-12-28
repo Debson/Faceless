@@ -5,31 +5,37 @@ using UnityEngine;
 public class HurtEnemyOnContact : MonoBehaviour
 {
     [SerializeField]
-    public int minDamageToGive;
+    public float firstAttackMultiplier = 0.2f;
 
     [SerializeField]
-    public int maxDamageToGive;
+    public float secondAttackMultiplier = 0.3f;
+
+    [SerializeField]
+    public float thirdAttackMultiplier = 0.5f;
+
+    [SerializeField]
+    public float specialAttackMultiplier = 1f;
 
     [SerializeField]
     private float shortenSpecialAttackCooldownBy = 0.5f;
 
     [SerializeField]
-    public float knockbackStrenght;
+    public float knockbackStrenght = 5f;
 
     [SerializeField]
-    public float knockbackStrenghtOnSpecialAttack;
+    public float knockbackStrenghtOnSpecialAttack = 20f;
 
     [SerializeField]
-    public float knockBackLength;
+    public float knockBackLength = 0.1f;
 
     [SerializeField]
-    public bool comboEnabled;
+    public bool comboEnabled = true;
 
     [SerializeField]
     public float stunTime = 0.7f;
 
     [SerializeField]
-    private bool paintWhiteOnHit;
+    private bool paintWhiteOnHit = true;
 
     [SerializeField]
     private GameObject blood;
@@ -100,7 +106,10 @@ public class HurtEnemyOnContact : MonoBehaviour
         if (collision.tag == "AttackTrigger")
         {
             attackMovement.ShortenSpecialAttackTimeLeft(shortenSpecialAttackCooldownBy);
-            onStun += wanderWalkController.StunEnemy;
+            if (wanderWalkController != null)
+            {
+                onStun += wanderWalkController.StunEnemy;
+            }
             CheckPlayerState(collision);
         }
     }
@@ -113,44 +122,44 @@ public class HurtEnemyOnContact : MonoBehaviour
             {
                 case 0:
                     {//Normal attack
-                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.2));
+                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * firstAttackMultiplier));
                         audioManager.monsterHurt[0].Play();
                         StartCoroutine(Knockback(knockBackLength, knockbackStrenght, false));
                         break;
                     }
                 case 1:
                     {//Normal first combo attack
-                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.2));
+                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * firstAttackMultiplier));
                         audioManager.monsterHurt[1].Play();
                         StartCoroutine(Knockback(knockBackLength, knockbackStrenght, false));
                         break;
                     }
                 case 2:
                     {//Normal second combo attack
-                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.3));
+                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * secondAttackMultiplier));
                         audioManager.monsterHurt[2].Play();
                         StartCoroutine(Knockback(knockBackLength, knockbackStrenght, false));
                         break;
                     }
                 case 3:
                     {//Normal third combo attack
-                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * 0.5));
+                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * thirdAttackMultiplier));
                         audioManager.monsterHurt[2].Play();
                         StartCoroutine(Knockback(knockBackLength + 0.1f, knockbackStrenght * 5f, false));
                         break;
                     }
                 case 4:
                     {//Special attack form ground
-                        enemyHealthManager.GiveDamage(enemyHealthManager.GetMaxHealth());
+                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * specialAttackMultiplier));
                         audioManager.monsterHurt[2].Play();
                         StartCoroutine(Knockback(knockBackLength + 0.1f, knockbackStrenght, true));
                         break;
                     }
                 case 5:
                     {//Special attack from air
-                        StartCoroutine(Knockback(knockBackLength + 0.2f, knockbackStrenghtOnSpecialAttack, false));
-                        enemyHealthManager.GiveDamage(enemyHealthManager.GetMaxHealth());
+                        enemyHealthManager.GiveDamage((int)(enemyHealthManager.GetMaxHealth() * specialAttackMultiplier));
                         audioManager.monsterHurt[2].Play();
+                        StartCoroutine(Knockback(knockBackLength + 0.2f, knockbackStrenghtOnSpecialAttack, false));
                         break;
                     }
             }

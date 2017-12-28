@@ -4,31 +4,34 @@ using UnityEngine;
 
 public class MermanController : MonoBehaviour
 {
+    [SerializeField] private Collider2D deathCollider;
+
     WanderWalkController wanderWalkController;
     HurtPlayerOnContact hurtPlayerOnContact;
     Animator animator;
-    PlayerController playerController;
     AudioManager audioManager;
     HurtEnemyOnContact hurtEnemyOnContact;
     EnemyHealthManager enemyHealthManager;
+    EnemyHealthBar enemyHealthBar;
 
     private float walkSpeed = 1.5f;
 
     private bool playOnce;
-    private bool _Grounded;
-    private bool _Attack;
-    private bool _Dead;
-    private bool _Walking;
+    private bool grounded;
+    private bool attack;
+    private bool walking;
+    private bool isDead;
 
     protected void Awake()
     {
         wanderWalkController = GetComponent<WanderWalkController>();
         hurtPlayerOnContact = GetComponent<HurtPlayerOnContact>();
         animator = GetComponent<Animator>();
-        playerController = FindObjectOfType<PlayerController>();
         audioManager = FindObjectOfType<AudioManager>();
         hurtEnemyOnContact = GetComponent<HurtEnemyOnContact>();
         enemyHealthManager = GetComponent<EnemyHealthManager>();
+        enemyHealthBar = GetComponent<EnemyHealthBar>();
+        deathCollider.enabled = false;
     }
 
     protected void Start()
@@ -36,9 +39,29 @@ public class MermanController : MonoBehaviour
         animator.SetBool("isWalking", true);
     }
 
-    protected void Update()
+    protected void LateUpdate()
     {
-        if(hurtPlayerOnContact.attackingAnimation)
+        if (enemyHealthManager.GetHealth() <= 0 && !isDead)
+        {
+            animator.SetTrigger("isDead");
+            this.GetComponent<Collider2D>().enabled = false;
+            deathCollider.enabled = true;
+            wanderWalkController.enabled = false;
+            hurtPlayerOnContact.enabled = false;
+            hurtEnemyOnContact.enabled = false;
+            enemyHealthBar.enabled = false;
+            isDead = true;
+            Destroy(gameObject, 6f);
+        }
+        else if (!isDead)
+        {
+            SetAnimationLogic();
+        }
+    }
+
+    private void SetAnimationLogic()
+    {
+        if (hurtPlayerOnContact.attackingAnimation)
         {
             StartCoroutine(TongueAttack());
         }
@@ -47,16 +70,16 @@ public class MermanController : MonoBehaviour
             playOnce = false;
         }
 
-        if(wanderWalkController.isRunning)
+        if (wanderWalkController.isRunning)
         {
             animator.SetFloat("walkingSpeed", 0.6f);
         }
-        else if(!wanderWalkController.isRunning)
+        else if (!wanderWalkController.isRunning)
         {
             animator.SetFloat("walkingSpeed", 0.2f);
         }
 
-        if(wanderWalkController.isWalking || wanderWalkController.isRunning)
+        if (wanderWalkController.isWalking || wanderWalkController.isRunning)
         {
             animator.SetBool("isWalking", true);
         }

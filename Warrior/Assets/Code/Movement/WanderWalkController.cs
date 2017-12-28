@@ -11,6 +11,9 @@ public class WanderWalkController : MonoBehaviour
     float followSpeed = 3f;
 
     [SerializeField]
+    private float timeToWaitAfterAttack = 0.5f;
+
+    [SerializeField]
     float timeBeforeFirstWander = 2;
 
     [SerializeField]
@@ -18,6 +21,9 @@ public class WanderWalkController : MonoBehaviour
 
     [SerializeField]
     float maxTimeBetweenReconsideringDirection = 6;
+
+    [SerializeField]
+    private bool enableWander = true;
 
     [SerializeField]
     public float playerRange;
@@ -32,17 +38,15 @@ public class WanderWalkController : MonoBehaviour
     private float verticalAttackRange = 0f;
 
     [SerializeField]
-    private float distanceToRunScaler;
+    private float distanceToRunScaler = 1f;
 
     Animator animator;
     Rigidbody2D myBody;
     PlayerController playerController;
     Collider2D myCollider;
     Canvas healthBarCanvas;
-    OrcController orcController;
     HurtEnemyOnContact enemy;
     FloorDetector floorDetector;
-    RotateEnemy rotateEnemy;
     HurtPlayerOnContact hurtPlayerOnContact;
 
     public bool IgnorePlayerAboveEnemy { get; set; }
@@ -75,16 +79,14 @@ public class WanderWalkController : MonoBehaviour
         characterXBounds = playerController.GetComponent<Collider2D>().bounds.size.x + attackRange;
         animator = GetComponentInChildren<Animator>();
         healthBarCanvas = GetComponentInChildren<Canvas>();
-        orcController = GetComponent<OrcController>();
         enemy = GetComponent<HurtEnemyOnContact>();
         floorDetector = FindObjectOfType<FloorDetector>();
-        rotateEnemy = GetComponent<RotateEnemy>();
         hurtPlayerOnContact = GetComponent<HurtPlayerOnContact>();
     }
 
     protected void Start()
     {
-        if (!StopWander)
+        if (!StopWander && enableWander)
         {
             StartCoroutine(Wander());
         }
@@ -129,7 +131,7 @@ public class WanderWalkController : MonoBehaviour
         {
             stopRotate = true;
             isRunning = false;
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(timeToWaitAfterAttack);
             stopRotate = false;
         }
 
@@ -228,7 +230,6 @@ public class WanderWalkController : MonoBehaviour
             {
                 healthBarCanvas.transform.rotation = Quaternion.Euler(0, 180, 0);
                 myBody.transform.rotation = Quaternion.Euler(0, -180, 0);
-                //healthBarCanvas.enabled = true;
                 isFlippedRigid = true;
                 isFacingLeft = false;
             }

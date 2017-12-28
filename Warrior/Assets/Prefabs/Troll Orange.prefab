@@ -58,14 +58,30 @@ GameObject:
   - component: {fileID: 50857038157266490}
   - component: {fileID: 70520430515079608}
   - component: {fileID: 114675639997699684}
+  - component: {fileID: 114365526085099828}
+  - component: {fileID: 114950405262435742}
   - component: {fileID: 114483475421798476}
   - component: {fileID: 114582372489246860}
-  - component: {fileID: 114950405262435742}
-  - component: {fileID: 114365526085099828}
   - component: {fileID: 114599499470636446}
   m_Layer: 10
   m_Name: Troll Orange
   m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1283678019511566
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4983190080288202}
+  - component: {fileID: 70104605529713590}
+  m_Layer: 10
+  m_Name: DeathCollider
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,9 +165,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1209628435284868}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 215.14182, y: -288.71136, z: 0.66015625}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: -3.3629794, y: -264.9979, z: 0.66015625}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
+  - {fileID: 4983190080288202}
   - {fileID: 4784877672430790}
   - {fileID: 224050495045448788}
   m_Father: {fileID: 0}
@@ -163,6 +180,19 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1084645026823522}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4271049076017718}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4983190080288202
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1283678019511566}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -240,6 +270,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.892334, y: 0.7043457}
   m_EdgeRadius: 0
+--- !u!70 &70104605529713590
+CapsuleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1283678019511566}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.8806361, y: 1.9396372}
+  m_Size: {x: 2.3692734, y: 0.021606447}
+  m_Direction: 1
 --- !u!70 &70520430515079608
 CapsuleCollider2D:
   m_ObjectHideFlags: 1
@@ -410,7 +455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMaxHealth: 10
   pointsToAdd: 0
-  adjustHealthBarY: 0.1
+  adjustHealthBarY: 0.8
   adjustHealthBarX: 0
 --- !u!114 &114402442601461264
 MonoBehaviour:
@@ -450,10 +495,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c932fafef85afe04781d43d55b332819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamageToGive: 0
-  maxDamageToGive: 0
+  firstAttackMultiplier: 0.2
+  secondAttackMultiplier: 0.3
+  thirdAttackMultiplier: 0.5
+  specialAttackMultiplier: 1
+  shortenSpecialAttackCooldownBy: 0.5
   knockbackStrenght: 6
-  knockBackLength: 0.06
+  knockbackStrenghtOnSpecialAttack: 20
+  knockBackLength: 0.1
   comboEnabled: 1
   stunTime: 0.7
   paintWhiteOnHit: 1
@@ -524,12 +573,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd6a245b621cd044ea4afba572b61edb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 50
-  followSpeed: 3
+  walkSpeed: 60
+  followSpeed: 3.5
   timeBeforeFirstWander: 2
-  minTimeBetweenReconsideringDirection: 1
-  maxTimeBetweenReconsideringDirection: 6
-  playerRange: 7
+  minTimeBetweenReconsideringDirection: 2
+  maxTimeBetweenReconsideringDirection: 7
+  playerRange: 17
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -547,6 +596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f57d6973d0311b4bbc37c37de1f3396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathCollider: {fileID: 70104605529713590}
 --- !u!114 &114950405262435742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -559,8 +609,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fillAmount: 1
-  healthDecrementationTime: 0
-  setAutoBarSize: 1
+  healthDecrementationTime: 4
+  setAutoBarSize: 0
   content: {fileID: 114300391464687152}
 --- !u!212 &212920489698729810
 SpriteRenderer:
@@ -657,12 +707,12 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1876087700746790}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1607.9795, y: 1493.1364, z: -0.66015625}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.66015625}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 224467246575643892}
   m_Father: {fileID: 4271049076017718}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -694,7 +744,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1933058938518084}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -573.3221, y: -425.73105, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.02405813, y: 0.03375777, z: 1}
   m_Children:
   - {fileID: 224758903646877004}
@@ -714,7 +764,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1378138785398612}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7999992, y: 11.400002, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.67104036, y: 0.039240032, z: 0.99}
   m_Children:
   - {fileID: 224210403677081968}
@@ -733,7 +783,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1301298815428902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.34486, y: -55.029182, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 224467246575643892}

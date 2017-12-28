@@ -129,14 +129,14 @@ GameObject:
   - component: {fileID: 50881057325838272}
   - component: {fileID: 70784473312576456}
   - component: {fileID: 114396191347670442}
-  - component: {fileID: 114006874116438486}
-  - component: {fileID: 114812174811774012}
   - component: {fileID: 114018776125484146}
+  - component: {fileID: 114812174811774012}
+  - component: {fileID: 114006874116438486}
   - component: {fileID: 114756610604752922}
   - component: {fileID: 114012597225686682}
   m_Layer: 10
   m_Name: Mountain Troll
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,8 +165,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1890064065317466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 206.02, y: -288.37, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalPosition: {x: 15.88, y: -264.1668, z: 0}
+  m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_Children:
   - {fileID: 4449256791768044}
   - {fileID: 4694703678689156}
@@ -330,16 +330,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 70
   followSpeed: 6
-  timeBeforeFirstWander: 1
-  minTimeBetweenReconsideringDirection: 4
-  maxTimeBetweenReconsideringDirection: 8
+  timeBeforeFirstWander: 2
+  minTimeBetweenReconsideringDirection: 3
+  maxTimeBetweenReconsideringDirection: 9
   playerRange: 20
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
-  attackRange: 1
+  attackRange: 1.5
+  verticalAttackRange: 0
   distanceToRunScaler: 2
-  verticalRange: 0
 --- !u!114 &114012509910963202
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -380,7 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDamageToGive: 0
   maxDamageToGive: 0
-  attackFreq: 1.5
+  attackFreq: 1
   animationDelay: 0.4
   hitAfterTime: 1
   hitDelay: 0.5
@@ -532,6 +532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillAmount: 1
   healthDecrementationTime: 4
+  setAutoBarSize: 0
   content: {fileID: 114012509910963202}
 --- !u!114 &114396191347670442
 MonoBehaviour:
@@ -544,8 +545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896cc6231713f6e469965482874eecfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadCollider: {fileID: 70071477892562966}
-  attackTrigger: {fileID: 61047600175176012}
+  deathCollider: {fileID: 70071477892562966}
 --- !u!114 &114497338395790560
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -584,12 +584,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c932fafef85afe04781d43d55b332819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamageToGive: 0
-  maxDamageToGive: 0
+  firstAttackMultiplier: 0.1
+  secondAttackMultiplier: 0.2
+  thirdAttackMultiplier: 0.3
+  specialAttackMultiplier: 1
+  shortenSpecialAttackCooldownBy: 0.5
   knockbackStrenght: 1
+  knockbackStrenghtOnSpecialAttack: 20
   knockBackLength: 0.1
   comboEnabled: 1
-  stunTime: 0.7
+  stunTime: 1.2
   paintWhiteOnHit: 1
   blood: {fileID: 1882104490518854, guid: 1aa24812494a9644a994014e5fb94f3d, type: 2}
   bloodColor: {r: 0.24946572, g: 0.27205884, b: 0.080017306, a: 0}
@@ -606,6 +610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillAmount: 1
   healthDecrementationTime: 3
+  setAutoBarSize: 0
   content: {fileID: 114012509910963202}
 --- !u!212 &212643967083189958
 SpriteRenderer:
@@ -702,7 +707,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1571875171373114}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.34486, y: -55.029182, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 224380225099064408}
@@ -720,8 +725,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1824643943684672}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 662.38965, y: 593.83887, z: 0}
-  m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_Children:
   - {fileID: 224380225099064408}
   m_Father: {fileID: 4102808100297240}
@@ -739,7 +744,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1083815505849492}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7999992, y: 11.400002, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.67104036, y: 0.039240032, z: 0.99}
   m_Children:
   - {fileID: 224990626897643232}
@@ -758,7 +763,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1089596027115140}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -573.3221, y: -425.73105, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.02405813, y: 0.03375777, z: 1}
   m_Children:
   - {fileID: 224341926763592890}

@@ -31,7 +31,7 @@ GameObject:
   - component: {fileID: 114289241342811154}
   m_Layer: 10
   m_Name: Troll Champion
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,8 +165,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1454352745200106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 209.58301, y: -286.17212, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalPosition: {x: -3.7789195, y: -263.89984, z: 0}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_Children:
   - {fileID: 4878489458615828}
   - {fileID: 4537042308209032}
@@ -328,8 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26f3e69379d0c284d80a199bcbe7f840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadCollider: {fileID: 70660312922207874}
-  attackTrigger: {fileID: 61986422418714804}
+  deathCollider: {fileID: 70660312922207874}
 --- !u!114 &114207751014607836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -343,6 +342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillAmount: 1
   healthDecrementationTime: 4
+  setAutoBarSize: 0
   content: {fileID: 114791845785288362}
 --- !u!114 &114239984007521392
 MonoBehaviour:
@@ -385,6 +385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillAmount: 1
   healthDecrementationTime: 3
+  setAutoBarSize: 0
   content: {fileID: 114791845785288362}
 --- !u!114 &114590011864309938
 MonoBehaviour:
@@ -413,9 +414,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c932fafef85afe04781d43d55b332819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamageToGive: 27
-  maxDamageToGive: 54
+  firstAttackMultiplier: 0.07
+  secondAttackMultiplier: 0.13
+  thirdAttackMultiplier: 0.3
+  specialAttackMultiplier: 1
+  shortenSpecialAttackCooldownBy: 0.5
   knockbackStrenght: 1
+  knockbackStrenghtOnSpecialAttack: 20
   knockBackLength: 0.1
   comboEnabled: 1
   stunTime: 0.7
@@ -605,8 +610,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   attackRange: 1
+  verticalAttackRange: 0
   distanceToRunScaler: 2
-  verticalRange: 0
 --- !u!212 &212665516505458914
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -720,8 +725,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1709480476409790}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 662.38965, y: 593.83887, z: 0}
-  m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_Children:
   - {fileID: 224912034059839954}
   m_Father: {fileID: 4062930890356902}
@@ -739,7 +744,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1728962539924878}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.34486, y: -55.029182, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 224912034059839954}
@@ -757,7 +762,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1802693346341618}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7999992, y: 11.400002, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.67104036, y: 0.039240032, z: 0.99}
   m_Children:
   - {fileID: 224260878564996678}
@@ -776,7 +781,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1487866927138474}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -573.3221, y: -425.73105, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.02405813, y: 0.03375777, z: 1}
   m_Children:
   - {fileID: 224882703546788186}

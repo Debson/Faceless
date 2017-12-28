@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class WizardGoblinController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject deathCollider;
+    [SerializeField] private Collider2D deathCollider;
 
     WanderWalkController wanderWalkController;
     HurtPlayerOnContact hurtPlayerOnContact;
@@ -16,11 +15,12 @@ public class WizardGoblinController : MonoBehaviour
     EnemyHealthManager enemyHealthManager;
     Rigidbody2D myBody;
     Collider2D myCollider;
+    EnemyHealthBar enemyHealthBar;
 
     private Vector2 startingPos;
 
     private bool playOnce;
-    private bool dead;
+    private bool isDead;
 
     protected void Awake()
     {
@@ -33,6 +33,8 @@ public class WizardGoblinController : MonoBehaviour
         enemyHealthManager = GetComponent<EnemyHealthManager>();
         myBody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>();
+        enemyHealthBar = GetComponent<EnemyHealthBar>();
+        deathCollider.enabled = false;
     }
 
     protected void Start()
@@ -43,21 +45,29 @@ public class WizardGoblinController : MonoBehaviour
 
     protected void LateUpdate()
     {
-        SetAnimations();
+        if(enemyHealthManager.GetHealth() <= 0 && !isDead)
+        {
+            OnDeath();
+        }
+        else if(!isDead)
+        {
+            SetAnimationsLogic();
+        }
+    }
 
-        if (hurtPlayerOnContact.attackingAnimation)
-        {
-            Attack();
-        }
-        else
-        {
-            playOnce = false;
-        }
-
-        if(wanderWalkController.isWalking)
-        {
-            StartCoroutine(BackToFly());
-        }
+    private void OnDeath()
+    {
+        isDead = true;
+        animator.SetTrigger("Dead");
+        myBody.isKinematic = false;
+        myBody.gravityScale = 2f;
+        myCollider.enabled = false;
+        deathCollider.enabled = true;
+        transform.rotation = Quaternion.Euler(0, 0, -40);
+        wanderWalkController.enabled = false;
+        hurtEnemyOnContact.enabled = false;
+        enemyHealthBar.enabled = false;
+        Destroy(gameObject, 6f);
     }
 
     IEnumerator BackToFly()
@@ -79,20 +89,20 @@ public class WizardGoblinController : MonoBehaviour
         }
     }
 
-    private void SetAnimations()
+    private void SetAnimationsLogic()
     {
-        if(enemyHealthManager.GetHealth() <= 0 && !dead)
+        if (hurtPlayerOnContact.attackingAnimation)
         {
-            animator.SetTrigger("Dead");
-            myBody.isKinematic = false;
-            myBody.gravityScale = 2f;
-            myCollider.enabled = false;
-            deathCollider.active = true;
-            transform.rotation = Quaternion.Euler(0, 0, -40);
-            wanderWalkController.enabled = false;
-            hurtEnemyOnContact.enabled = false;
-            Destroy(gameObject, 6f);
-            dead = true;
+            Attack();
+        }
+        else
+        {
+            playOnce = false;
+        }
+
+        if (wanderWalkController.isWalking)
+        {
+            StartCoroutine(BackToFly());
         }
 
         if (hurtEnemyOnContact.isHurt)

@@ -54,6 +54,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource bowArrow;
     public AudioSource[] elfHurt;
     public AudioSource[] elfDeath;
+    public AudioSource[] elfAttack;
 
 
     /// <summary>

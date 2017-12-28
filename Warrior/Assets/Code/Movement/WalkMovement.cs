@@ -94,7 +94,18 @@ public class WalkMovement : MonoBehaviour
         knockbackFinished = false;
         knockbackTimeCount = knockBackLength;
 
-        if (transform.position.x < enemy.transform.position.x)
+        // Can appear some problem with "enemy.transform.parent.position.x", keep that in mind
+        float enemyPos;
+        if (enemy.transform.parent != null)
+        {
+            enemyPos = enemy.transform.parent.position.x;
+        }
+        else
+        {
+            enemyPos = enemy.transform.position.x;
+        }
+
+        if (transform.position.x < enemyPos)
         {
             knockFromRight = true;
         }

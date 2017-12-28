@@ -4,34 +4,25 @@ using UnityEngine;
 
 public class ElfController : MonoBehaviour
 {
+    [SerializeField] private float playerRange;
 
-    [SerializeField]
-    private float playerRange;
+    [SerializeField] private float shootingSpeed = 1f;
 
-    [SerializeField]
-    private float shootingSpeed = 1f;
+    [SerializeField] private float arrowSpeed;
 
-    [SerializeField]
-    LayerMask playerLayer;
+    [SerializeField] private  GameObject arrow;
 
-    [SerializeField]
-    Transform shootPoint;
+    [SerializeField] private GameObject body;
 
-    [SerializeField]
-    GameObject arrow;
+    [SerializeField] private Transform arrowShootPoint;
 
-    [SerializeField]
-    Transform enemyHealthBar;
+    [SerializeField] private Transform enemyHealthBar;
 
-    [SerializeField]
-    Transform bow;
+    [SerializeField] private Transform bow;
 
-    [SerializeField]
-    GameObject disableOnDeath;
+    [SerializeField] private LayerMask playerLayer;
 
-    [SerializeField]
-    GameObject deathCollider;
-
+    [SerializeField] private Collider2D deathCollider;
 
     Animator animator;
     PlayerController playerController;
@@ -40,29 +31,33 @@ public class ElfController : MonoBehaviour
     EnemyHealthManager enemyHealthManager;
     HurtEnemyOnContact hurtEnemyOnContact;
     AudioManager audioManager;
+    EnemyHealthBar healthBar;
 
     public float direction { get; set; }
 
     private Vector3 difference;
 
-    private bool playerInRange;
-    private bool isFacingRight;
-    private bool flipHealthBar;
-    private bool shoot;
-
     private float rotationZ;
     private float playerBounds;
 
+    private bool playerInRange;
+    private bool isFacingRight;
+    private bool flipHealthBar;
+    private bool shootArrow;
+    private bool isDead;
+    private bool playOnce;
 
     protected void Awake()
     {
         animator = GetComponent<Animator>();
         playerController = FindObjectOfType<PlayerController>();
-        playerBounds = playerController.GetComponent<Collider2D>().bounds.size.y;
         rightArmMovement = GetComponent<RightArmMovement>();
         enemyHealthManager = GetComponent<EnemyHealthManager>();
         hurtEnemyOnContact = GetComponent<HurtEnemyOnContact>();
         audioManager = FindObjectOfType<AudioManager>();
+        healthBar = GetComponent<EnemyHealthBar>();
+        playerBounds = playerController.GetComponent<Collider2D>().bounds.size.y;
+        deathCollider.enabled = false;
     }
 
     protected void Start()
@@ -70,69 +65,93 @@ public class ElfController : MonoBehaviour
         direction = -1;
     }
 
-    protected void Update()
+    protected void LateUpdate()
     {
-        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
-
-        if (hurtEnemyOnContact.isHurt)
+        if (enemyHealthManager.GetHealth() <= 0 && !isDead)
         {
-            animator.SetTrigger("isHurt");
-            audioManager.elfHurt[Random.Range(0, 2)].Play();
+            OnDeath();
         }
-
-        if (playerInRange)
+        else if (!isDead)
         {
-            StartCoroutine(OnDeath());
+            SetAnimationLogic();
+            playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
+            if (playerInRange)
+            {
+                StartCoroutine(RotateElfAndShoot());
+            }
         }
     }
 
-    IEnumerator OnDeath()
+    private void OnDeath()
     {
-        if (enemyHealthManager.GetHealth() <= 0)
+        body.SetActive(false);
+        animator.SetTrigger("isDead");
+        audioManager.elfDeath[0].Play();
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        deathCollider.enabled = true;
+        rightArmMovement.enabled = false;
+        healthBar.enabled = false;
+        hurtEnemyOnContact.enabled = false;
+        isDead = true;
+        Destroy(gameObject, 6f);
+    }
+
+    private void SetAnimationLogic()
+    {
+        if (hurtEnemyOnContact.isHurt && !playOnce)
         {
-            animator.SetTrigger("isDead");
-            audioManager.elfDeath[0].Play();
-            disableOnDeath.SetActive(false);
-            gameObject.GetComponent<Collider2D>().enabled = false;
+            animator.SetTrigger("isHurt");
+            audioManager.elfHurt[Random.Range(0, 2)].Play();
+            playOnce = true;
         }
-        else
+        else if(!hurtEnemyOnContact.isHurt)
         {
-            if (transform.position.x < playerController.transform.position.x && !isFacingRight)
-            {
-                transform.rotation *= Quaternion.Euler(0, 180, 0);
-                enemyHealthBar.transform.rotation *= Quaternion.Euler(0, 180, 0);
-
-                isFacingRight = true;
-                direction = 1;
-                yield return new WaitForSeconds(0.2f);
-            }
-            else if (transform.position.x > playerController.transform.position.x && isFacingRight)
-            {
-                transform.rotation *= Quaternion.Euler(0, -180, 0);
-                enemyHealthBar.transform.rotation *= Quaternion.Euler(0, 180, 0);
-
-                isFacingRight = false;
-                direction = -1;
-                yield return new WaitForSeconds(0.2f);
-            }
-
-            if (rightArmMovement.startStretch)
-            {
-                StartCoroutine(ShootArrow());
-                rightArmMovement.startStretch = false;
-            }
-
-            StartCoroutine(BowFollowPlayer());
+            playOnce = false;
         }
+    }
+
+    IEnumerator RotateElfAndShoot()
+    {
+        if (transform.position.x < playerController.transform.position.x && !isFacingRight)
+        {
+            transform.rotation *= Quaternion.Euler(0, 180, 0);
+            enemyHealthBar.transform.rotation *= Quaternion.Euler(0, 180, 0);
+
+            isFacingRight = true;
+            direction = 1;
+            yield return new WaitForSeconds(0.2f);
+        }
+        else if (transform.position.x > playerController.transform.position.x && isFacingRight)
+        {
+            transform.rotation *= Quaternion.Euler(0, -180, 0);
+            enemyHealthBar.transform.rotation *= Quaternion.Euler(0, 180, 0);
+
+            isFacingRight = false;
+            direction = -1;
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        if (rightArmMovement.startStretch)
+        {
+            StartCoroutine(ShootArrow());
+            rightArmMovement.startStretch = false;
+        }
+
+        StartCoroutine(BowFollowPlayer());
     }
 
     IEnumerator ShootArrow()
     {
-            StartCoroutine(rightArmMovement.MoveHandBeforeShoot());
-            Instantiate(arrow, shootPoint.position, shootPoint.rotation, shootPoint.transform);
-            audioManager.bowArrow.Play();
-            yield return new WaitForSeconds(shootingSpeed);
-            rightArmMovement.startStretch = true;
+        var rotation = arrowShootPoint.rotation;
+        var right = arrowShootPoint.right;
+        StartCoroutine(rightArmMovement.MoveHandBeforeShoot());
+        var arrowClone = Instantiate(arrow, arrowShootPoint.position, rotation, transform);
+        arrowClone.GetComponent<Rigidbody2D>().AddForce(right * arrowSpeed * 90f);
+        Destroy(arrowClone, 4f);
+
+        audioManager.bowArrow.Play();
+        yield return new WaitForSeconds(shootingSpeed);
+        rightArmMovement.startStretch = true;
     }
 
     IEnumerator BowFollowPlayer()

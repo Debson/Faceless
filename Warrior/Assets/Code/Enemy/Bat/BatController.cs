@@ -7,10 +7,16 @@ public class BatController : MonoBehaviour
     [SerializeField]
     private GameObject healthBar;
 
+    [SerializeField]
+    private float minDistToFly = 5f;
+
+    [SerializeField]
+    private LayerMask layerMask;
+
     WanderWalkController wanderWalkController;
     HurtPlayerOnContact hurtPlayerOnContact;
     Animator animator;
-    PlayerController playerController;
+    PlayerController player;
     AudioManager audioManager;
     HurtEnemyOnContact hurtEnemyOnContact;
     EnemyHealthManager enemyHealthManager;
@@ -21,21 +27,25 @@ public class BatController : MonoBehaviour
     private Vector2 startingPos;
     private float distance;
 
-    private bool _death;
+    private bool isDead;
     private bool playOnce;
+    private float playerYBounds;
+    private float playerYPos;
 
     protected void Awake()
     {
         wanderWalkController = GetComponent<WanderWalkController>();
         hurtPlayerOnContact = GetComponent<HurtPlayerOnContact>();
         animator = GetComponent<Animator>();
-        playerController = FindObjectOfType<PlayerController>();
+        player = FindObjectOfType<PlayerController>();
         audioManager = FindObjectOfType<AudioManager>();
         hurtEnemyOnContact = GetComponent<HurtEnemyOnContact>();
         enemyHealthManager = GetComponent<EnemyHealthManager>();
         sprite = GetComponent<SpriteRenderer>();
         myCollider = GetComponent<Collider2D>();
         mybody = GetComponent<Rigidbody2D>();
+        playerYBounds = player.GetComponent<Collider2D>().bounds.size.y * 0.3f;
+        playerYPos = player.transform.position.y;
     }
 
     protected void Start()
@@ -47,6 +57,47 @@ public class BatController : MonoBehaviour
 
     protected void LateUpdate()
     {
+        if(enemyHealthManager.GetHealth() <= 0 && !isDead)
+        {
+            OnDeath();
+        }
+        else if(!isDead)
+        {
+            SetAnimationLogic();
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, minDistToFly, layerMask);
+            Debug.DrawRay(transform.position, new Vector2(0, -minDistToFly), Color.red);
+            if(hit.collider != null)
+            {
+                transform.position = new Vector2(transform.position.x, transform.position.y + Time.deltaTime * minDistToFly);
+            }
+        }
+    }
+
+    private void OnDeath()
+    {
+        isDead = true;
+        animator.SetTrigger("Dead");
+        transform.rotation = Quaternion.Euler(0, 0, 70);
+        wanderWalkController.enabled = false;
+        hurtPlayerOnContact.enabled = false;
+        hurtEnemyOnContact.enabled = false;
+        myCollider.enabled = false;
+        mybody.gravityScale = 10f;
+        Destroy(gameObject, 6f);
+    }
+
+    private void SetAnimationLogic()
+    {
+        if (wanderWalkController.isWalking)
+        {
+            animator.SetFloat("flySpeed", 0.6f);
+            StartCoroutine(BackToFly());
+        }
+        else
+        {
+            animator.SetFloat("flySpeed", 0.8f);
+        }
+
         if (hurtPlayerOnContact.attackingAnimation)
         {
             // sounds
@@ -56,32 +107,11 @@ public class BatController : MonoBehaviour
             playOnce = false;
         }
 
-        if(wanderWalkController.playerInRange)
+        if (wanderWalkController.playerInRange)
         {
             animator.SetBool("Idle", false);
             healthBar.active = true;
             // sounds
-        }
-
-        if(enemyHealthManager.GetHealth() <= 0 && !_death)
-        {
-            animator.SetTrigger("Dead");
-            transform.rotation = Quaternion.Euler(0, 0, 70);
-            wanderWalkController.enabled = false;
-            hurtPlayerOnContact.enabled = false;
-            myCollider.enabled = false;
-            mybody.gravityScale = 1f;
-            Destroy(gameObject, 6f);
-        }
-
-        if (wanderWalkController.isWalking)
-        {
-            animator.SetFloat("flySpeed", 0.6f);
-            StartCoroutine(BackToFly());
-        }
-        else
-        {
-            animator.SetFloat("flySpeed", 0.8f);
         }
     }
 

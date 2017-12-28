@@ -389,9 +389,6 @@ AnimatorStateTransition:
     m_ConditionEvent: isAttacking
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: isInTrigger
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
     m_ConditionEvent: isTouchingFloor
     m_EventTreshold: 0
   - m_ConditionMode: 1
@@ -554,7 +551,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: mountain_troll_dead
-  m_Speed: 0.05
+  m_Speed: 0.1
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -579,7 +576,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: mountain_troll_walk
-  m_Speed: 0.12
+  m_Speed: 0.07
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101187550335833360}
@@ -677,7 +674,7 @@ AnimatorStateMachine:
     m_Position: {x: 72, y: -48, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102823878507369580}
-    m_Position: {x: 336, y: 216, z: 0}
+    m_Position: {x: 348, y: 216, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102608191300579158}
     m_Position: {x: 336, y: 24, z: 0}

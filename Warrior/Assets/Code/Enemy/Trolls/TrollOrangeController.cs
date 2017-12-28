@@ -10,6 +10,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class TrollOrangeController : MonoBehaviour
 {
+    [SerializeField] private Collider2D deathCollider;
+
     EnemyHealthBar enemyHealthBar;
     PlayerController playerController;
     Animator animator;
@@ -19,6 +21,8 @@ public class TrollOrangeController : MonoBehaviour
     FloorDetector floorDetector;
     WanderWalkController wanderWalkController;
     HurtPlayerOnContact hurtPlayerOnContact;
+
+    private bool isDead;
 
     protected void Awake()
     {
@@ -35,7 +39,22 @@ public class TrollOrangeController : MonoBehaviour
 
     protected void Update()
     {
-        SetAnimationLogic();
+        if (enemyHealthManager.GetHealth() <= 0 && !isDead)
+        {
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            deathCollider.enabled = true;
+            wanderWalkController.enabled = false;
+            hurtPlayerOnContact.enabled = false;
+            hurtEnemyOnContact.enabled = false;
+            enemyHealthBar.enabled = false;
+            animator.SetTrigger("isDead");
+            isDead = true;
+            Destroy(gameObject, 6f);
+        }
+        else if (!isDead)
+        {
+            SetAnimationLogic();
+        }
     }
 
     private void SetAnimationLogic()

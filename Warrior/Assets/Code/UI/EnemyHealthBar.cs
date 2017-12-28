@@ -6,10 +6,10 @@ using UnityEngine;
 public class EnemyHealthBar : MonoBehaviour
 {
     [SerializeField]
-    private float fillAmount;
+    private float fillAmount = 1f;
 
     [SerializeField]
-    private float healthDecrementationTime;
+    private float healthDecrementationTime = 4f;
 
     [SerializeField]
     private bool setAutoBarSize;
@@ -20,7 +20,6 @@ public class EnemyHealthBar : MonoBehaviour
     EnemyHealthManager enemyHealthManager;
     Canvas healthBarCanvas;
     Collider2D enemyCollider;
-
 
     private bool isFacingLeft;
     private bool isFacingRight;
