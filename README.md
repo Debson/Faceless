@@ -4,4 +4,4 @@
 
 
 Faceless has a dash attribute that allows to dodge enemy's attack
-![Dash](https://media.giphy.com/media/vNNGNAhITdvN1AR0lq/giphy.gif)
+![](Faceless_GIFS/combo.gif)
