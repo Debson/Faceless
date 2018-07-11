@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\DEBSON\.Rider2017.3\system\resharper-host\local\Transient\ReSharperHost\v11\SolutionCaches\_Warrior.1586610502.00" t="ExcludeRecursive" />
+    <e p="D:\Projects\Warrior\Warrior" t="IncludeRecursive">
+      <e p="Assets" t="Include">
+        <e p="Animation" t="Include">
+          <e p="CharacterAnimatorController.cs" t="Include" />
+        </e>
+        <e p="Code" t="Include">
+          <e p="Camera" t="Include">
+            <e p="BackgroundFollowsPlayer.cs" t="Include" />
+            <e p="CameraFollow.cs" t="Include" />
+            <e p="ParallaxBackground.cs" t="Include" />
+            <e p="ScreenShake.cs" t="Include" />
+          </e>
+          <e p="Collectable" t="Include">
+            <e p="AudioManager.cs" t="Include" />
+            <e p="CollectableManager.cs" t="Include" />
+            <e p="HeartController.cs" t="Include" />
+          </e>
+          <e p="Controllers" t="Include">
+            <e p="Spawner.cs" t="Include" />
+          </e>
+          <e p="Death" t="Include">
+            <e p="DeathEffect.cs" t="Include" />
+            <e p="DeathEffectManager.cs" t="Include" />
+            <e p="DestroyOutOfBounds.cs" t="Include" />
+            <e p="KillOnContactWith.cs" t="Include" />
+          </e>
+          <e p="EasingFunctions.cs" t="Include" />
+          <e p="Editor" t="Include">
+            <e p="AutoSave.cs" t="Include" />
+          </e>
+          <e p="Enemy" t="Include">
+            <e p="Bat" t="Include">
+              <e p="BatController.cs" t="Include" />
+            </e>
+            <e p="Death" t="Include">
+              <e p="DeathMovement.cs" t="Include" />
+              <e p="DemonHunter.cs" t="Include" />
+              <e p="ScytheController.cs" t="Include" />
+            </e>
+            <e p="Death2" t="Include">
+              <e p="DeathReaperController.cs" t="Include" />
+              <e p="LaserController.cs" t="Include" />
+            </e>
+            <e p="Dragon" t="Include">
+              <e p="DragonController.cs" t="Include" />
+              <e p="DragonWalkController.cs" t="Include" />
+              <e p="EnterTerritory.cs" t="Include" />
+            </e>
+            <e p="Elf" t="Include">
+              <e p="ArrowController.cs" t="Include" />
+              <e p="BowMovement.cs" t="Include" />
+              <e p="ElfController.cs" t="Include" />
+              <e p="ElfKnightController.cs" t="Include" />
+              <e p="RightArmMovement.cs" t="Include" />
+            </e>
+            <e p="EnemyAttackMovement.cs" t="Include" />
+            <e p="EnemyHealthManager.cs" t="Include" />
+            <e p="FollowPlayer.cs" t="Include" />
+            <e p="Golem" t="Include">
+              <e p="GolemController.cs" t="Include" />
+            </e>
+            <e p="Merman" t="Include">
+              <e p="MermanController.cs" t="Include" />
+            </e>
+            <e p="Mountain Troll" t="Include">
+              <e p="MountainTrollController.cs" t="Include" />
+            </e>
+            <e p="Orc" t="Include">
+              <e p="OrcController.cs" t="Include" />
+            </e>
+            <e p="Spider" t="Include">
+              <e p="SpiderController.cs" t="Include" />
+            </e>
+            <e p="Troll Champion" t="Include">
+              <e p="TrollChampionController.cs" t="Include" />
+            </e>
+            <e p="Trolls" t="Include">
+              <e p="TrollGreenController.cs" t="Include" />
+              <e p="TrollOrangeController.cs" t="Include" />
+            </e>
+            <e p="Wizard Goblin" t="Include">
+              <e p="WizardGoblinController.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Environment" t="Include">
+            <e p="BumpingPlatform.cs" t="Include" />
+            <e p="FallingPlatform.cs" t="Include" />
+            <e p="Level1End.cs" t="Include" />
+            <e p="LevelInitialization.cs" t="Include" />
+            <e p="MovingPlatform.cs" t="Include" />
+            <e p="OnPlayerFallScript.cs" t="Include" />
+            <e p="OnTriggerLoadLevel.cs" t="Include" />
+          </e>
+          <e p="Movement" t="Include">
+            <e p="AttackMovement.cs" t="Include" />
+            <e p="BatMovement.cs" t="Include" />
+            <e p="CrouchMovement.cs" t="Include" />
+            <e p="FloorDetector.cs" t="Include" />
+            <e p="JumpMovement.cs" t="Include" />
+            <e p="RotateEnemy.cs" t="Include" />
+            <e p="TurnAround.cs" t="Include" />
+            <e p="WalkMovement.cs" t="Include" />
+            <e p="WanderWalkController.cs" t="Include" />
+          </e>
+          <e p="Player" t="Include">
+            <e p="AttackTrigger.cs" t="Include" />
+            <e p="CatchEdgeMovement.cs" t="Include" />
+            <e p="DashMovement.cs" t="Include" />
+            <e p="HealthManager.cs" t="Include" />
+            <e p="HurtEnemyOnContact.cs" t="Include" />
+            <e p="HurtPlayerOnContact.cs" t="Include" />
+            <e p="KnockbackOnContact.cs" t="Include" />
+            <e p="LifeManager.cs" t="Include" />
+            <e p="PlayerController.cs" t="Include" />
+            <e p="RotateToAliginWithFloor.cs" t="Include" />
+          </e>
+          <e p="UI" t="Include">
+            <e p="EnemyHealthBar.cs" t="Include" />
+            <e p="HealthBar.cs" t="Include" />
+            <e p="HealthCounter.cs" t="Include" />
+            <e p="MainMenu.cs" t="Include" />
+            <e p="PauseMenu.cs" t="Include" />
+            <e p="ScoreManager.cs" t="Include" />
+          </e>
+          <e p="Utils" t="Include">
+            <e p="LayerMaskExtension.cs" t="Include" />
+          </e>
+        </e>
+        <e p="ObstacleController.cs" t="Include" />
+        <e p="Pixel Font - Tripfive" t="Include">
+          <e p="_README.txt" t="Include" />
+        </e>
+        <e p="Shaders" t="Include">
+          <e p="ColorWhite.shader" t="Include" />
+          <e p="Pixelation" t="Include">
+            <e p="Example" t="Include">
+              <e p="Scripts" t="Include">
+                <e p="ImageEffectBase.cs" t="Include" />
+                <e p="Plane.cs" t="Include" />
+                <e p="PointLight.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Readme.txt" t="Include" />
+            <e p="Scripts" t="Include">
+              <e p="Chunky.cs" t="Include" />
+              <e p="Pixelation.cs" t="Include" />
+            </e>
+            <e p="Shaders" t="Include">
+              <e p="Chunky.shader" t="Include" />
+              <e p="Pixelation.shader" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Tilesets" t="Include">
+          <e p="UnderwaterFantasy" t="Include">
+            <e p="Scripts" t="Include">
+              <e p="Done_BGScroller.cs" t="Include" />
+              <e p="Perspective2DSortMode.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp\UnityVS_bin\Debug" t="ExcludeRecursive" />
+      <e p="Temp\UnityVS_obj\Debug" t="ExcludeRecursive" />
+      <e p="Warrior.csproj" t="IncludeRecursive" />
+      <e p="Warrior.Editor.csproj" t="IncludeRecursive" />
+      <e p="Warrior.sln" t="IncludeFlat" />
+    </e>
+  </component>
+</project>
