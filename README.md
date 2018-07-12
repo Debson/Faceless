@@ -19,7 +19,7 @@ As well as by his special attacks
 
 ![](Faceless_GIFS/special2.gif)
 
-And that's how it look when enemy overpowers the Faceless...
+And that's how it looks when enemy overpowers the Faceless...
 ![](Faceless_GIFS/health_reduction.gif)
 
 ### Game offers over 15 enemies and each of them has their own unique skills.
